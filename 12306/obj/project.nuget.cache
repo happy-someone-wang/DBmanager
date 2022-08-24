@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "giQfS1FsKREb7hFj8iRfhEh8t+xpW86TRoWO1RJBPlgpiGhcgTrFtBdvrDAq5EfN3Y6/TYj4oFnxtY7CiyjyGQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\17594\\source\\repos\\12306\\12306\\12306.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\17594\\.nuget\\packages\\system.data.odbc\\6.0.0\\system.data.odbc.6.0.0.nupkg.sha512",
+    "C:\\Users\\17594\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+    "C:\\Users\\17594\\.nuget\\packages\\system.text.encoding.codepages\\6.0.0\\system.text.encoding.codepages.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
