@@ -29,7 +29,7 @@
 
 </head>
 <body>
-    <div style="line-height: 50px;font-size: 20px;height: 50px;width: 1600px; color: rgb(255, 255, 255);background-color: rgb(97, 130, 240);">
+    <!--<div style="line-height: 50px;font-size: 20px;height: 50px;width: 1600px; color: rgb(255, 255, 255);background-color: rgb(97, 130, 240);">
         &emsp;&emsp;&emsp;<a style="text-decoration:none; color: white;" href="/Train/Buy">铁路购票系统</a>&emsp;&emsp;<a style="text-decoration:none; color: white;" href="/Train/Buy">购票</a>&emsp;&emsp;
         <a href="/Login/Index">
             登录/
@@ -37,7 +37,8 @@
         <a href="/Register/Index">
             注册
         </a>
-    </div>
+    </div>-->
+    
     <div style="position:absolute; top:55px; left: 0px;height:610px; width: 1600px; overflow: hidden;">
         <img id="lbt" src="~/Train/images/main1.png" style="position:absolute;top: 55px;"></img>
         <img id="lbt2" src="~/Train/images/main2.png" style="position:absolute;top: 55px; left: 1600px"></img>
@@ -47,7 +48,7 @@
         <p>&emsp;&emsp;</p>
         <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;车次：<input name="num"></p>
         <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;日期：<input name="date"></p>
-        <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<button style="width: 100px">查询</button></p>
+        <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<button style="width: 100px; border-width: 1px">查询</button></p>
 
     </div>
     <div id="sc" style="position:absolute; top:300px; left: 300px;height:200px; width: 400px; background-color: rgb(255, 255, 255);">
@@ -64,8 +65,8 @@
             <select name="dated">
             </select>
         </p>
-        <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<button onclick="ser()" style="width: 100px">查询</button></p>
-        <div id="xuanze" style='display: none; position:absolute; border:1px solid rgb(121, 173, 245); top:50px; left: 350px;height:200px; width: 200px; overflow: scroll; background-color: rgb(255, 255, 255);'></div>
+        <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<button onclick="ser()" style="width: 100px; border-width: 1px">查询</button></p>
+        <div id="xuanze" style='display: none; position:absolute; border:1px solid rgb(121, 173, 245); top:40px; left: 380px;height:200px; width: 200px; overflow: scroll; background-color: rgb(255, 255, 255);'></div>
 
     </div>
     <button id="bc" onclick="hid1()" style="position:absolute; top:300px; left: 300px;background-color: rgb(121, 173, 245);border-width: 1px; color:rgb(255, 255, 255); height:100px; width: 100px;">
@@ -126,25 +127,35 @@
             document.getElementById('bs').style.backgroundColor="rgb(128, 128, 237)";
             document.getElementById('bc').style.backgroundColor="rgb(121, 173, 245)";
 
-            document.getElementsByTagName('div')[2].style.display="none";
-            document.getElementsByTagName('div')[3].style.display="block";
+            document.getElementById('cc').style.display="none";
+            document.getElementById('sc').style.display="block";
         }
         function hid2(){
             document.getElementById('bc').style.backgroundColor="rgb(128, 128, 237)";
             document.getElementById('bs').style.backgroundColor="rgb(121, 173, 245)";
-            document.getElementsByTagName('div')[3].style.display="none";
-            document.getElementsByTagName('div')[2].style.display="block";
+            document.getElementById('sc').style.display="none";
+            document.getElementById('cc').style.display="block";
 
         }
     </script>
     <script>
         function in1(){
             lis(1, document.getElementById('bef').value);
-            document.getElementById('xuanze').style.display="block";
+            var be = document.getElementById('xuanze');
+            be.style.top = '40px';
+            if (document.getElementById('xuanze').style.display == "none")
+                document.getElementById('xuanze').style.display = "block";
+            else
+                document.getElementById('xuanze').style.display = "none";
         }
         function in2(){
             lis(2, document.getElementById('bef2').value);
-            document.getElementById('xuanze').style.display="block";
+            var be2 = document.getElementById('xuanze');
+            be2.style.top = '85px';
+            if (document.getElementById('xuanze').style.display == "none")
+                document.getElementById('xuanze').style.display = "block";
+            else
+                document.getElementById('xuanze').style.display = "none";
         }
         function cd(obj){
             document.getElementById('bef').value= obj.innerHTML;
@@ -174,16 +185,16 @@
             if(p==1)
                 chu="cd(this)";
             else
-                chu="cd2(this)";
-            var before=document.getElementsByTagName('div')[4];
+                chu = "cd2(this)";
+            var before = document.getElementById('xuanze');
             for(i2=0;i2<a.length;i2++){
                 x=0+i2%4*50;
-                y=0+Math.floor(i2/4)*20;
+                y=0+Math.floor(i2/4)*25;
                 if(i2>a2.length||i2==a2.length){
-                    before.innerHTML+="<button id='"+i+"' onclick='"+chu+"' style='background-color: rgb(255, 255, 255);position:absolute; border-width:1px; top:"+y+"px; left: "+x+"px; width: 50px'>&emsp;</button>";
+                    before.innerHTML += "<button id='" + i + "' onclick='" + chu +"' style='background-color: rgb(255, 255, 255); position:absolute; border-width:1px; top:"+y+"px; left: "+x+"px; width: 50px'>&emsp;</button>";
                     continue;
                 }
-                before.innerHTML+="<button id='"+i+"' onclick='"+chu+"' style='background-color: rgb(255, 255, 255);position:absolute; border-width:1px; top:"+y+"px; left: "+x+"px; width: 50px'>"+a2[i2]+"</button>";
+                before.innerHTML += "<button id='" + i + "' onclick='" + chu +"' style='background-color: rgb(255, 255, 255); position:absolute; border-width:1px; top:"+y+"px; left: "+x+"px; width: 50px'>"+a2[i2]+"</button>";
             }
         }
 

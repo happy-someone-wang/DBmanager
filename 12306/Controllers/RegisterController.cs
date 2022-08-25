@@ -21,7 +21,7 @@ namespace _12306.Controllers
         [HttpPost]
         public IActionResult Index(string user_ID, string user_password, string user_phone_number, string user_email, string user_real_name,string user_gender,string user_address,string user_person_ID)
         {
-            User U = new User();
+            _User U = new _User();
             U.UserID = user_ID;
             U.UserPWD = user_password;
             U.UserPhone = user_phone_number;
@@ -32,7 +32,7 @@ namespace _12306.Controllers
             U.UserAddr = user_address;
             Console.WriteLine(U);
             int t;
-            ServerSqlTools.OracleSqlTools.resetUser();
+            //ServerSqlTools.OracleSqlTools.resetUser();
             t = ServerSqlTools.OracleSqlTools.Register(U);
             if(t==-1)
             {

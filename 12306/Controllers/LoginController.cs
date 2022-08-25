@@ -29,7 +29,7 @@ namespace _12306.Controllers
                 ViewBag.notice = "密码不能为空！";
                 return View();
             }
-            User U = new User();
+            _User U = new _User();
             if(username.Length==11)
             {
                 U.UserPhone = username;

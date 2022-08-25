@@ -37,5 +37,19 @@ namespace Error
         ERR_ADDRINVCH,
     }
 
+    enum TTErrorCode{
+        ERR_TTEXIST
+    }
+
+    enum TErrorCode{
+        ERR_TEXIST,
+        ERR_TTUNEXIST
+    }
+
+    enum TMErrorCode{
+        ERR_TMEXIST,
+        ERR_STUNEXIST
+    }
+
     
 }

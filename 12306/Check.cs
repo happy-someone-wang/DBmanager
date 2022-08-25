@@ -185,7 +185,7 @@ namespace Check
             return -1;
         }
 
-        public static int checkRegister(User U)
+        public static int checkRegister(_User U)
         {
             int ret = -1;
 
@@ -214,16 +214,16 @@ namespace Check
             }
 
             //check User_Email
-           /* if ((ret = checkUserEmail(U.UserEmail)) != -1)
+            if ((ret = checkUserEmail(U.UserEmail)) != -1)
             {
                 return ret;
-            }*/
+            }
 
             //check User_Address
-            /*if ((ret = checkUserAddr(U.UserAddr)) != -1)
+            if ((ret = checkUserAddr(U.UserAddr)) != -1)
             {
                 return ret;
-            }*/
+            }
 
             //check User_PID
             if ((ret = checkUserPID(U.UserPID)) != -1)
@@ -234,7 +234,7 @@ namespace Check
             return ret;
         }
 
-        public static int checkLogin(User U)
+        public static int checkLogin(_User U)
         {
             int ret = -1;
 
@@ -288,7 +288,7 @@ namespace Check
             return -1;
         }
 
-        public static int checkAddSt(Station S)
+        public static int checkAddSt(_Station S)
         {
             int ret = -1;
 
