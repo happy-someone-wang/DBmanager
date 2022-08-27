@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Login\changePWD.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Check.cs" />
     <Content Include="Crypto.cs" />
     <Content Include="Error.cs" />
@@ -13,6 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Login\ChangePWD.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="System.Data.Odbc" Version="6.0.0" />
   </ItemGroup>
 
