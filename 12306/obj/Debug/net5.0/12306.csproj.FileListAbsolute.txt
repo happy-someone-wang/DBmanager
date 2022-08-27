@@ -183,3 +183,4 @@ C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\12306.dll
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\ref\12306.dll
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\12306.pdb
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\12306.genruntimeconfig.cache
+C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\Razor\Views\Login\ChangePWD.cshtml.g.cs
