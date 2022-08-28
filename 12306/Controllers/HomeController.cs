@@ -20,7 +20,8 @@ namespace _12306.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return Redirect("https://www.12306.cn/");
+            //return View();
         }
 
         public IActionResult Privacy()

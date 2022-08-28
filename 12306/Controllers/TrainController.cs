@@ -12,9 +12,22 @@ namespace _12306.Controllers
         {
             return View();
         }
+        [HttpGet]
         public IActionResult Buy()
         {
             return View();
+        }
+        [HttpPost]
+        public IActionResult Buy(string 始发站,string 终点站,string date,string datem,string dated)
+        {
+            pia train = new pia();
+            train.start = 始发站;
+            train.end = 终点站;
+            train.year = date;
+            train.month = datem;
+            train.day = dated;
+            //return View("../Home/Index",train);
+            return View("Buy");
         }
         public class pia
         {

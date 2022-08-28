@@ -20,7 +20,7 @@ jQuery(document).ready(function() {
             });
             return false;
         }
-		
+        var x = 0;
         if(password == '') {
             $(this).find('.error').fadeOut('fast', function(){
                 $(this).css('top', '96px');
@@ -41,28 +41,34 @@ jQuery(document).ready(function() {
           document.getElementById("Captcha").value = "";//清空文本框 
           return false;
         }
-        else { //输入正确时   
-          //alert("登录成功,正在跳转...");
+        else {
+            x = 1;
+        }
 
-          /*$.ajax({
-            url:"/Login/Index",
-            type:"POST",    //提交方式
-            data:{"username":username,"password":password},
-            dataType:"json",
-            
-              success: function (data) {
-                  alert(data.message)
-            },
-            //失败之后的操作
-            error: function(){
-                console.log(username,password);
-                alert("登录失败！");
-            }
-        })*/
+        /*if (x == 1) {
+            $.ajax({
+                url: "/Login/Index",
+                type: "POST",    //提交方式
+                data: { "username": username, "password": password },
+                dataType: "json",
 
-        } 
-       
-        return true;
+                success: function (data) {'
+                    if(data.IsSuccess)
+                    {}
+                    else
+                    {}
+                    alert(data.username)
+                    alert("后端连接成功");
+                },
+                //失败之后的操作
+                error: function () {
+                    console.log(username, password);
+                    alert("登录失败！");
+                }
+            })
+
+        }*/
+        //return true;
     });
 
     $('.page-container form .username, .page-container form .password').keyup(function(){

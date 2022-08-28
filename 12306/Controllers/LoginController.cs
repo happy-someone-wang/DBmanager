@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Containers;
+using ReturnModels;
 using ServerSqlTools;
 
 namespace _12306.Controllers
@@ -12,6 +13,10 @@ namespace _12306.Controllers
     {
         [HttpGet]
         public IActionResult Index()
+        {
+            return View();
+        }
+        public IActionResult ChangePWD()
         {
             return View();
         }
@@ -46,12 +51,18 @@ namespace _12306.Controllers
                 ViewBag.notice = "登陆成功，正在跳转";
                 Console.WriteLine("success!");
                 //return Json(U);
-                //return View("../Home/Index", U);
-                return RedirectToAction("Index", "Train");
+                ReturnModels.Login a = new ReturnModels.Login();
+                a.IsVaild = t;
+                return View(a);
+                //return RedirectToAction("Index", "Train");
             }
             else
             {
-                return Json(U);
+                ViewBag.notice = "failed";
+                ReturnModels.Login a = new ReturnModels.Login();
+                a.IsVaild = t;
+                return View(a);
+                //return Json(U);
             }
         }
 

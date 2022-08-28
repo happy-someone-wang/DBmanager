@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model ReturnModels.Login
+<!DOCTYPE html>
 <html lang="en">
 <script>
     function createCode() {
@@ -20,7 +21,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>12306登录</title>
     <!-- CSS -->
-    <link rel="stylesheet" href="~/Login/css/m_login.css">
+    <link rel="stylesheet" href="/Login/css/m_login.css">
 
 
 
@@ -28,20 +29,37 @@
 <body onload='createCode()'>
     <div class="page-container">
         <h1>登录12306</h1>
-        @*<form onsubmit="return false" action =~/Login/Index>*@
         <form method="post" action="~/Login/Index">
-        <input type="text" name="username" id="username" class="username" placeholder="请输入您的用户名">
-        <input type="password" name="password" id="password" class="password" placeholder="请输入密码">
-        <input type="Captcha" id="Captcha" class="Captcha" name="Captcha" placeholder="输入验证码">
-        <input type="button" id="code" onclick="createCode()" style="height:40px;width:120px" title='点击更换验证码' />
-        <button type="submit" class="submit_button" id="button">登录</button>
-        <a href="/Register/Index" target="_blank">
-            <button type="button" class="register_button" id="register">注册</button>
-        </a>
-        <div class="error"><span>+</span></div>
+            <input type="text" name="username" id="username" class="username" placeholder="请输入您的用户名">
+            <input type="password" name="password" id="password" class="password" placeholder="请输入密码">
+            <input type="Captcha" id="Captcha" class="Captcha" name="Captcha" placeholder="输入验证码">
+            <input type="button" id="code" onclick="createCode()" style="height:40px;width:120px" title='点击更换验证码' />
+            <p>忘记密码? <a href="/Login/ChangePWD" font-size>重置密码</a></p>
+            <button type="submit" class="submit_button" id="button">登录</button>
+
+            <button type="button" onclick="location.href=('/register/register.html')" class="register_button" id="register">注册</button>
+            <div class="error"><span>+</span></div>
         </form>
+        @if (Model != null)
+        {
+        if (Model.IsVaild != -1)
+        {
+        <script language="javascript">
+            alert("登录失败")
+        </script>
+        }
+        else
+        {
+        <script language="javascript">
+            alert("登录成功,正在跳转...");
+            window.location.pathname = "/Train/index";
+        </script>
+        }
+
+        }
     </div>
-    <script src="~/Login/js/jquery.js"></script>
-    <script src="~/Login/js/logincheck.js"></script>
+    <script src="/Login/js/jquery.js"></script>
+    <script src="/Login/js/logincheck.js"></script>
 </body>
 </html>
+

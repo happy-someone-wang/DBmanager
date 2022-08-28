@@ -219,7 +219,7 @@ checkEmail();
 function checkMobileNo(){
     mobileNoInp.onblur = function(){
         var mobileNo = mobileNoInp.value;//获取用户输入的手机号码的值
-        var exp=/^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d{8}$/;//正则表达式
+        var exp = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;//正则表达式
         
         //当按键时，隐藏错误信息
         mobileNoInp.onkeyup =function(){
@@ -279,9 +279,7 @@ resetBtn.onclick = function(){
 }
 
 //给form标签绑定一个表单提交事件
-registForm.onsubmit = function(e){
-    //阻止表单的默认提交行为
-    //e.preventDefault()
+registForm.onsubmit = function (e) {
     if((!manInp.checked&&!womanInp.checked)||!checkAgreeInp.checked||!passWordInp.value||!userRealNameInp.value||!cardCodeInp.value||!mobileNoInp.value){
         alert('请完善资料！(标记“*”的选项必填)');
         return false;
@@ -300,33 +298,46 @@ registForm.onsubmit = function(e){
     if(manInp.checked)
         UserGender = '1';
     else
-        UserGender = '0' 
+        UserGender = '0'
 
- /*   $.ajax({
+    $.ajax({
         //提交类型
         type: "post",
         //接收数据的地址
-        url: "",
+        url: "/Register/Index",
         //提交的数据
-        data: { "UserPWD":UserPWD,"UserPhone":UserPhone,"UserEmail":UserEmail,"UserRName":UserRName,"UserGender":UserGender,"UserAddr":UserAddr,"UserPID":UserPID},
+        data: { "UserPWD": UserPWD, "UserPhone": UserPhone, "UserEmail": UserEmail, "UserRName": UserRName, "UserGender": UserGender, "UserAddr": UserAddr, "UserPID": UserPID },
+        dataType: JSON,
         //回调函数（成功之后的操作）
         success:function (data) {           
-            alert(data.message)
+            if (data.IsVaild==0) {
+                alert("success");
+                Response.redirect("~/Login/Index");
+            }
+            else {
+                alert("failed");
+                Response.redirect("~/Register/Index");
+            }
         },
         //失败之后的操作
         error: function(){
-            alert("注册失败！");
+            alert("表单提交失败！");
         }
     });
-    */
-/*     $.ajax({
-        url: '',//接收数据后端路径
+
+  /*   $.ajax({
+        url: '/Register/Index',//接收数据后端路径
         type: 'post',//提交方式
         dataType: 'json',//传递数据类型
         data: $("#registForm").serialize(),
         success: function (data) {
             // 参数为json类型的对象
-            alert(data.message)
+            if (data) {
+                alert("success");
+            }
+            else {
+                alert("failed");
+            }
         },
         error: function () {
             alert("注册失败！");

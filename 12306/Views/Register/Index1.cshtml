@@ -1,0 +1,66 @@
+﻿@model Containers._User
+
+
+
+<h1>Index1</h1>
+
+<h4>_User</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Index1">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserID" class="control-label"></label>
+                <input asp-for="UserID" class="form-control" />
+                <span asp-validation-for="UserID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserPWD" class="control-label"></label>
+                <input asp-for="UserPWD" class="form-control" />
+                <span asp-validation-for="UserPWD" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserPhone" class="control-label"></label>
+                <input asp-for="UserPhone" class="form-control" />
+                <span asp-validation-for="UserPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserEmail" class="control-label"></label>
+                <input asp-for="UserEmail" class="form-control" />
+                <span asp-validation-for="UserEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserRName" class="control-label"></label>
+                <input asp-for="UserRName" class="form-control" />
+                <span asp-validation-for="UserRName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserGender" class="control-label"></label>
+                <input asp-for="UserGender" class="form-control" />
+                <span asp-validation-for="UserGender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserAddr" class="control-label"></label>
+                <input asp-for="UserAddr" class="form-control" />
+                <span asp-validation-for="UserAddr" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserPID" class="control-label"></label>
+                <input asp-for="UserPID" class="form-control" />
+                <span asp-validation-for="UserPID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

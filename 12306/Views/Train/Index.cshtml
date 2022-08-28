@@ -54,18 +54,20 @@
     <div id="sc" style="position:absolute; top:300px; left: 300px;height:200px; width: 400px; background-color: rgb(255, 255, 255);">
 
         <p>&emsp;&emsp;</p>
-        <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;始发站：<input onclick="in1()" id="bef" name="始发站"></p>
-        <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;终点站：<input onclick="in2()" name="终点站" id="bef2"></p>
-        <p name="da">
-            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;出发日期：
-            <select name="date" onchange="ch()">
-            </select>
-            <select name="datem" onchange="chm()">
-            </select>
-            <select name="dated">
-            </select>
-        </p>
-        <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<button onclick="ser()" style="width: 100px; border-width: 1px">查询</button></p>
+        <form method="post" action="~/Train/Buy">
+            <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;始发站：<input onclick="in1()" id="bef" name="始发站"></p>
+            <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;终点站：<input onclick="in2()" name="终点站" id="bef2"></p>
+            <p name="da">
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;出发日期：
+                <select name="date" onchange="ch()">
+                </select>
+                <select name="datem" onchange="chm()">
+                </select>
+                <select name="dated">
+                </select>
+            </p>
+            <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<button type="submit" style="width: 100px; border-width: 1px">查询</button></p>
+        </form>
         <div id="xuanze" style='display: none; position:absolute; border:1px solid rgb(121, 173, 245); top:40px; left: 380px;height:200px; width: 200px; overflow: scroll; background-color: rgb(255, 255, 255);'></div>
 
     </div>
@@ -83,7 +85,7 @@
     </div>
     <script>
         function ser(){
-            window.location.href=encodeURI("Train/Buy?"+document.getElementById("bef").value+"&"+document.getElementById("bef2").value+"&"+document.getElementsByTagName("select")[0].value
+            window.location.href=encodeURI("Buy?"+document.getElementById("bef").value+"&"+document.getElementById("bef2").value+"&"+document.getElementsByTagName("select")[0].value
             +"&"+document.getElementsByName("datem")[0].value+"&"+document.getElementsByName("dated")[0].value);
         }
     </script>

@@ -89,7 +89,7 @@ namespace ServerSqlTools
             Console.WriteLine("4 Success");
 
             //5. query whether phone number has been used
-            queryStr = "SELECT count(*) from T_USER where T_USER_PHONE_NUMBER = '" + md5UserPhone + "';";
+            queryStr = "SELECT count(*) from T_USER where USER_PHONE_NUMBER = '" + md5UserPhone + "';";
             Console.WriteLine(queryStr);
             sqlcmd.CommandText = queryStr;
             //Execute the DataReader to Access the data
@@ -116,7 +116,6 @@ namespace ServerSqlTools
                                                       + md5UserPhone + "','"
                                                       + md5UserEmail + "','"
                                                       + md5UserRName + "','"
-                                                      + U.UserType + "','"
                                                       + U.UserGender + "','"
                                                       + md5UserAddr + "','"
                                                       + md5UserPID + "');";
@@ -153,7 +152,6 @@ namespace ServerSqlTools
             string? md5UserPID;
             string? md5UserPhone;
             string queryStr = "";
-
             if (U.UserPID != null)
             {
                 md5UserPID = md5Crypto.MD5Encrypt32(U.UserPID);
