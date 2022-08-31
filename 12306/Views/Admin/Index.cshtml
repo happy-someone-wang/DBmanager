@@ -1,0 +1,17 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["Title"] = "主页";
+}
+   <div class="header">
+            <h1>管理员页面</h1>
+        </div>
+        <ul>
+            <li><a class = "active" asp-controller="Admin" asp-action="Index">主页</a></li>
+            <li><a asp-controller="Admin" asp-action="OrderQuery">订单查询</a></li>
+            <li><a asp-controller="Admin" asp-action="UserQuery">用户查询</a></li>
+            <li><a asp-controller="Admin" asp-action="TrainQuery">车次查询</a></li>
+        </ul>

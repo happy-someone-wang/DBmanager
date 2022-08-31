@@ -24,16 +24,6 @@ namespace _12306.Controllers
         [HttpPost]
         public IActionResult Index(string username,string password)
         {
-            if(string.IsNullOrEmpty(username))
-            {
-                ViewBag.notice = "用户名不能为空！";
-                return View();
-            }
-            if(string.IsNullOrEmpty(password))
-            {
-                ViewBag.notice = "密码不能为空！";
-                return View();
-            }
             _User U = new _User();
             if(username.Length==11)
             {
@@ -45,7 +35,7 @@ namespace _12306.Controllers
             }
             U.UserPWD = password;
             int t;
-            t = ServerSqlTools.OracleSqlTools.Login(U);
+            t = ServerSqlTools.OracleSqlTools.Login(U,true);
             if (t==-1)
             {
                 ViewBag.notice = "登陆成功，正在跳转";

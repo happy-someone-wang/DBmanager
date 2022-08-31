@@ -1,10 +1,11 @@
 ﻿using System.Data.Odbc;
+using myDate;
 using Containers;
 using Error;
 using Check;
 using Crypto;
-using System;
 using System.Collections.Generic;
+using System;
 using System.Linq;
 
 namespace ServerSqlTools
@@ -18,10 +19,10 @@ namespace ServerSqlTools
             //Reset("Delete T_TRAIN_PARKING_INFO;");
             //Reset("Delete from T_TRAIN_MANAGE_INFO;");
             //Reset("Delete from T_TRAIN_MANAGE;");
-
+            //2 connect to the database
             List<_TrainTicket> TTL = new List<_TrainTicket>();
-            Console.WriteLine(SearchTrain(1, 2, 2022, 8, 24, TTL));
-            foreach(_TrainTicket TicketInfo in TTL)
+            Console.WriteLine(SearchTrain(14, 18, 2022, 10, 1, TTL, true));
+            foreach (_TrainTicket TicketInfo in TTL)
             {
                 Console.WriteLine("train id     :" + TicketInfo.TrainID);
                 Console.WriteLine("start station:" + TicketInfo.StartStName);
@@ -35,9 +36,28 @@ namespace ServerSqlTools
                 Console.WriteLine("Second Ticket:" + TicketInfo.SecondAmount.ToString());
             }
 
+            _Seat FreeSeat = new _Seat();
+            FreeSeat.TrainID = TTL[0].TrainID;
+            Console.WriteLine(SearchSeat(TTL[0].TrainID, 14, 19, 2, 0, ref FreeSeat, true));
+            Console.WriteLine("train id     :" + FreeSeat.TrainID);
+            Console.WriteLine("start station:" + FreeSeat.StartStNo);
+            Console.WriteLine("end station  :" + FreeSeat.EndStNo);
+            Console.WriteLine("Carriage     :" + FreeSeat.CarriageNo);
+            Console.WriteLine("SeatNo       :" + HashSeatRC2No(FreeSeat.SeatRow, FreeSeat.SeatCol));
+
+            _Order O = new _Order();
+            Console.WriteLine(CreateOrder("321027200110036314", "321027200110036314", FreeSeat, ref O, true));
+            Console.WriteLine("train id     :" + O.TrainID);
+            Console.WriteLine("start station:" + O.StartStNo);
+            Console.WriteLine("end station  :" + O.EndStNo);
+            Console.WriteLine("Carriage     :" + O.CarriageNo);
+            Console.WriteLine("SeatNo       :" + O.SeatNo);
+            Console.WriteLine("Order Value  :" + O.OrderValue);
+            Console.WriteLine("Order State  :" + O.OrderState);
+            return;
         }*/
 
-        public static int Register(_User U)
+        public static int Register(_User U, bool IsClose)
         {
             int ret = -1;
             //1. check string security
@@ -120,19 +140,21 @@ namespace ServerSqlTools
                                                       + md5UserAddr + "','"
                                                       + md5UserPID + "');";
 
-            if ((ret = Insert(queryStr)) != -1)
+            if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
             {
                 return ret;
             }
             Console.WriteLine("6 Success");
 
             //close the connection
-            Close();
-            Console.WriteLine("Connection Closed");
+            if (IsClose)
+            {
+                Close();
+                Console.WriteLine("Connection Closed");
+            }
             return -1;
         }
-
-        public static int Login(_User U)
+        public static int Login(_User U, bool IsClose)
         {
             int ret = -1;
             //1. check string security
@@ -152,6 +174,7 @@ namespace ServerSqlTools
             string? md5UserPID;
             string? md5UserPhone;
             string queryStr = "";
+
             if (U.UserPID != null)
             {
                 md5UserPID = md5Crypto.MD5Encrypt32(U.UserPID);
@@ -197,11 +220,21 @@ namespace ServerSqlTools
 
             Console.WriteLine("4 Success");
 
+            if (IsClose)
+            {
+                Close();
+                Console.WriteLine("Connection Closed");
+            }
+
             return -1;
         }
 
         public static bool Connect()
         {
+            if (conn != null && conn.State.ToString() == "Open")
+            {
+                return true;
+            }
             string connStr = string.Format("DSN=xe;UID=test_Yellowbest;PWD=test_Yellowbest");
             try
             {
@@ -217,7 +250,7 @@ namespace ServerSqlTools
             }
         }
 
-        public static int AddStation(_Station S)
+        public static int AddStation(_Station S, bool IsClose)
         {
             int ret = -1;
             //1 check security
@@ -262,19 +295,22 @@ namespace ServerSqlTools
             queryStr = "INSERT INTO T_STATION_INFO Values('" + S.StationNo.ToString() + "','"
                                                              + S.StationName + "');";
 
-            if ((ret = Insert(queryStr)) != -1)
+            if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
             {
                 return ret;
             }
             Console.WriteLine("4 Success");
 
             //close the connection
-            Close();
-            Console.WriteLine("Connection Closed");
+            if (IsClose)
+            {
+                Close();
+                Console.WriteLine("Connection Closed");
+            }
             return -1;
         }
 
-        public static int AddTrainType(_TrainType TT)
+        public static int AddTrainType(_TrainType TT, bool IsClose)
         {
             int ret = -1;
             //1 check security
@@ -319,7 +355,7 @@ namespace ServerSqlTools
                                                                 + TT.EXAmount + "','"
                                                                 + TT.FirstAmount + "','"
                                                                 + TT.SecondAmount + "');";
-            if ((ret = Insert(queryStr)) != -1)
+            if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
             {
                 return ret;
             }
@@ -333,7 +369,7 @@ namespace ServerSqlTools
                                                                   + TT.VIPInfo.SeatRowCnt + "','"
                                                                   + TT.VIPInfo.SeatColCnt + "','"
                                                                   + TT.TrainType + "');";
-                if ((ret = Insert(queryStr)) != -1)
+                if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
                 {
                     return ret;
                 }
@@ -347,7 +383,7 @@ namespace ServerSqlTools
                                                                   + TT.EXInfo.SeatRowCnt + "','"
                                                                   + TT.EXInfo.SeatColCnt + "','"
                                                                   + TT.TrainType + "');";
-                if ((ret = Insert(queryStr)) != -1)
+                if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
                 {
                     return ret;
                 }
@@ -361,7 +397,7 @@ namespace ServerSqlTools
                                                                   + TT.FirstInfo.SeatRowCnt + "','"
                                                                   + TT.FirstInfo.SeatColCnt + "','"
                                                                   + TT.TrainType + "');";
-                if ((ret = Insert(queryStr)) != -1)
+                if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
                 {
                     return ret;
                 }
@@ -375,7 +411,7 @@ namespace ServerSqlTools
                                                                   + TT.SecondInfo.SeatRowCnt + "','"
                                                                   + TT.SecondInfo.SeatColCnt + "','"
                                                                   + TT.TrainType + "');";
-                if ((ret = Insert(queryStr)) != -1)
+                if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
                 {
                     return ret;
                 }
@@ -383,12 +419,15 @@ namespace ServerSqlTools
             Console.WriteLine("5-4 Success");
 
             //close the connection
-            Close();
-            Console.WriteLine("Connection Closed");
+            if (IsClose)
+            {
+                Close();
+                Console.WriteLine("Connection Closed");
+            }
             return -1;
         }
 
-        public static int AddTrain(_Train T)
+        public static int AddTrain(_Train T, bool IsClose)
         {
             int ret = -1;
             //check security
@@ -456,19 +495,22 @@ namespace ServerSqlTools
                                                            + T.TrainType + "','"
                                                            + T.TrainState + "');";
 
-            if ((ret = Insert(queryStr)) != -1)
+            if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
             {
                 return ret;
             }
             Console.WriteLine("5 Success");
 
             //close the connection
-            Close();
-            Console.WriteLine("Connection Closed");
+            if (IsClose)
+            {
+                Close();
+                Console.WriteLine("Connection Closed");
+            }
             return -1;
         }
 
-        public static int AddTrainManager(_TrainManager TM)
+        public static int AddTrainManager(_TrainManager TM, bool IsClose)
         {
             int ret = -1;
             //1 check security
@@ -643,7 +685,7 @@ namespace ServerSqlTools
             //5-1 insert Train_Manage
             queryStr = "INSERT INTO T_TRAIN_MANAGE Values('" + TM.TrainID + "','"
                                                              + TM.TrainNo + "');";
-            if ((ret = Insert(queryStr)) != -1)
+            if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
             {
                 return ret;
             }
@@ -654,7 +696,7 @@ namespace ServerSqlTools
                                                                   + TM.StartStNo + "','"
                                                                   + TM.EndStNo + "','"
                                                                   + TM.RunningTime + "');";
-            if ((ret = Insert(queryStr)) != -1)
+            if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
             {
                 return ret;
             }
@@ -669,7 +711,7 @@ namespace ServerSqlTools
                                                                        + TM.Parking[i].LeavingTime + "','"
                                                                        + TM.Parking[i].ParkingTime + "','"
                                                                        + TM.Parking[i].NextStNo + "');";
-                if ((ret = Insert(queryStr)) != -1)
+                if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
                 {
                     return ret;
                 }
@@ -807,7 +849,7 @@ namespace ServerSqlTools
                                                                                         + TT.VIPInfo.SeatColCnt + "','"
                                                                                         + bitmap + "','"
                                                                                         + SeatCnt + "');";
-                        if ((ret = Insert(queryStr)) != -1)
+                        if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
                         {
                             return ret;
                         }
@@ -829,7 +871,7 @@ namespace ServerSqlTools
                                                                                         + TT.EXInfo.SeatColCnt + "','"
                                                                                         + bitmap + "','"
                                                                                         + SeatCnt + "');";
-                        if ((ret = Insert(queryStr)) != -1)
+                        if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
                         {
                             return ret;
                         }
@@ -851,7 +893,7 @@ namespace ServerSqlTools
                                                                                         + TT.FirstInfo.SeatColCnt + "','"
                                                                                         + bitmap + "','"
                                                                                         + SeatCnt + "');";
-                        if ((ret = Insert(queryStr)) != -1)
+                        if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
                         {
                             return ret;
                         }
@@ -873,7 +915,7 @@ namespace ServerSqlTools
                                                                                         + TT.SecondInfo.SeatColCnt + "','"
                                                                                         + bitmap + "','"
                                                                                         + SeatCnt + "');";
-                        if ((ret = Insert(queryStr)) != -1)
+                        if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
                         {
                             return ret;
                         }
@@ -883,25 +925,20 @@ namespace ServerSqlTools
             Console.WriteLine("6 Success");
 
             //close the connection
-            Close();
-            Console.WriteLine("Connection Closed");
+            if (IsClose)
+            {
+                Close();
+                Console.WriteLine("Connection Closed");
+            }
             return -1;
         }
 
-        public static int SearchTrain(int StartStNo, int EndStNo, int year, int month, int day, List<_TrainTicket> TrainTicketList)
+        public static int SearchTrain(int StartStNo, int EndStNo, int year, int month, int day, List<_TrainTicket> TrainTicketList, bool IsClose)
         {
             int ret = -1;
             //check security
             //TODO
             Console.WriteLine("1 Success");
-
-            //3 Search TrainID
-            List<string> TrainIDList = new List<string>();
-            DateTime AT = new DateTime(year, month, day);
-            if ((ret = SearchTrainID(StartStNo, EndStNo, AT, TrainIDList)) != -1)
-            {
-                return ret;
-            }
 
             //2 connect to the database
             if (!Connect())
@@ -911,17 +948,29 @@ namespace ServerSqlTools
             }
             Console.WriteLine("2 Success");
 
+            //3 Search TrainID
+            List<string> TrainIDList = new List<string>();
+            _Date AT = new _Date(year, month, day, 0, 0, 0);
+            if ((ret = SearchTrainID(StartStNo, EndStNo, AT, TrainIDList, false)) != -1)
+            {
+                return ret;
+            }
+
             //4 get train info by trainid
             string queryStr = "";
             OdbcCommand sqlcmd = new OdbcCommand(queryStr, conn);
             for (int i = 0; i < TrainIDList.Count(); i++)
             {
                 _TrainTicket TrnTct = new _TrainTicket();
-                TrnTct.TrainID      = TrainIDList[i];
-                TrnTct.VIPAmount    = 0;
-                TrnTct.EXAmount     = 0;
-                TrnTct.FirstAmount  = 0;
+                TrnTct.TrainID = TrainIDList[i];
+                TrnTct.VIPAmount = 0;
+                TrnTct.EXAmount = 0;
+                TrnTct.FirstAmount = 0;
                 TrnTct.SecondAmount = 0;
+
+                //get train routine
+                List<int> StNoList = new List<int>();
+                Console.WriteLine(GetTrainRoutine(TrainIDList[i], StNoList, false));
 
                 //get start station Name
                 queryStr = "SELECT STATION_NAME from T_STATION_INFO where STATION_NO = '" + StartStNo + "';";
@@ -932,7 +981,7 @@ namespace ServerSqlTools
                     OdbcDataReader DataReader = sqlcmd.ExecuteReader();
                     if (DataReader.Read())
                     {
-                       TrnTct.StartStName = DataReader[0].ToString();
+                        TrnTct.StartStName = DataReader[0].ToString();
                     }
                     DataReader.Close();
                 }
@@ -951,7 +1000,7 @@ namespace ServerSqlTools
                     OdbcDataReader DataReader = sqlcmd.ExecuteReader();
                     if (DataReader.Read())
                     {
-                       TrnTct.EndStName = DataReader[0].ToString();
+                        TrnTct.EndStName = DataReader[0].ToString();
                     }
                     DataReader.Close();
                 }
@@ -970,7 +1019,7 @@ namespace ServerSqlTools
                     OdbcDataReader DataReader = sqlcmd.ExecuteReader();
                     if (DataReader.Read())
                     {
-                       TrnTct.LeavingTime = DataReader[0].ToString();
+                        TrnTct.LeavingTime = DataReader[0].ToString();
                     }
                     DataReader.Close();
                 }
@@ -989,7 +1038,7 @@ namespace ServerSqlTools
                     OdbcDataReader DataReader = sqlcmd.ExecuteReader();
                     if (DataReader.Read())
                     {
-                       TrnTct.ArriveTime = DataReader[0].ToString();
+                        TrnTct.ArriveTime = DataReader[0].ToString();
                     }
                     DataReader.Close();
                 }
@@ -1000,38 +1049,21 @@ namespace ServerSqlTools
                 }
 
                 //get total time
-                DateTime _AT = DateTime.Parse(TrnTct.ArriveTime);
-                DateTime _LT = DateTime.Parse(TrnTct.LeavingTime);
+                _Date _AT = new _Date(TrnTct.ArriveTime);
+                _Date _LT = new _Date(TrnTct.LeavingTime);
                 TrnTct.TotalTime = CalTimeGap(_AT, _LT);
 
                 //get seat ticket info
-                queryStr = "SELECT SEAT_LEVEL, FREE_SEAT_CNT from T_TRAIN_PARKING_CARRIAGE_INFO where TRAIN_ID = '" + TrainIDList[i] + "';";
+                queryStr = "SELECT count(distinct CARRIAGE_NO) from T_TRAIN_PARKING_CARRIAGE_INFO where TRAIN_ID = '" + TrainIDList[i] + "';";
                 Console.WriteLine(queryStr);
                 sqlcmd.CommandText = queryStr;
+                int CarriageCnt = 0;
                 try
                 {
                     OdbcDataReader DataReader = sqlcmd.ExecuteReader();
-                    while(DataReader.Read())
+                    if (DataReader.Read())
                     {
-                       int SeatLevel, FreeSeatCnt;
-                       int.TryParse(DataReader[0].ToString(), out SeatLevel);
-                       int.TryParse(DataReader[1].ToString(), out FreeSeatCnt);
-                       if(SeatLevel == 1)
-                       {
-                            TrnTct.VIPAmount += FreeSeatCnt;
-                       }
-                       else if(SeatLevel == 2)
-                       {
-                            TrnTct.EXAmount  += FreeSeatCnt;
-                       }
-                       else if(SeatLevel == 3)
-                       {
-                            TrnTct.FirstAmount += FreeSeatCnt;
-                       }
-                       else if(SeatLevel == 4)
-                       {
-                            TrnTct.SecondAmount += FreeSeatCnt;
-                       }
+                        int.TryParse(DataReader[0].ToString(), out CarriageCnt);
                     }
                     DataReader.Close();
                 }
@@ -1040,20 +1072,105 @@ namespace ServerSqlTools
                     Console.WriteLine(ex.Message);
                     return (int)SqlErrorCode.ERR_SQLCMD;
                 }
+                Console.WriteLine(CarriageCnt);
+
+                List<_Tmp_Result> Result = new List<_Tmp_Result>();
+                _Tmp_Result TR = new _Tmp_Result();
+                TR.CarriageNo = -1;
+                for (int k = 0; k < CarriageCnt; k++)
+                {
+                    Result.Add(TR);
+                }
+                List<_Tmp_Result> TRList = new List<_Tmp_Result>();
+
+                foreach (int StNo in StNoList)
+                {
+                    for (int k = 1; k <= CarriageCnt; k++)
+                    {
+                        queryStr = "SELECT SEAT_LEVEL, SEAT_INFO from T_TRAIN_PARKING_CARRIAGE_INFO where TRAIN_ID = '" + TrainIDList[i] + "' and STATION_NO = '" + StNo + "' and CARRIAGE_NO = '" + k + "';";
+                        Console.WriteLine(queryStr);
+                        sqlcmd.CommandText = queryStr;
+                        try
+                        {
+                            OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                            if (DataReader.Read())
+                            {
+                                int SL;
+                                int.TryParse(DataReader[0].ToString(), out SL);
+                                _Tmp_Result Tmp = new _Tmp_Result();
+                                Tmp.CarriageNo = k;
+                                Tmp.SeatLevel = SL;
+                                Tmp.Bitmap = DataReader[1].ToString().ToCharArray();
+                                if (Result[k - 1].CarriageNo == -1)
+                                {
+                                    Result[k - 1] = Tmp;
+                                }
+                                else
+                                {
+                                    for (int l = 0; l < Tmp.Bitmap.Count(); l++)
+                                    {
+                                        if (Tmp.Bitmap[l] == '1')
+                                        {
+                                            Result[k - 1].Bitmap[l] = '1';
+                                        }
+                                    }
+                                }
+                            }
+                            DataReader.Close();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                            return (int)SqlErrorCode.ERR_SQLCMD;
+                        }
+                    }
+                }
+
+                foreach (_Tmp_Result R in Result)
+                {
+                    int FreeSeatCnt = 0;
+                    for (int k = 0; k < R.Bitmap.Count(); k++)
+                    {
+                        if (R.Bitmap[k] != '1')
+                        {
+                            FreeSeatCnt++;
+                        }
+                    }
+                    if (R.SeatLevel == 1)
+                    {
+                        TrnTct.VIPAmount += FreeSeatCnt;
+                    }
+                    if (R.SeatLevel == 2)
+                    {
+                        TrnTct.EXAmount += FreeSeatCnt;
+                    }
+                    if (R.SeatLevel == 3)
+                    {
+                        TrnTct.FirstAmount += FreeSeatCnt;
+                    }
+                    if (R.SeatLevel == 4)
+                    {
+                        TrnTct.SecondAmount += FreeSeatCnt;
+                    }
+                }
+
                 TrainTicketList.Add(TrnTct);
             }
 
             //close the connection
-            Close();
-            Console.WriteLine("Connection Closed");
+            if (IsClose)
+            {
+                Close();
+                Console.WriteLine("Connection Closed");
+            }
             return -1;
         }
-        public static int SearchTrainID(int StartStNo, int EndStNo, DateTime Time, List<string> Result)
+        public static int SearchTrainID(int StartStNo, int EndStNo, _Date Time, List<string> Result, bool IsClose)
         {
             //check security
             //TODO
             Console.WriteLine("1 Success");
-
+            _Date MTime = new _Date(Time.Year, Time.Month, Time.Day + 1, 0, 0, 0);
             //2 connect to the database
             if (!Connect())
             {
@@ -1115,7 +1232,7 @@ namespace ServerSqlTools
             //4 Search
             queryStr = "with St1 as (SELECT * from T_TRAIN_PARKING_INFO where STATION_NO = '" + StartStNo + "')," +
                             "St2 as (SELECT * from T_TRAIN_PARKING_INFO where STATION_NO = '" + EndStNo + "')" +
-                       "SELECT St1.TRAIN_ID from St1, St2 where St1.TRAIN_ID = St2.TRAIN_ID and St1.ARRIVE_TIME < St2.ARRIVE_TIME and St1.ARRIVE_TIME > '" + Time.ToString() + "';";
+                       "SELECT St1.TRAIN_ID from St1, St2 where St1.TRAIN_ID = St2.TRAIN_ID and St1.ARRIVE_TIME < St2.ARRIVE_TIME and St1.ARRIVE_TIME > '" + Time.ToString() + "' and St1.ARRIVE_TIME < '" + MTime.ToString() + "';";
             Console.WriteLine(queryStr);
             sqlcmd.CommandText = queryStr;
             //Execute the DataReader to Access the data
@@ -1136,16 +1253,685 @@ namespace ServerSqlTools
             Console.WriteLine("3 Success");
 
             //close the connection
-            Close();
-            Console.WriteLine("Connection Closed");
+            if (IsClose)
+            {
+                Close();
+                Console.WriteLine("Connection Closed");
+            }
+            return -1;
+        }
+        public static int SearchSeat(string TrainID, int StartStNo, int EndStNo, int Seatlevel, int Col, ref _Seat FreeSeat, bool IsClose)
+        {
+            int ret = -1;
+            //1 check security
+            //TODO
+
+            //2 get Train Routine(reverse)
+            List<int> StNoList = new List<int>();
+            if ((ret = GetTrainRoutine(TrainID, StNoList, false)) != -1)
+            {
+                return ret;
+            }
+
+            //3 connect to the database
+            if (!Connect())
+            {
+                Console.WriteLine("Failed to Connect to Oracle");
+                return (int)SqlErrorCode.ERR_CONN;
+            }
+            Console.WriteLine("2 Success");
+
+            //4 get bitmap of the Carriage of 
+            HashSet<int> CNoSet = new HashSet<int>();
+            List<_Carriage_Seat> CSList = new List<_Carriage_Seat>();
+
+            int SearchFlag = 0;
+
+            foreach (int StationNo in StNoList)
+            {
+                if (StationNo == StartStNo)
+                {
+                    SearchFlag = 1;
+                }
+                else if (StationNo == EndStNo)
+                {
+                    SearchFlag = 0;
+                }
+                if (SearchFlag != 0)
+                {
+                    string queryStr = "SELECT CARRIAGE_NO, SEAT_INFO, SEAT_ROW_CNT, SEAT_COL_CNT from T_TRAIN_PARKING_CARRIAGE_INFO where SEAT_LEVEL = '" + Seatlevel + "' and TRAIN_ID = '" + TrainID + "' and STATION_NO = '" + StationNo + "';";
+                    Console.WriteLine(queryStr);
+                    OdbcCommand sqlcmd = new OdbcCommand(queryStr, conn);
+                    //Execute the DataReader to Access the data
+                    try
+                    {
+                        OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                        while (DataReader.Read())
+                        {
+                            _Carriage_Seat CS = new _Carriage_Seat();
+                            int tmp = 0;
+                            int.TryParse(DataReader[0].ToString(), out tmp);
+                            CS.CarriageNo = tmp;
+                            CNoSet.Add(tmp);
+                            CS.SeatInfo = DataReader[1].ToString();
+                            int.TryParse(DataReader[2].ToString(), out tmp);
+                            CS.SeatRowCnt = tmp;
+                            int.TryParse(DataReader[3].ToString(), out tmp);
+                            CS.SeatColCnt = tmp;
+                            CSList.Add(CS);
+                        }
+                        DataReader.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        return (int)SqlErrorCode.ERR_SQLCMD;
+                    }
+                }
+            }
+
+            //4 judge which seat is free
+
+            foreach (int CNo in CNoSet)
+            {
+                int row = CSList[0].SeatRowCnt;
+                int col = CSList[0].SeatColCnt;
+                int ChosedCol = Col;
+                string AvaSeatInfo = "";
+                for (int i = 0; i < row * col; i++)
+                {
+                    AvaSeatInfo += '0';
+                }
+                char[] AvaSeatBitmap = AvaSeatInfo.ToCharArray();
+
+                for (int i = 0; i < CSList.Count(); i++)
+                {
+                    char[] CSBitmap = CSList[i].SeatInfo.ToCharArray();
+                    if (CSList[i].CarriageNo == CNo)
+                    {
+                        for (int j = 1; j <= row; j++)
+                        {
+                            for (int k = 1; k <= col; k++)
+                            {
+                                if (ChosedCol == 0 || k == ChosedCol)
+                                {
+                                    //check whether seat is free
+                                    if (CSBitmap[(j - 1) * col + k - 1] == '1')
+                                    {
+                                        AvaSeatBitmap[(j - 1) * col + k - 1] = '1';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                for (int i = 1; i <= row; i++)
+                {
+                    for (int j = 1; j <= col; j++)
+                    {
+                        if (ChosedCol == 0 || j == ChosedCol)
+                        {
+                            if (AvaSeatBitmap[(i - 1) * col + j - 1] == '0')
+                            {
+                                FreeSeat.StartStNo = StartStNo;
+                                FreeSeat.EndStNo = EndStNo;
+                                FreeSeat.SeatLevel = Seatlevel;
+                                FreeSeat.CarriageNo = CNo;
+                                FreeSeat.SeatCol = j;
+                                FreeSeat.SeatRow = i;
+                                return -1;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (IsClose)
+            {
+                Close();
+                Console.WriteLine("Connection Closed");
+            }
+
             return -1;
         }
 
-        //public static int SearchSeat(string TrainID, int StationNo)
-        //{
+        public static int GetTrainRoutine(string TrainID, List<int> StNoList, bool IsClose)
+        {
+            //1 connect to the database
+            if (!Connect())
+            {
+                Console.WriteLine("Failed to Connect to Oracle");
+                return (int)SqlErrorCode.ERR_CONN;
+            }
+            Console.WriteLine("1 Success");
 
-        //}
+            //2 Search from the end Station(Next StationNo = -1)
+            int NextStNo = 0;
+            int NowStNo = 0;
+            NextStNo = -1;
+            while (NextStNo != 0)
+            {
+                string queryStr = "SELECT STATION_NO from T_TRAIN_PARKING_INFO where TRAIN_ID = '" + TrainID + "' and NEXT_STATION_NO = '" + NextStNo.ToString() + "';";
+                Console.WriteLine(queryStr);
+                NextStNo = 0;
+                OdbcCommand sqlcmd = new OdbcCommand(queryStr, conn);
+                //Execute the DataReader to Access the data
+                try
+                {
+                    OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                    if (DataReader.Read())
+                    {
+                        int.TryParse(DataReader[0].ToString(), out NowStNo);
+                        StNoList.Add(NowStNo);
+                        NextStNo = NowStNo;
+                        Console.WriteLine(NextStNo);
+                    }
+                    DataReader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return (int)SqlErrorCode.ERR_SQLCMD;
+                }
+            }
+
+            //reverse the List
+            int left = 0;
+            int right = StNoList.Count() - 1;
+            while (left < right)
+            {
+                int tmp = StNoList[left];
+                StNoList[left] = StNoList[right];
+                StNoList[right] = tmp;
+                left++;
+                right--;
+            }
+
+            if (IsClose)
+            {
+                Close();
+                Console.WriteLine("Connection Closed");
+            }
+
+
+            return -1;
+        }
         //just for test
+        public static int AddOrder(_Order O, bool IsClose)
+        {
+            int ret = -1;
+            //1. check security
+            //TODO
+            Console.WriteLine("1 Sucess");
+
+            //2. connect to the database
+            if (!Connect())
+            {
+                Console.WriteLine("Failed to Connect to Oracle");
+                return (int)SqlErrorCode.ERR_CONN;
+            }
+            Console.WriteLine("2 Success");
+
+            string queryStr = "";
+            OdbcCommand sqlcmd = new OdbcCommand(queryStr, conn);
+
+
+            //3. must ensure there is only one order to handle(roughly get lock)
+            while (true)
+            {
+                queryStr = "SELECT count(*) from T_ORDER_LIST where ORDER_STATE = '1' and TRAIN_ID = '" + O.TrainID + "';";
+                sqlcmd.CommandText = queryStr;
+                try
+                {
+                    OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                    if (DataReader.Read() && DataReader[0].ToString() == "0")
+                    {
+                        DataReader.Close();
+                        O.OrderState = 1;
+                        break;
+                    }
+                    DataReader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return (int)SqlErrorCode.ERR_SQLCMD;
+                }
+
+            }
+            Console.WriteLine("3 Success");
+
+            //4. Insert Orders
+            queryStr = "INSERT INTO T_ORDER_LIST Values('" + O.OrderID + "','"
+                                                           + O.TrainID + "','"
+                                                           + O.StartStNo.ToString() + "','"
+                                                           + O.EndStNo.ToString() + "','"
+                                                           + O.CarriageNo.ToString() + "','"
+                                                           + O.SeatNo + "','"
+                                                           + O.OrderValue.ToString() + "','"
+                                                           + O.OrderCreate.ToString() + "','"
+                                                           + O.OrderState.ToString() + "');";
+
+            if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
+            {
+                //delete Order Info
+                queryStr = "DELETE from T_ORDERS where ORDER_ID = '" + O.OrderID + "';";
+                NoRetDataSqlExecute(queryStr);
+                return ret;
+            }
+            Console.WriteLine("4 Success");
+
+            //5 Get TrainID routine
+            List<int> StNoList = new List<int>();
+            Console.WriteLine(GetTrainRoutine(O.TrainID, StNoList, false));
+            Console.WriteLine("5 Success");
+
+            //6 check all the seat first if OK change their state
+            List<int> NoList = new List<int>();
+            List<int> FreeSeatCntList = new List<int>();
+            List<char[]> BitmapList = new List<char[]>();
+            bool StartSearch = false;
+            for (int i = 0; i < StNoList.Count(); i++)
+            {
+                if (StNoList[i] == O.StartStNo)
+                {
+                    StartSearch = true;
+                }
+                else if (StNoList[i] == O.EndStNo)
+                {
+                    StartSearch = false;
+                }
+                if (StartSearch)
+                {
+                    NoList.Add(StNoList[i]);
+                    queryStr = "SELECT SEAT_INFO, SEAT_COL_CNT, FREE_SEAT_CNT from T_TRAIN_PARKING_CARRIAGE_INFO where TRAIN_ID = '" + O.TrainID + "' and CARRIAGE_NO = '" + O.CarriageNo.ToString() + "' and STATION_NO = '" + StNoList[i].ToString() + "';";
+                    Console.WriteLine(queryStr);
+                    sqlcmd.CommandText = queryStr;
+                    try
+                    {
+                        OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                        if (DataReader.Read())
+                        {
+                            Console.WriteLine(DataReader[0].ToString());
+                            char[] bitmap = DataReader[0].ToString().ToCharArray();
+                            int tmp;
+                            int.TryParse(DataReader[1].ToString(), out tmp);
+                            int index = HashNo2Index(O.SeatNo, tmp);
+                            Console.WriteLine(index);
+                            if (bitmap[index] == '1') // Error
+                            {
+                                DataReader.Close();
+                                queryStr = "DELETE from T_ORDER_LIST where ORDER_ID = '" + O.OrderID + "';";
+                                NoRetDataSqlExecute(queryStr);
+                                return (int)OErrorCode.ERR_ORDER;
+                            }
+                            bitmap[index] = '1';
+                            BitmapList.Add(bitmap);
+                            int.TryParse(DataReader[2].ToString(), out tmp);
+                            FreeSeatCntList.Add(tmp - 1);
+                        }
+                        DataReader.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        queryStr = "DELETE from T_ORDER_LIST where ORDER_ID = '" + O.OrderID + "';";
+                        NoRetDataSqlExecute(queryStr);
+                        return (int)SqlErrorCode.ERR_SQLCMD;
+                    }
+                }
+            }
+            Console.WriteLine("6-1 Success");
+
+            //if OK do change the seat state
+            for (int i = 0; i < NoList.Count(); i++)
+            {
+                string str = new string(BitmapList[i]);
+                queryStr = "UPDATE T_TRAIN_PARKING_CARRIAGE_INFO SET SEAT_INFO = '" + str + "', FREE_SEAT_CNT = '" + FreeSeatCntList[i] + "' where TRAIN_ID = '" + O.TrainID + "' and CARRIAGE_NO = '" + O.CarriageNo.ToString() + "' and STATION_NO = '" + NoList[i].ToString() + "';";
+                if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
+                {
+                    return ret;
+                }
+            }
+            Console.WriteLine("6-2 Success");
+
+            //7 change the order State as Finished(2)
+            queryStr = "UPDATE T_ORDER_LIST SET ORDER_STATE = '2' where ORDER_ID = '" + O.OrderID + "';";
+            if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
+            {
+                return ret;
+            }
+
+            if (IsClose)
+            {
+                Close();
+                Console.WriteLine("Connection Closed");
+            }
+
+            return -1;
+        }
+        public static int CreateOrder(string UserID, string PassengerID, _Seat S, ref _Order O, bool IsClose)
+        {
+            int ret = -1;
+            //1 check security
+            //TODO
+            Console.WriteLine("1 Success");
+
+            //2 connect to the database
+            if (!Connect())
+            {
+                Console.WriteLine("Failed to Connect to Oracle");
+                return (int)SqlErrorCode.ERR_CONN;
+            }
+            Console.WriteLine("2 Success");
+
+            O.OrderCreate = GetTimeStamp();
+            O.OrderID = O.OrderCreate;
+            O.TrainID = S.TrainID;
+            O.CarriageNo = S.CarriageNo;
+            O.StartStNo = S.StartStNo;
+            O.EndStNo = S.EndStNo;
+            O.OrderValue = (10 - S.SeatLevel) * 200;
+            O.OrderState = 0;
+            O.SeatNo = HashSeatRC2No(S.SeatRow, S.SeatCol);
+
+            //check conflict 
+            string queryStr = "SELECT count(*) from T_ORDER_LIST where TRAIN_ID = '" + O.TrainID + "' and ORDER_ID in (SELECT ORDER_ID from T_ORDERS where PASSENGER_ID = '" + PassengerID + "');";
+            OdbcCommand sqlcmd = new OdbcCommand(queryStr, conn);
+            try
+            {
+                OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                if (DataReader.Read() && DataReader[0].ToString() != "0")
+                {
+                    return (int)OErrorCode.ERR_OTCONFLICT;
+                }
+                DataReader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return (int)SqlErrorCode.ERR_SQLCMD;
+            }
+
+
+
+            //3 AddOrder
+            if ((ret = AddOrder(O, false)) != -1)
+            {
+                return ret;
+            }
+            Console.WriteLine("3 Success");
+
+            //4 insert T_ORDERS
+            queryStr = "INSERT INTO T_ORDERS Values('" + O.OrderID + "','"
+                                                       + UserID + "','"
+                                                       + PassengerID + "');";
+            if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
+            {
+                return ret;
+            }
+            Console.WriteLine("4 Success");
+
+            if (IsClose)
+            {
+                Close();
+                Console.WriteLine("Connection Closed");
+            }
+
+            return -1;
+        }
+        public static int CancelOrder(string OrderID, bool IsClose)
+        {
+            int ret = -1;
+            //1 check security
+            //TODO
+
+            //2. connect to the database
+            if (!Connect())
+            {
+                Console.WriteLine("Failed to Connect to Oracle");
+                return (int)SqlErrorCode.ERR_CONN;
+            }
+            Console.WriteLine("2 Success");
+
+            string queryStr = "";
+            OdbcCommand sqlcmd = new OdbcCommand(queryStr, conn);
+
+            //3. get Order
+            queryStr = "SELECT * from T_ORDER_LIST where ORDER_ID = '" + OrderID + "';";
+            Console.WriteLine(queryStr);
+            sqlcmd.CommandText = queryStr;
+            _Order TmpOrder = new _Order();
+            try
+            {
+                OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                if (DataReader.Read())
+                {
+                    TmpOrder.OrderID = DataReader[0].ToString();
+                    TmpOrder.TrainID = DataReader[1].ToString();
+                    int TmpInt;
+                    int.TryParse(DataReader[2].ToString(), out TmpInt);
+                    TmpOrder.StartStNo = TmpInt;
+                    int.TryParse(DataReader[3].ToString(), out TmpInt);
+                    TmpOrder.EndStNo = TmpInt;
+                    int.TryParse(DataReader[4].ToString(), out TmpInt);
+                    TmpOrder.CarriageNo = TmpInt;
+                    TmpOrder.SeatNo = DataReader[5].ToString();
+                    int.TryParse(DataReader[5].ToString(), out TmpInt);
+                    TmpOrder.OrderValue = TmpInt;
+                    TmpOrder.OrderCreate = DataReader[6].ToString();
+                    int.TryParse(DataReader[7].ToString(), out TmpInt);
+                    TmpOrder.OrderState = TmpInt;
+                }
+                else
+                {
+                    return (int)OErrorCode.ERR_OUNEXIST;
+                }
+                DataReader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return (int)SqlErrorCode.ERR_SQLCMD;
+            }
+
+
+            //3. must ensure there is only one order to handle(roughly get lock)
+            while (true)
+            {
+                queryStr = "SELECT count(*) from T_ORDER_LIST where ORDER_STATE = '1' and TRAIN_ID = '" + TmpOrder.TrainID + "';";
+                Console.WriteLine(queryStr);
+                sqlcmd.CommandText = queryStr;
+                try
+                {
+                    OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                    if (DataReader.Read() && DataReader[0].ToString() == "0")
+                    {
+                        DataReader.Close();
+                        //Console.WriteLine(DataReader[0].ToString());
+                        TmpOrder.OrderState = 1;
+                        break;
+                    }
+                    DataReader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return (int)SqlErrorCode.ERR_SQLCMD;
+                }
+
+            }
+            Console.WriteLine("3 Success");
+
+            //4. update Order State to Handling(1)
+            queryStr = "UPDATE T_ORDER_LIST SET ORDER_STATE = '1' where ORDER_ID = '" + TmpOrder.OrderID + "';";
+            Console.WriteLine(queryStr);
+            if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
+            {
+                return ret;
+            }
+
+            //5. cancel Order
+            //5-1 get train routine
+            List<int> StNoList = new List<int>();
+            if ((ret = GetTrainRoutine(TmpOrder.TrainID, StNoList, false)) != -1)
+            {
+                return ret;
+            }
+
+            //5-2 update train carriage info
+            bool flag = false;
+            for (int i = 0; i < StNoList.Count(); i++)
+            {
+                if (StNoList[i] == TmpOrder.StartStNo)
+                {
+                    flag = true;
+                }
+                else if (StNoList[i] == TmpOrder.EndStNo)
+                {
+                    flag = false;
+                }
+                if (flag)
+                {
+                    queryStr = "SELECT FREE_SEAT_CNT, SEAT_INFO, SEAT_COL_CNT from T_TRAIN_PARKING_CARRIAGE_INFO where TRAIN_ID = '" + TmpOrder.TrainID + "' and STATION_NO = '" + StNoList[i] + "' and CARRIAGE_NO = '" + TmpOrder.CarriageNo + "';";
+                    sqlcmd.CommandText = queryStr;
+                    try
+                    {
+                        OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                        if (DataReader.Read())
+                        {
+                            int FreeSeatCnt, col;
+                            int.TryParse(DataReader[0].ToString(), out FreeSeatCnt);
+                            char[] bitmap = DataReader[1].ToString().ToCharArray();
+                            int.TryParse(DataReader[2].ToString(), out col);
+                            int index = HashNo2Index(TmpOrder.SeatNo, col);
+                            bitmap[index] = '0';
+                            FreeSeatCnt++;
+                            string SeatInfo = new string(bitmap);
+                            queryStr = "UPDATE T_TRAIN_PARKING_CARRIAGE_INFO SET FREE_SEAT_CNT = '" + FreeSeatCnt + "', SEAT_INFO = '" + SeatInfo + "' where TRAIN_ID = '" + TmpOrder.TrainID + "' and CARRIAGE_NO = '" + TmpOrder.CarriageNo + "' and STATION_NO = '" + StNoList[i] + "';";
+                            Console.WriteLine(queryStr);
+                            if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
+                            {
+                                return ret;
+                            }
+                        }
+                        DataReader.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        queryStr = "UPDATE T_ORDER_LIST SET ORDER_STATE = '2' where ORDER_ID = '" + TmpOrder.OrderID + "'";
+                        if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
+                        {
+                            return ret;
+                        }
+                        return (int)SqlErrorCode.ERR_SQLCMD;
+                    }
+                }
+            }
+
+            //5-3 delete order
+            queryStr = "DELETE from T_ORDER_LIST where ORDER_ID = '" + TmpOrder.OrderID + "';";
+            if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
+            {
+                return ret;
+            }
+            queryStr = "DELETE from T_ORDERS where ORDER_ID = '" + TmpOrder.OrderID + "';";
+            if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
+            {
+                return ret;
+            }
+            Console.WriteLine("5 Success");
+
+            if (IsClose)
+            {
+                Close();
+                Console.WriteLine("Connection Closed");
+            }
+
+            return -1;
+        }
+        public static int GetOrder(string PassengerID, List<_Order> OrderList, bool IsClose)
+        {
+            //1 check security
+            //TODO
+
+            //2 connect to the database
+            if (!Connect())
+            {
+                Console.WriteLine("Failed to Connect to Oracle");
+                return (int)SqlErrorCode.ERR_CONN;
+            }
+            Console.WriteLine("2 Success");
+
+            //3 get OrderID
+            List<string> OrderIDList = new List<string>();
+            string queryStr = "SELECT ORDER_ID from T_ORDERS where PASSENGER_ID = '" + PassengerID + "';";
+            OdbcCommand sqlcmd = new OdbcCommand(queryStr, conn);
+            try
+            {
+                OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                while (DataReader.Read())
+                {
+                    OrderIDList.Add(DataReader[0].ToString());
+                }
+                DataReader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return (int)SqlErrorCode.ERR_SQLCMD;
+            }
+            Console.WriteLine("3 Success");
+
+            //4 get OrderInfo
+            foreach (string ID in OrderIDList)
+            {
+                queryStr = "SELECT * from T_ORDER_LIST where ORDER_ID = '" + ID + "';";
+                sqlcmd.CommandText = queryStr;
+                try
+                {
+                    OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                    if (DataReader.Read())
+                    {
+                        _Order TmpOrder = new _Order();
+                        TmpOrder.OrderID = DataReader[0].ToString();
+                        TmpOrder.TrainID = DataReader[1].ToString();
+                        int TmpInt;
+                        int.TryParse(DataReader[2].ToString(), out TmpInt);
+                        TmpOrder.StartStNo = TmpInt;
+                        int.TryParse(DataReader[3].ToString(), out TmpInt);
+                        TmpOrder.EndStNo = TmpInt;
+                        int.TryParse(DataReader[4].ToString(), out TmpInt);
+                        TmpOrder.CarriageNo = TmpInt;
+                        TmpOrder.SeatNo = DataReader[5].ToString();
+                        int.TryParse(DataReader[5].ToString(), out TmpInt);
+                        TmpOrder.OrderValue = TmpInt;
+                        TmpOrder.OrderCreate = DataReader[6].ToString();
+                        int.TryParse(DataReader[7].ToString(), out TmpInt);
+                        TmpOrder.OrderState = TmpInt;
+                        OrderList.Add(TmpOrder);
+                    }
+                    DataReader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return (int)SqlErrorCode.ERR_SQLCMD;
+                }
+            }
+            Console.WriteLine("4 Success");
+
+            if (IsClose)
+            {
+                Close();
+                Console.WriteLine("Connection Closed");
+            }
+
+            return -1;
+        }
+
         public static int Reset(string queryStr)
         {
             if (!Connect())
@@ -1171,9 +1957,9 @@ namespace ServerSqlTools
             return -1;
         }
 
-        public static int Insert(string queryStr)
+        public static int NoRetDataSqlExecute(string queryStr)
         {
-            if (conn == null)
+            if (conn == null || conn.State.ToString() == "Close")
             {
                 return (int)SqlErrorCode.ERR_CONN;
             }
@@ -1200,25 +1986,59 @@ namespace ServerSqlTools
             conn.Close();
         }
 
-        public static string CalTimeGap(DateTime Start, DateTime End)
+        public static string CalTimeGap(_Date Start, _Date End)
         {
-            int DeltaH, DeltaMi;
-            DeltaH  = Start.Hour - End.Hour;
-            DeltaMi = Start.Minute - End.Minute;
+            int DeltaMin = (Start.Day - End.Day) * 24 * 60 + (Start.Hour - End.Hour) * 60 + (Start.Minute - End.Minute);
+            int DeltaH = DeltaMin / 60;
+            int DeltaMi = DeltaMin % 60;
             string result = "";
-            if(DeltaH < 10)
+            if (DeltaH < 10)
             {
                 result += "0";
             }
             result += DeltaH.ToString();
             result += ":";
-            if(DeltaMi < 10)
+            if (DeltaMi < 10)
             {
                 result += "0";
             }
             result += DeltaMi.ToString();
             return result;
         }
+        public static int HashNo2Index(string no, int col)
+        {
+            string Row = "";
+            string Col = "";
+            for (int i = 0; i < no.Length; i++)
+            {
+                if (no[i] >= '0' && no[i] <= '9')
+                {
+                    Row += no[i];
+                }
+                else
+                {
+                    Col += no[i] - 'A';
+                }
+            }
+            int r, c;
+            int.TryParse(Row, out r);
+            int.TryParse(Col, out c);
+            return (r - 1) * col + c;
+        }
+
+        public static string HashSeatRC2No(int row, int col)
+        {
+            string result = "";
+            result += row.ToString();
+            result += (char)(col + 'A' - 1);
+            return result;
+        }
+
+        public static string GetTimeStamp()
+        {
+            return new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds().ToString();
+        }
     }
+
 }
 

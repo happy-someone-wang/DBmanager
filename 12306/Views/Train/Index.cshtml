@@ -44,19 +44,18 @@
         <img id="lbt2" src="~/Train/images/main2.png" style="position:absolute;top: 55px; left: 1600px"></img>
     </div>
     <div id="cc" style="position:absolute; top:300px; left: 300px;height:200px; width: 400px; background-color: rgb(255, 255, 255);">
-
+        <form method="post" action="/Train/Arrive">
         <p>&emsp;&emsp;</p>
         <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;车次：<input name="num"></p>
-        <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;日期：<input name="date"></p>
-        <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<button style="width: 100px; border-width: 1px">查询</button></p>
-
+        <!--<p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;日期：<input name="date"></p>-->
+        <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<button type="submit" style="width: 100px; border-width: 1px">查询</button></p>
+        </form>
     </div>
     <div id="sc" style="position:absolute; top:300px; left: 300px;height:200px; width: 400px; background-color: rgb(255, 255, 255);">
-
-        <p>&emsp;&emsp;</p>
-        <form method="post" action="~/Train/Buy">
-            <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;始发站：<input onclick="in1()" id="bef" name="始发站"></p>
-            <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;终点站：<input onclick="in2()" name="终点站" id="bef2"></p>
+        <form method="post" action="/Train/Buy">
+            <p>&emsp;&emsp;</p>
+            <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;始发站：<input onclick="in1()" id="start_station" name="start_station"></p>
+            <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;终点站：<input onclick="in2()" name="end_station" id="end_station"></p>
             <p name="da">
                 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;出发日期：
                 <select name="date" onchange="ch()">
@@ -85,7 +84,7 @@
     </div>
     <script>
         function ser(){
-            window.location.href=encodeURI("Buy?"+document.getElementById("bef").value+"&"+document.getElementById("bef2").value+"&"+document.getElementsByTagName("select")[0].value
+            window.location.href=encodeURI("Train/Buy?"+document.getElementById("bef").value+"&"+document.getElementById("bef2").value+"&"+document.getElementsByTagName("select")[0].value
             +"&"+document.getElementsByName("datem")[0].value+"&"+document.getElementsByName("dated")[0].value);
         }
     </script>
@@ -99,8 +98,11 @@
         var daiin=document.getElementsByTagName("select")[0];
         daiin.innerHTML+="<option>"+year+"</option><option>"+year2+"</option>";
 
-        var daiin2=document.getElementsByTagName("select")[1];
-        daiin2.innerHTML+="<option>"+month+"</option><option>"+month2+"</option>";
+        var daiin2 = document.getElementsByTagName("select")[1];
+        for (; month <= 12;month++) {
+            daiin2.innerHTML += "<option>" + month + "</option>";
+        }
+        //daiin2.innerHTML+="<option>"+month+"</option><option>"+month2+"</option>";
 
         var daiin3=document.getElementsByTagName("select")[2];
         var md=new Array();
@@ -142,7 +144,7 @@
     </script>
     <script>
         function in1(){
-            lis(1, document.getElementById('bef').value);
+            lis(1, document.getElementById('start_station').value);
             var be = document.getElementById('xuanze');
             be.style.top = '40px';
             if (document.getElementById('xuanze').style.display == "none")
@@ -151,7 +153,7 @@
                 document.getElementById('xuanze').style.display = "none";
         }
         function in2(){
-            lis(2, document.getElementById('bef2').value);
+            lis(2, document.getElementById('end_station').value);
             var be2 = document.getElementById('xuanze');
             be2.style.top = '85px';
             if (document.getElementById('xuanze').style.display == "none")
@@ -160,15 +162,15 @@
                 document.getElementById('xuanze').style.display = "none";
         }
         function cd(obj){
-            document.getElementById('bef').value= obj.innerHTML;
+            document.getElementById('start_station').value= obj.innerHTML;
             document.getElementById('xuanze').style.display="none";
         }
         function cd2(obj){
-            document.getElementById('bef2').value= obj.innerHTML;
+            document.getElementById('end_station').value= obj.innerHTML;
             document.getElementById('xuanze').style.display="none";
         }
         var a=new Array();
-        a=["北京","上海","天津","重庆","长沙","长春","成都","福州"];
+        a = ["北京", "天津", "济南", "上海", "杭州", "台北", "福州", "南昌", "长沙", "广州", "昆明", "贵阳", "武汉", "南京", "郑州", "重庆", "成都", "西安", "兰州", "天津北"];
         function lis(p, cha){
 
             var a2=new Array();

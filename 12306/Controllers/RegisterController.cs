@@ -29,7 +29,7 @@ namespace _12306.Controllers
         {
             int t;
             //ServerSqlTools.OracleSqlTools.resetUser();
-            t = ServerSqlTools.OracleSqlTools.Register(U);
+            t = ServerSqlTools.OracleSqlTools.Register(U,true);
             if (t == -1)
             {
                 return Content("ok");
@@ -55,7 +55,7 @@ namespace _12306.Controllers
             Console.WriteLine(U);
             int t;
             //ServerSqlTools.OracleSqlTools.resetUser();
-            t = ServerSqlTools.OracleSqlTools.Register(U);
+            t = ServerSqlTools.OracleSqlTools.Register(U,true);
             if(t==-1)
             {
                 Console.WriteLine("register success");

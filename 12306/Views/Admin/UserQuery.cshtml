@@ -1,0 +1,86 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+	ViewData["Title"] = "用户查询";
+}
+@model ReturnModels.UserList;
+<div class="header">
+	<h1>管理员页面</h1>
+</div>
+<ul>
+	<li><a asp-controller="Admin" asp-action="Index">主页</a></li>
+	<li><a asp-controller="Admin" asp-action="OrderQuery">订单查询</a></li>
+	<li><a class="active" asp-controller="Admin" asp-action="UserQuery">用户查询</a></li>
+	<li><a asp-controller="Admin" asp-action="TrainQuery">车次查询</a></li>
+</ul>
+<div class="column">
+	<label for="user">用户ID</label>
+	<input type="text" id="id" name="id" placeholder=" ">
+	<input type="submit" value="搜索" onclick="Search()">
+	<script>
+		function Search() {
+			var id = document.getElementById('id').value;
+			var ta = document.getElementById('userlist');
+			var tr = ta.getElementsByTagName("tr");
+
+			//循环表格每一行，查找匹配项
+			for (i = 0; i < tr.length; i++) {
+				var td = tr[i].getElementsByTagName("td")[0].innerHTML;
+				if (td == id) {
+					alert(tr[1].getElementsByTagName("td")[1].innerHTML);
+					return;
+				}
+			}
+			alert("不存在此用户");
+		}
+	</script>
+	<table border="1" id="userlist">
+		<tr>
+			<th>ID</th>
+			<th>姓名</th>
+			<th>性别</th>
+			<th>身份证号</th>
+			<th>电话</th>
+			<th>邮箱</th>
+			<th>居住地</th>
+		</tr>
+		@{
+			if (Model != null)
+				foreach (var x in Model.list)
+				{
+					<tr>
+						<td>@x.UserID</td>
+						<td>@x.UserRName</td>
+						<td>@x.UserGender</td>
+						<td>@x.UserPID</td>
+						<td>@x.UserPhone</td>
+						<td>@x.UserEmail</td>
+						<td>@x.UserAddr</td>
+					</tr>
+				}
+		}
+
+		<!--
+		  <tr>
+			  <td>123</td>
+			  <td>Alex</td>
+			  <td>男</td>
+			  <td>111111111111111111</td>
+			  <td>110</td>
+			  <td>111@1.com</td>
+			  <td>sss</td>
+		  </tr>
+		  <tr>
+			  <td>321</td>
+			  <td>Ken</td>
+			  <td>男</td>
+			  <td>222222221111111111</td>
+			  <td>119</td>
+			  <td>121@1.com</td>
+			  <td>aaa</td>
+		  </tr>
+		  -->
+	</table>
+</div>

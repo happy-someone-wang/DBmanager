@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>pay</title>
-    <script src="~/Train/jquery-3.5.1/jquery-3.5.1.min.js"></script>
+    <script src="jquery-3.5.1/jquery-3.5.1.min.js"></script>
 </head>
 <body>
     <div style="height: 180px;width: 900px; color: rgb(0, 0, 0);background-color: white;">
@@ -18,18 +18,23 @@
     </div>
 
     <div id="cc" style="position:absolute;top:85px;left:350px">
-        <img src="~/Train/images/row.jpg" style="position:absolute;top: 50px; left: -50px">
+        <img src="/Train/images/row.png" style="position:absolute;top: 50px; left: -50px">
         <p style="line-height: 10px">&emsp;</p>
     </div>
-    <div id="info" style="border-radius: 20px;height: 180px;width: 700px; color: rgb(0, 0, 0);background-color: white;border: 1px solid rgb(97, 130, 240);">
-        <p>&emsp;&emsp;填写乘车人信息</p>
-        <p>&emsp;&emsp;身份证号：<input id="idcar"></p>
-        <p>&emsp;&emsp;姓名：<input id="namme"></p>
-        &emsp;&emsp;选择座位类型：<input type="radio" name="lei" value="fir">商务座
-        <input type="radio" name="lei" value="yi">一等座
-        <input type="radio" name="lei" value="er">二等座
-        <input type="radio" name="lei">一等卧
-        <input type="radio" name="lei">二等卧
+    <div id="infos" style="border-radius: 20px; border: 1px solid rgb(97, 130, 240); width: 700px; background-color: aliceblue">
+        <button onclick="create()" style="border: 1px solid rgb(97, 130, 240); border-radius: 20px;position:relative; right: 0px">添加乘车人</button>
+        <div id="info" style="border-radius: 20px;height: 180px;width: 700px; color: rgb(0, 0, 0);background-color: lightgoldenrodyellow;border: 1px solid rgb(97, 130, 240);">
+            <p>
+                &emsp;&emsp;填写乘车人信息&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<button name="info" style="border-radius: 20px; border: 1px solid rgb(97, 130, 240); background-color:aliceblue" onclick="delet(this)">删除</button>
+            </p>
+            <p>&emsp;&emsp;身份证号：<input id="idcar" onchange="on(this)" name="idcar"></p>
+            <p>&emsp;&emsp;姓名：<input id="namme" onchange="on(this)" name="namme"> </p>&emsp;&emsp;选择座位类型：<input type="radio" name="lei" value="fir" onchange="on2(this)">商务座
+            <input type="radio" name="lei" value="yi" onchange="on2(this)">一等座
+            <input type="radio" name="lei" value="er" onchange="on2(this)">二等座
+            <input type="radio" name="lei" onchange="on2(this)">一等卧
+            <input type="radio" name="lei" onchange="on2(this)">二等卧
+
+        </div>
     </div>
     <div style="height: 20px"></div>
     <div style="border-radius: 20px;height: 180px;width: 700px;background-color: aliceblue;">
@@ -41,15 +46,62 @@
         <p>&emsp;&emsp;<button onclick="pg()">订票</button></p>
     </div>
     <script>
+        function on(e) {
+            e.setAttribute("value", e.value);
+        }
+        function on2(e) {
+            e.setAttribute("checked", e.checked);
+        }
+        var num = 1;
+        function delet(obj) {
+            var di = obj.name;
+            document.getElementById(di).remove();
+        }
+        function create() {
+            num++;
+            var nameidcar = "idcar";
+            var namenamme = "namme";
+            var inf = "info" + num.toString();
+            var namme = "lei" + num.toString();
+            var get = document.getElementById('info').innerHTML;
+            document.getElementById('infos').innerHTML += "<div id='"+inf+"' style='border-radius: 20px; height: 180px; width: 700px; color: rgb(0, 0, 0); background-color: lightgoldenrodyellow; border: 1px solid rgb(97, 130, 240); >'" +
+                "<p>&emsp;&emsp;填写乘车人信息&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<button name=" + inf + " style='border-radius: 20px; border: 1px solid rgb(97, 130, 240); background-color: aliceblue' onclick='delet(this)'>删除</button></p><p>&emsp;&emsp; 身份证号：<input id='idcar' onchange='on(this)' name='"+nameidcar+"'></p><p>&emsp;&emsp;姓名：<input name='"+namenamme+"' id='namme' onchange='on(this)'></p>&emsp;&emsp;选择座位类型：<input onchange='on2(this)' type='radio' name='" + namme + "' value='fir'>商务座<input onchange='on2(this)' type='radio' name='" + namme + "' value='yi'>一等座<input onchange='on2(this)' type='radio' name='" + namme + "' value='er'>二等座<input onchange='on2(this)' type='radio' name='" + namme + "'>一等卧<input onchange='on2(this)' type='radio' name='" + namme +"'>二等卧" + "</div>";
+        }
         function pg() {
+            var leinam = "lei";
             var str = document.getElementsByName("lei");
+            var str2 = new Array(10);
+            var idcar2 = new Array(10);
+            var nam2 = new Array(10);
             var obja = str.length;
             var choose = 0;
-            for (choose = 0; choose < obja; choose++) {
-                if (str[choose].checked == true)
-                    break;
+            var kch = 0;
+            var chdi;
+            for (chdi = 1; chdi < num+1; chdi++) {
+                if (chdi != 1)
+                    leinam = "lei" + chdi.toString();
+                str = document.getElementsByName(leinam);
+                if (str == null)
+                    continue;
+                for (choose = 0; choose < obja; choose++) {
+                    if (str[choose].checked == true) {
+                        str2[kch] = str[choose].value;
+                        kch++;
+                        break;
+                    }
+                }
             }
-
+            for (chdi = 1; chdi < num + 1; chdi++) {
+                str = document.getElementsByName('idcar')[chdi - 1];
+                if (str != null)
+                    idcar2[chdi] = str.value;
+            }
+            for (chdi = 1; chdi < num + 1; chdi++) {
+                str = document.getElementsByName('namme')[chdi - 1];
+                if (str != null)
+                    nam2[chdi] = str.value;
+            }
+            choose--;
             var staf = decodeURI(window.location.href).split('?')[1].split('=')[0];
             var endf = decodeURI(window.location.href).split('?')[1].split('=')[1];
             var stf = decodeURI(window.location.href).split('?')[1].split('=')[2];
@@ -59,8 +111,8 @@
             $.ajax({
                 type: "post",
                 url: "Paym",
-                dataType:'json',
-                data: { "staf": staf, "endf": endf, "stf": stf, "enf": enf, "cccf": cccf, "daaf": daaf,  "idcar": document.getElementById("idcar").value, "namme": document.getElementById("namme").value, "zuo": document.getElementsByName("lei")[choose].value },
+                dataType: 'json',
+                data: { "staf": staf, "endf": endf, "stf": stf, "enf": enf, "cccf": cccf, "daaf": daaf, "idcar": idcar2, "namme": nam2, "zuo": str2 },
                 success: function (result) {
                     if (result == true)
                         alert("订票成功");

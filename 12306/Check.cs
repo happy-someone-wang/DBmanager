@@ -4,23 +4,23 @@ using Containers;
 
 namespace Check
 {
-        
+
     class checkUser
     {
-        public static readonly char[] BlackList = {'\'', '\"', '\\'};
+        public static readonly char[] BlackList = { '\'', '\"', '\\' };
         public static int checkUserPWD(string UserPWD)
         {
             //check length 6-20
-            if(UserPWD.Length < 6 || UserPWD.Length > 20)
+            if (UserPWD.Length < 6 || UserPWD.Length > 20)
             {
-                return (int)UErrorCode.ERR_PWDLEN; 
+                return (int)UErrorCode.ERR_PWDLEN;
             }
 
             //check pwd security(must contain 0-9 && a/A-z/Z && other nums)
             bool containNum = false;
             bool containAlp = false;
             bool containOth = false;
-            for(int i = 0; i < UserPWD.Length; i++)
+            for (int i = 0; i < UserPWD.Length; i++)
             {
                 if (!containNum && UserPWD[i] >= '0' && UserPWD[i] <= '9')
                 {
@@ -251,7 +251,7 @@ namespace Check
             }
 
             //check User_Phone_Number
-            if (U.UserPhone != null && (ret = checkUserPhone(U.UserPhone)) != -1)     
+            if (U.UserPhone != null && (ret = checkUserPhone(U.UserPhone)) != -1)
             {
                 return ret;
             }
@@ -263,22 +263,22 @@ namespace Check
 
     class checkStation
     {
-        public static readonly char[] BlackList = {'\'', '\"', '\\'};
+        public static readonly char[] BlackList = { '\'', '\"', '\\' };
 
         public static int checkStationName(string StationName)
         {
             //check length 1 - 15
-            if(StationName.Length < 1 || StationName.Length > 15)
+            if (StationName.Length < 1 || StationName.Length > 15)
             {
                 return (int)StErrorCode.ERR_STLEN;
             }
 
             //check security
-            for(int i = 0; i < StationName.Length; i++)
+            for (int i = 0; i < StationName.Length; i++)
             {
-                for(int j = 0; j < BlackList.Length; j++)
+                for (int j = 0; j < BlackList.Length; j++)
                 {
-                    if(StationName[i] == BlackList[j])
+                    if (StationName[i] == BlackList[j])
                     {
                         return (int)StErrorCode.ERR_STINVCH;
                     }
@@ -292,7 +292,7 @@ namespace Check
         {
             int ret = -1;
 
-            if((ret = checkStationName(S.StationName)) != -1)
+            if ((ret = checkStationName(S.StationName)) != -1)
             {
                 return ret;
             }
@@ -302,7 +302,7 @@ namespace Check
 
     class checkTrain
     {
-        public static readonly char[] BlackList = {'\'', '\"', '\\'};
+        public static readonly char[] BlackList = { '\'', '\"', '\\' };
 
 
     }
