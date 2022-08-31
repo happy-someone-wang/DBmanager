@@ -59,4 +59,19 @@ namespace ReturnModels
         public _Date Leaving_time { get => leaving_time; set => leaving_time = value; }
     }
 
+    public class Train_Pay_Model
+    {
+        private string train_ID;
+        private string start_station;
+        private string end_station;
+        private myDate._Date leaving_time;
+        private myDate._Date arrive_time;
+
+        public string Train_ID { get => train_ID; set => train_ID = value; }
+        public string Start_station { get => start_station; set => start_station = value; }
+        public string End_station { get => end_station; set => end_station = value; }
+        public _Date Leaving_time { get => leaving_time; set => leaving_time = value; }
+        public _Date Arrive_time { get => arrive_time; set => arrive_time = value; }
+    }
+
 }

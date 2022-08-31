@@ -36,7 +36,6 @@ namespace _12306.Controllers
             leaving_time.Month = Convert.ToInt32(datem);
             leaving_time.Day = Convert.ToInt32(dated);
             ReturnModel.Leaving_time = leaving_time;
-
             ReturnModel.TrainTickets = trainTickets;
 
             //return View("../Home/Index",train);
@@ -84,9 +83,16 @@ namespace _12306.Controllers
         {
             return true;
         }
-        public IActionResult Pay()
+        [HttpGet]
+        public IActionResult Pay(string train_id,string start_station,string end_station,string leaving_time,string arrive_time)
         {
-            return View();
+            ReturnModels.Train_Pay_Model return_model = new ReturnModels.Train_Pay_Model { };
+            return_model.Start_station = start_station;
+            return_model.End_station = end_station;
+            return_model.Train_ID = train_id;
+            return_model.Leaving_time = new myDate._Date( leaving_time);
+            return_model.Arrive_time = new myDate._Date(arrive_time);
+            return View(return_model);
         }
     }
 }

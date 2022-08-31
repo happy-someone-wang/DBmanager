@@ -188,3 +188,4 @@ C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\Razor\Views\A
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\Razor\Views\Admin\TrainQuery.cshtml.g.cs
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\Razor\Views\Admin\UserQuery.cshtml.g.cs
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\Razor\Views\Admin\Login.cshtml.g.cs
+C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\Razor\Views\Shared\_LayoutAdmin.cshtml.g.cs

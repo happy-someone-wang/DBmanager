@@ -14,10 +14,10 @@
     </div>
     <div style="line-height: 8px;position: absolute;top: 70px;border-radius: 10px; border:1px ridge rgb(147, 147, 245);height:100px; width:1600px; background-color:aliceblue;">
         <p>&emsp;</p>
-        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;始发站：<input onclick="in1()" id="bef3" name="始发站" placeholder =@Model.Start_station>
-        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;终点站：<input onclick="in2()" name="终点站" id="bef4" placeholder =@Model.End_station>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;始发站：<input onclick="in1()" id="bef3" name="始发站" placeholder=@Model.Start_station>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;终点站：<input onclick="in2()" name="终点站" id="bef4" placeholder=@Model.End_station>
         &emsp;&emsp;&emsp;&emsp;出发日期：
-        <select name="date" onchange="ch()" >
+        <select name="date" onchange="ch()">
         </select>
         <select name="datem" onchange="chm()">
         </select>
@@ -54,28 +54,28 @@
         </select>
         分
     </div>
-    <div style="line-height: 1px;position: absolute;top: 290px; border:1px ridge rgb(147, 147, 245);height:50px; width:1600px; background-color:rgb(147, 147, 245); color:white">
-        <p>&emsp;&emsp;</p>
-        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;车次&emsp;&emsp;&emsp;&emsp;出发-到达站&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;出发-到达时间&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;商务座&emsp;&emsp;头等座&emsp;&emsp;一等座&emsp;&emsp;二等座
-    </div>
-    <div style="position: absolute;top: 340px;" id="chepiao">
-        @{
-            if (Model != null)
-                for (int i=0;i<Model.TrainTickets.Count;i++)
-                {
-                <a style="text-decoration:none;" onclick="Buy_ticket(@i)">
-                    <div style="line-height: 1px; height: 50px; width: 1600px; border: 1px solid rgb(121, 173, 245); background-color: floralwhite;">
-                        <p>&emsp;</p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;@Model.TrainTickets[i].TrainID&emsp;&emsp;&emsp;&emsp;@Model.TrainTickets[i].StartStName--@Model.TrainTickets[i].EndStName&emsp;&emsp;&emsp;&emsp;@Model.TrainTickets[i].LeavingTime--@Model.TrainTickets[i].LeavingTime&emsp;&emsp;&emsp;@Model.TrainTickets[i].VIPAmount&emsp;&emsp;&emsp;&emsp;@Model.TrainTickets[i].EXAmount&emsp;&emsp;&emsp;&emsp;@Model.TrainTickets[i].FirstAmount&emsp;&emsp;&emsp;&emsp;@Model.TrainTickets[i].SecondAmount
-                    </div>
-                </a>
-                }
-        }
-    </div>
-    <div id="xuanze2" style='display: none; position:absolute; border:1px solid rgb(121, 173, 245); top:120px; left: 245px;height:200px; width: 200px; overflow: scroll; background-color: rgb(255, 255, 255);'>
+        <div style="line-height: 1px;position: absolute;top: 290px; border:1px ridge rgb(147, 147, 245);height:50px; width:1600px; background-color:rgb(147, 147, 245); color:white">
+            <p>&emsp;&emsp;</p>
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;车次&emsp;&emsp;&emsp;&emsp;出发-到达站&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;出发-到达时间&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;商务座&emsp;&emsp;头等座&emsp;&emsp;一等座&emsp;&emsp;二等座
+        </div>
+        <div style="position: absolute;top: 340px;" id="chepiao">
+            @{
+                if (Model != null)
+                    for (int i = 0; i < Model.TrainTickets.Count; i++)
+                    {
+                        <a style="text-decoration:none;" onclick="location.href = ('/Train/Pay?train_id=@Model.TrainTickets[i].TrainID&start_station=@Model.TrainTickets[i].StartStName&end_station=@Model.TrainTickets[i].EndStName&leaving_time=@Model.TrainTickets[i].LeavingTime&arrive_time=@Model.TrainTickets[i].ArriveTime')" >
+                            <div style="line-height: 1px; height: 50px; width: 1600px; border: 1px solid rgb(121, 173, 245); background-color: floralwhite;">
+                                <p>&emsp;</p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;@Model.TrainTickets[i].TrainID&emsp;&emsp;&emsp;&emsp;@Model.TrainTickets[i].StartStName--@Model.TrainTickets[i].EndStName&emsp;&emsp;&emsp;&emsp;@Model.TrainTickets[i].LeavingTime--@Model.TrainTickets[i].LeavingTime&emsp;&emsp;&emsp;@Model.TrainTickets[i].VIPAmount&emsp;&emsp;&emsp;&emsp;@Model.TrainTickets[i].EXAmount&emsp;&emsp;&emsp;&emsp;@Model.TrainTickets[i].FirstAmount&emsp;&emsp;&emsp;&emsp;@Model.TrainTickets[i].SecondAmount
+                            </div>
+                        </a>
+                    }
+            }
+        </div>
+        <div id="xuanze2" style='display: none; position:absolute; border:1px solid rgb(121, 173, 245); top:120px; left: 245px;height:200px; width: 200px; overflow: scroll; background-color: rgb(255, 255, 255);'>
 
-    </div>
+        </div>
 
-    <script>
+        <script>
 
         var d = new Date();
         var year = d.getFullYear();
@@ -127,28 +127,28 @@
                 daiin3.innerHTML += "<option>" + daa + "</option>";
             }
         }
-    </script>
-    <script>
-        var shi = document.getElementsByName("shi")[0];
-        var fen = document.getElementsByName("fen")[0];
-        for (var i1 = 0; i1 < 24; i1++) {
-            shi.innerHTML += "<option>" + i1 + "</option>";
-        }
-        for (var i3 = 0; i3 < 60; i3++) {
-            fen.innerHTML += "<option>" + i3 + "</option>";
-        }
-        var shi2 = document.getElementsByName("shi2")[0];
-        var fen2 = document.getElementsByName("fen2")[0];
-        for (var i1 = 23; i1 > -1; i1--) {
-            shi2.innerHTML += "<option>" + i1 + "</option>";
-        }
-        for (var i3 = 59; i3 > -1; i3--) {
-            fen2.innerHTML += "<option>" + i3 + "</option>";
-        }
+        </script>
+        <script>
+            var shi = document.getElementsByName("shi")[0];
+            var fen = document.getElementsByName("fen")[0];
+            for (var i1 = 0; i1 < 24; i1++) {
+                shi.innerHTML += "<option>" + i1 + "</option>";
+            }
+            for (var i3 = 0; i3 < 60; i3++) {
+                fen.innerHTML += "<option>" + i3 + "</option>";
+            }
+            var shi2 = document.getElementsByName("shi2")[0];
+            var fen2 = document.getElementsByName("fen2")[0];
+            for (var i1 = 23; i1 > -1; i1--) {
+                shi2.innerHTML += "<option>" + i1 + "</option>";
+            }
+            for (var i3 = 59; i3 > -1; i3--) {
+                fen2.innerHTML += "<option>" + i3 + "</option>";
+            }
 
 
-    </script>
-<script>
+        </script>
+        <script>
 
     function huizhi() {
         $.ajax({
@@ -185,67 +185,71 @@
     }
     function Buy_ticket(i)
     {
-        var Json_handin="start"
-    }
-</script>
-<script>
-    function in1() {
-        lis(1, document.getElementById('bef3').value);
-    document.getElementById('xuanze2').style.left = '245px';
-    if (document.getElementById('xuanze2').style.display == "none")
-    document.getElementById('xuanze2').style.display = "block";
-    else
-    document.getElementById('xuanze2').style.display = "none";
-}
-    function in2() {
-        lis(2, document.getElementById('bef4').value);
-    document.getElementById('xuanze2').style.left = '635px';
-    if (document.getElementById('xuanze2').style.display == "none")
-    document.getElementById('xuanze2').style.display = "block";
-    else
-    document.getElementById('xuanze2').style.display = "none";
-}
-    var a = new Array();
-    a = ["北京", "天津", "济南", "上海", "杭州", "台北", "福州", "南昌", "长沙", "广州", "昆明", "贵阳", "武汉", "南京", "郑州", "重庆", "成都", "西安", "兰州", "天津北"];
+        var Json_result = { "Selected": i };
+        for (var i = 0; i <@Model.TrainTickets.Count; i++)
+        {
 
-    function cd(obj) {
-        document.getElementById('bef3').value = obj.innerHTML;
-    document.getElementById('xuanze2').style.display = "none";
-}
-    function cd2(obj) {
-        document.getElementById('bef4').value = obj.innerHTML;
-    document.getElementById('xuanze2').style.display = "none";
-}
-    function lis(p, cha) {
-
-    var a2 = new Array();
-
-    var i2 = 0;
-    var i3 = 0;
-    var x = 0;
-    var y = 0;
-    var chu;
-    for (i2 = 0, i3 = 0; i2 < a.length; i2++) {
-        if (a[i2].includes(cha) || cha == null) {
-        a2[i3] = a[i2];
-    i3++;
         }
     }
-    if (p == 1)
-    chu = "cd(this)";
-    else
-    chu = "cd2(this)";
-    var before = document.getElementById('xuanze2');
-    for (i2 = 0; i2 < a.length; i2++) {
-        x = 0 + i2 % 4 * 50;
-    y = 0 + Math.floor(i2 / 4) * 25;
-        if (i2 > a2.length || i2 == a2.length) {
-        before.innerHTML += "<button id='" + i2 + "' onclick='" + chu + "' style='background-color: rgb(255, 255, 255);position:absolute; border-width:1px; top:" + y + "px; left: " + x + "px; width: 50px'>&emsp;</button>";
-    continue;
-        }
-    before.innerHTML += "<button id='" + i2 + "' onclick='" + chu + "' style='background-color: rgb(255, 255, 255);position:absolute; border-width:1px; top:" + y + "px; left: " + x + "px; width: 50px'>" + a2[i2] + "</button>";
-    }
-}
-</script>
+        </script>
+        <script>
+            function in1() {
+                lis(1, document.getElementById('bef3').value);
+                document.getElementById('xuanze2').style.left = '245px';
+                if (document.getElementById('xuanze2').style.display == "none")
+                    document.getElementById('xuanze2').style.display = "block";
+                else
+                    document.getElementById('xuanze2').style.display = "none";
+            }
+            function in2() {
+                lis(2, document.getElementById('bef4').value);
+                document.getElementById('xuanze2').style.left = '635px';
+                if (document.getElementById('xuanze2').style.display == "none")
+                    document.getElementById('xuanze2').style.display = "block";
+                else
+                    document.getElementById('xuanze2').style.display = "none";
+            }
+            var a = new Array();
+            a = ["北京", "天津", "济南", "上海", "杭州", "台北", "福州", "南昌", "长沙", "广州", "昆明", "贵阳", "武汉", "南京", "郑州", "重庆", "成都", "西安", "兰州", "天津北"];
+
+            function cd(obj) {
+                document.getElementById('bef3').value = obj.innerHTML;
+                document.getElementById('xuanze2').style.display = "none";
+            }
+            function cd2(obj) {
+                document.getElementById('bef4').value = obj.innerHTML;
+                document.getElementById('xuanze2').style.display = "none";
+            }
+            function lis(p, cha) {
+
+                var a2 = new Array();
+
+                var i2 = 0;
+                var i3 = 0;
+                var x = 0;
+                var y = 0;
+                var chu;
+                for (i2 = 0, i3 = 0; i2 < a.length; i2++) {
+                    if (a[i2].includes(cha) || cha == null) {
+                        a2[i3] = a[i2];
+                        i3++;
+                    }
+                }
+                if (p == 1)
+                    chu = "cd(this)";
+                else
+                    chu = "cd2(this)";
+                var before = document.getElementById('xuanze2');
+                for (i2 = 0; i2 < a.length; i2++) {
+                    x = 0 + i2 % 4 * 50;
+                    y = 0 + Math.floor(i2 / 4) * 25;
+                    if (i2 > a2.length || i2 == a2.length) {
+                        before.innerHTML += "<button id='" + i2 + "' onclick='" + chu + "' style='background-color: rgb(255, 255, 255);position:absolute; border-width:1px; top:" + y + "px; left: " + x + "px; width: 50px'>&emsp;</button>";
+                        continue;
+                    }
+                    before.innerHTML += "<button id='" + i2 + "' onclick='" + chu + "' style='background-color: rgb(255, 255, 255);position:absolute; border-width:1px; top:" + y + "px; left: " + x + "px; width: 50px'>" + a2[i2] + "</button>";
+                }
+            }
+        </script>
 </body>
 </html>
