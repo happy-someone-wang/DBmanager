@@ -1,31 +1,26 @@
 namespace Error
 {
-    enum SqlErrorCode
-    {
+    enum SqlErrorCode{
         ERR_CONN,
         ERR_SQLCMD,
     }
 
-    enum RegErrorCode
-    {
+    enum RegErrorCode{
         ERR_UEXIST,
         ERR_PHEXIST
     }
 
-    enum LoginErrorCode
-    {
+    enum LoginErrorCode{
         ERR_UUNEXIST,
         ERR_PWD
     }
 
-    enum StErrorCode
-    {
+    enum StErrorCode{
         ERR_STLEN,
         ERR_STINVCH
     }
-
-    enum UErrorCode
-    {
+    
+    enum UErrorCode{
         ERR_PWDLEN,
         ERR_PWDSE,
         ERR_PWDINVCH,
@@ -42,28 +37,24 @@ namespace Error
         ERR_ADDRINVCH,
     }
 
-    enum TTErrorCode
-    {
+    enum TTErrorCode{
         ERR_TTEXIST
     }
 
-    enum TErrorCode
-    {
+    enum TErrorCode{
         ERR_TEXIST,
         ERR_TTUNEXIST
     }
 
-    enum TMErrorCode
-    {
+    enum TMErrorCode{
         ERR_TMEXIST,
         ERR_STUNEXIST
     }
 
-    enum OErrorCode
-    {
+    enum OErrorCode{
         ERR_ORDER,
         ERR_OUNEXIST,
         ERR_OTCONFLICT
     }
-
+    
 }

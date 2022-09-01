@@ -92,6 +92,7 @@ namespace ReturnModels
         {
             seat_info = new List<_Seat> { };
             passenger_name = new List<string> { };
+            order_message = new List<string> { };
         }
 
     }

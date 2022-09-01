@@ -192,3 +192,5 @@ C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\Razor\Views\P
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\Razor\Views\Person\information.cshtml.g.cs
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\Razor\Views\Person\ticket.cshtml.g.cs
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\Razor\Views\Person\t_cancel.cshtml.g.cs
+C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\12306.csproj.AssemblyReference.cache
+C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\Razor\Views\Train\order_result.cshtml.g.cs

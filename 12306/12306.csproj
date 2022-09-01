@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <Content Include="Check.cs" />
-    <Content Include="Crypto.cs" />
     <Content Include="Error.cs" />
     <Content Include="SqlTools.cs" />
   </ItemGroup>

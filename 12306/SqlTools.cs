@@ -20,25 +20,40 @@ namespace ServerSqlTools
             //Reset("Delete from T_TRAIN_MANAGE_INFO;");
             //Reset("Delete from T_TRAIN_MANAGE;");
             //2 connect to the database
-            List<_TrainTicket> TTL = new List<_TrainTicket>();
-            Console.WriteLine(SearchTrain(14, 18, 2022, 10, 1, TTL, true));
-            foreach (_TrainTicket TicketInfo in TTL)
+            List<_RdTrip_TrainTicket> RdTripTTL = new List<_RdTrip_TrainTicket>();
+            Console.WriteLine(SearchRDTripTrain(1, 2, 2022, 10, 1, 2022, 10, 1, RdTripTTL, true));
+            foreach (_RdTrip_TrainTicket TicketInfo in RdTripTTL)
             {
-                Console.WriteLine("train id     :" + TicketInfo.TrainID);
-                Console.WriteLine("start station:" + TicketInfo.StartStName);
-                Console.WriteLine("end station  :" + TicketInfo.EndStName);
-                Console.WriteLine("leaving time :" + TicketInfo.LeavingTime);
-                Console.WriteLine("arriving time:" + TicketInfo.ArriveTime);
-                Console.WriteLine("total time   :" + TicketInfo.TotalTime);
-                Console.WriteLine("VIP Ticket   :" + TicketInfo.VIPAmount.ToString());
-                Console.WriteLine("EX Ticket    :" + TicketInfo.EXAmount.ToString());
-                Console.WriteLine("First Ticket :" + TicketInfo.FirstAmount.ToString());
-                Console.WriteLine("Second Ticket:" + TicketInfo.SecondAmount.ToString());
+                Console.WriteLine("--------GO TRAIN TICKET-------");
+                Console.WriteLine("train id     :" + TicketInfo.Go.TrainID);
+                Console.WriteLine("start station:" + TicketInfo.Go.StartStName);
+                Console.WriteLine("end station  :" + TicketInfo.Go.EndStName);
+                Console.WriteLine("leaving time :" + TicketInfo.Go.LeavingTime);
+                Console.WriteLine("arriving time:" + TicketInfo.Go.ArriveTime);
+                Console.WriteLine("total time   :" + TicketInfo.Go.TotalTime);
+                Console.WriteLine("VIP Ticket   :" + TicketInfo.Go.VIPAmount.ToString());
+                Console.WriteLine("EX Ticket    :" + TicketInfo.Go.EXAmount.ToString());
+                Console.WriteLine("First Ticket :" + TicketInfo.Go.FirstAmount.ToString());
+                Console.WriteLine("Second Ticket:" + TicketInfo.Go.SecondAmount.ToString());
+
+                Console.WriteLine("--------RET TRAIN TICKET-------");
+                Console.WriteLine("train id     :" + TicketInfo.Return.TrainID);
+                Console.WriteLine("start station:" + TicketInfo.Return.StartStName);
+                Console.WriteLine("end station  :" + TicketInfo.Return.EndStName);
+                Console.WriteLine("leaving time :" + TicketInfo.Return.LeavingTime);
+                Console.WriteLine("arriving time:" + TicketInfo.Return.ArriveTime);
+                Console.WriteLine("total time   :" + TicketInfo.Return.TotalTime);
+                Console.WriteLine("VIP Ticket   :" + TicketInfo.Return.VIPAmount.ToString());
+                Console.WriteLine("EX Ticket    :" + TicketInfo.Return.EXAmount.ToString());
+                Console.WriteLine("First Ticket :" + TicketInfo.Return.FirstAmount.ToString());
+                Console.WriteLine("Second Ticket:" + TicketInfo.Return.SecondAmount.ToString());
+                Console.WriteLine("");
             }
+            return;
 
             _Seat FreeSeat = new _Seat();
-            FreeSeat.TrainID = TTL[0].TrainID;
-            Console.WriteLine(SearchSeat(TTL[0].TrainID, 14, 19, 2, 0, ref FreeSeat, true));
+            FreeSeat.TrainID = "G005";
+            Console.WriteLine(SearchSeat("G005", 14, 19, 2, 0, ref FreeSeat, true));
             Console.WriteLine("train id     :" + FreeSeat.TrainID);
             Console.WriteLine("start station:" + FreeSeat.StartStNo);
             Console.WriteLine("end station  :" + FreeSeat.EndStNo);
@@ -76,17 +91,15 @@ namespace ServerSqlTools
             Console.WriteLine("2 Success");
 
             //3. do md5 trans
-            string md5UserPID = md5Crypto.MD5Encrypt32(U.UserPID);
-            string md5UserPWD = md5Crypto.MD5Encrypt32(U.UserPWD);
-            string md5UserPhone = md5Crypto.MD5Encrypt32(U.UserPhone);
-            string md5UserRName = md5Crypto.MD5Encrypt32(U.UserRName);
-            string md5UserAddr = md5Crypto.MD5Encrypt32(U.UserAddr);
-            string md5UserEmail = md5Crypto.MD5Encrypt32(U.UserEmail);
-            string md5UserID = md5UserPID;
+            string EnUserPID = MyCrypto.Encrypt(U.UserPID);
+            string EnUserPWD = MyCrypto.Encrypt(U.UserPWD);
+            string EnUserPhone = MyCrypto.Encrypt(U.UserPhone);
+            string EnUserRName = MyCrypto.Encrypt(U.UserRName);
+            string EnUserID = EnUserPID;
             Console.WriteLine("3 Success");
 
             //4. query whether user has been registered(using PID)
-            string queryStr = "SELECT count(*) from T_USER where USER_PERSON_ID ='" + md5UserPID + "';";
+            string queryStr = "SELECT count(*) from T_USER where USER_PERSON_ID ='" + EnUserPID + "';";
             Console.WriteLine(queryStr);
             OdbcCommand sqlcmd = new OdbcCommand(queryStr, conn);
             //Execute the DataReader to Access the data
@@ -109,7 +122,7 @@ namespace ServerSqlTools
             Console.WriteLine("4 Success");
 
             //5. query whether phone number has been used
-            queryStr = "SELECT count(*) from T_USER where USER_PHONE_NUMBER = '" + md5UserPhone + "';";
+            queryStr = "SELECT count(*) from T_USER where USER_PHONE_NUMBER = '" + EnUserPhone + "';";
             Console.WriteLine(queryStr);
             sqlcmd.CommandText = queryStr;
             //Execute the DataReader to Access the data
@@ -131,14 +144,14 @@ namespace ServerSqlTools
 
             Console.WriteLine("5 Success");
             //6. insert users
-            queryStr = "INSERT INTO T_USER Values('" + md5UserID + "','"
-                                                      + md5UserPWD + "','"
-                                                      + md5UserPhone + "','"
-                                                      + md5UserEmail + "','"
-                                                      + md5UserRName + "','"
+            queryStr = "INSERT INTO T_USER Values('" + EnUserID + "','"
+                                                      + EnUserPWD + "','"
+                                                      + EnUserPhone + "','"
+                                                      + U.UserEmail + "','"
+                                                      + EnUserRName + "','"
                                                       + U.UserGender + "','"
-                                                      + md5UserAddr + "','"
-                                                      + md5UserPID + "');";
+                                                      + U.UserAddr + "','"
+                                                      + EnUserPID + "');";
 
             if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
             {
@@ -171,23 +184,23 @@ namespace ServerSqlTools
             }
             Console.WriteLine("2 Success");
 
-            string? md5UserPID;
-            string? md5UserPhone;
+            string? EnUserPID;
+            string? EnUserPhone;
             string queryStr = "";
 
             if (U.UserPID != null)
             {
-                md5UserPID = md5Crypto.MD5Encrypt32(U.UserPID);
-                queryStr = "Select USER_PASSWORD from T_USER where USER_PERSON_ID = '" + md5UserPID + "';";
+                EnUserPID = MyCrypto.Encrypt(U.UserPID);
+                queryStr = "Select USER_PASSWORD from T_USER where USER_PERSON_ID = '" + EnUserPID + "';";
             }
             else if (U.UserPhone != null)
             {
-                md5UserPhone = md5Crypto.MD5Encrypt32(U.UserPhone);
-                queryStr = "Select USER_PASSWORD from T_USER where USER_PHONE_NUMBER = '" + md5UserPhone + "';";
+                EnUserPhone = MyCrypto.Encrypt(U.UserPhone);
+                queryStr = "Select USER_PASSWORD from T_USER where USER_PHONE_NUMBER = '" + EnUserPhone + "';";
             }
 
             //3. do md5 trans
-            string md5UserPWD = md5Crypto.MD5Encrypt32(U.UserPWD);
+            string EnUserPWD = MyCrypto.Encrypt(U.UserPWD);
             Console.WriteLine("3 Success");
 
             //4 query whether the User is existed and check the password
@@ -204,7 +217,7 @@ namespace ServerSqlTools
                 }
                 else // check password
                 {
-                    if (DataReader[0].ToString() != md5UserPWD)
+                    if (DataReader[0].ToString() != EnUserPWD)
                     {
                         DataReader.Close();
                         return (int)LoginErrorCode.ERR_PWD;
@@ -228,7 +241,6 @@ namespace ServerSqlTools
 
             return -1;
         }
-
         public static string Login_D(_User U, bool IsClose)
         {
             int ret = -1;
@@ -251,11 +263,11 @@ namespace ServerSqlTools
 
             if (U.UserPID != null)
             {
-                return U.UserPID;
+                return MyCrypto.Encrypt(U.UserPID);
             }
             else if (U.UserPhone != null)
             {
-                md5UserPhone = md5Crypto.MD5Encrypt32(U.UserPhone);
+                md5UserPhone = MyCrypto.Encrypt(U.UserPhone);
                 queryStr = "Select USER_PID from T_USER where USER_PHONE_NUMBER = '" + md5UserPhone + "';";
             }
 
@@ -283,6 +295,60 @@ namespace ServerSqlTools
                 Console.WriteLine(ex.Message);
                 return null;
             }
+        }
+
+        public static int GetUser(string UserID, ref _User U, bool IsClose)
+        {
+            //1 check security
+            //TODO
+
+            
+            //2. connect to the database
+            if (!Connect())
+            {
+                Console.WriteLine("Failed to Connect to Oracle");
+                return (int)SqlErrorCode.ERR_CONN;
+            }
+            Console.WriteLine("2 Success");
+
+            //
+            string queryStr = "SELECT * from T_USER where USER_ID = '" + UserID + "';";
+            OdbcCommand sqlcmd = new OdbcCommand(queryStr, conn);
+            try
+            {
+                OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                if (DataReader.Read())
+                {
+                    U.UserID = DataReader[0].ToString();
+                    U.UserPWD = MyCrypto.Decrypt(DataReader[1].ToString());
+                    U.UserPhone = MyCrypto.Decrypt(DataReader[2].ToString());
+                    U.UserEmail = DataReader[3].ToString();
+                    U.UserRName = MyCrypto.Decrypt(DataReader[4].ToString());
+                    U.UserGender = DataReader[5].ToString();
+                    U.UserAddr = DataReader[6].ToString();
+                    U.UserPID = MyCrypto.Decrypt(DataReader[7].ToString());
+                }
+                else
+                {
+                    DataReader.Close();
+                    return (int)RegErrorCode.ERR_UEXIST;
+                }
+                DataReader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return (int)SqlErrorCode.ERR_SQLCMD;
+            }
+            Console.WriteLine("3 Success");
+
+            if (IsClose)
+            {
+                Close();
+                Console.WriteLine("Connection Closed");
+            }
+
+            return -1;
         }
         public static bool Connect()
         {
@@ -1451,7 +1517,6 @@ namespace ServerSqlTools
 
             return -1;
         }
-
         public static int GetTrainRoutine(string TrainID, List<int> StNoList, bool IsClose)
         {
             //1 connect to the database
@@ -1908,7 +1973,7 @@ namespace ServerSqlTools
 
             return -1;
         }
-        public static int GetPassengerOrder(string PassengerID, List<_Order> OrderList, bool IsClose)
+        public static int GetOrder(string PassengerID, List<_Order> OrderList, bool IsClose)
         {
             //1 check security
             //TODO
@@ -1988,85 +2053,6 @@ namespace ServerSqlTools
             return -1;
         }
 
-        public static int GetUserOrder(string UserID, List<_Order> OrderList, bool IsClose)
-        {
-            //1 check security
-            //TODO
-
-            //2 connect to the database
-            if (!Connect())
-            {
-                Console.WriteLine("Failed to Connect to Oracle");
-                return (int)SqlErrorCode.ERR_CONN;
-            }
-            Console.WriteLine("2 Success");
-
-            //3 get OrderID
-            List<string> OrderIDList = new List<string>();
-            string queryStr = "SELECT ORDER_ID from T_ORDERS where USER_ID = '" + UserID + "';";
-            OdbcCommand sqlcmd = new OdbcCommand(queryStr, conn);
-            try
-            {
-                OdbcDataReader DataReader = sqlcmd.ExecuteReader();
-                while (DataReader.Read())
-                {
-                    OrderIDList.Add(DataReader[0].ToString());
-                }
-                DataReader.Close();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return (int)SqlErrorCode.ERR_SQLCMD;
-            }
-            Console.WriteLine("3 Success");
-
-            //4 get OrderInfo
-            foreach (string ID in OrderIDList)
-            {
-                queryStr = "SELECT * from T_ORDER_LIST where ORDER_ID = '" + ID + "';";
-                sqlcmd.CommandText = queryStr;
-                try
-                {
-                    OdbcDataReader DataReader = sqlcmd.ExecuteReader();
-                    if (DataReader.Read())
-                    {
-                        _Order TmpOrder = new _Order();
-                        TmpOrder.OrderID = DataReader[0].ToString();
-                        TmpOrder.TrainID = DataReader[1].ToString();
-                        int TmpInt;
-                        int.TryParse(DataReader[2].ToString(), out TmpInt);
-                        TmpOrder.StartStNo = TmpInt;
-                        int.TryParse(DataReader[3].ToString(), out TmpInt);
-                        TmpOrder.EndStNo = TmpInt;
-                        int.TryParse(DataReader[4].ToString(), out TmpInt);
-                        TmpOrder.CarriageNo = TmpInt;
-                        TmpOrder.SeatNo = DataReader[5].ToString();
-                        int.TryParse(DataReader[5].ToString(), out TmpInt);
-                        TmpOrder.OrderValue = TmpInt;
-                        TmpOrder.OrderCreate = DataReader[6].ToString();
-                        int.TryParse(DataReader[7].ToString(), out TmpInt);
-                        TmpOrder.OrderState = TmpInt;
-                        OrderList.Add(TmpOrder);
-                    }
-                    DataReader.Close();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    return (int)SqlErrorCode.ERR_SQLCMD;
-                }
-            }
-            Console.WriteLine("4 Success");
-
-            if (IsClose)
-            {
-                Close();
-                Console.WriteLine("Connection Closed");
-            }
-
-            return -1;
-        }
         public static int Reset(string queryStr)
         {
             if (!Connect())

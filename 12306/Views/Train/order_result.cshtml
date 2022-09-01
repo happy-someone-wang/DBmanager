@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            width: 900px;
+            background-color: #fff;
+        }
+
+        .tip {
+            border: #1678be;
+        }
+
+            .tip div {
+                font-size: 20px;
+                margin-bottom: 5px;
+            }
+
+        .t-succ {
+            border-radius: 5px;
+            padding: 15px 15px;
+            background-color: rgb(224, 247, 224);
+            /* display: none; */
+        }
+
+        .t-fail {
+            border-radius: 5px;
+            padding: 15px 15px;
+            background-color: #ffebda;
+            /* display: none; */
+        }
+
+        .orders {
+            width: 900px;
+            border: 1px solid #1678be; /*边框*/
+            border-radius: 5px 5px 0 0; /*边框圆角*/
+            background-color: #fff;
+        }
+
+        .orders-hd {
+            height: 40px;
+            line-height: 38px;
+            color: #fff;
+            padding-left: 20px;
+            font-size: 18px;
+            position: relative;
+            background-image: linear-gradient(#9198e5, #1678be);
+        }
+
+        .orders-bd {
+            padding: 15px 15px;
+            position: relative;
+            border-top: 0;
+        }
+
+        table {
+            margin: auto;
+            margin-top: 10px;
+            padding: 10px;
+            width: 100%;
+            background-color: lavender;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        th {
+            padding-bottom: 5px;
+            border-bottom: 1px solid #999;
+        }
+
+        td {
+            width: 180px;
+            padding-top: 5px;
+        }
+
+        td, th {
+            padding-left: 5px;
+            text-align: left;
+        }
+
+        ;
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="tip t-succ">
+            <div style="color: #26a306;">
+                <strong>订票已成功！</strong>
+            </div>
+            您的订单号为：
+            <span style="color: #26a306;">ED14914329</span>
+        </div>
+        <div class="tip t-fail">
+            <div style="color: red;">
+                <strong>订票失败！</strong>
+            </div>
+            请重新操作！
+        </div>
+        <br>
+        <div class="orders">
+            <div class="orders-hd">订单信息</div>
+            <div class="orders-bd">
+                <div>
+                    &nbsp;&nbsp;
+                    <strong style="color: #fb7403;">7516</strong>
+                    次&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <strong style="color: #fb7403;">长征</strong>
+                    站（
+                    <strong>
+                        <span>17:54</span>
+                    </strong>
+                    ）—
+                    <strong>
+                        <span style="color: #fb7403;">白银西</span>
+                    </strong>
+                    站（
+                    <strong>
+                        <span>20:18</span>
+                    </strong>
+                    ）
+                </div>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th style="width: 40px;">
+                                <strong>序号</strong>
+                            </th>
+                            <th>
+                                <strong>姓名</strong>
+                            </th>
+                            <th>
+                                <strong>车厢</strong>
+                            </th>
+                            <th>
+                                <strong>席位号</strong>
+                            </th>
+                            <th>
+                                <strong>票价（元）</strong>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>法尔责娜·艾力</td>
+                            <td>
+                                <span>01</span>
+                            </td>
+                            <td>01c号</td>
+                            <td>6.5</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>白晶晶</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

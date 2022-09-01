@@ -20,6 +20,10 @@ namespace _12306.Controllers
             return View();
         }
 
+        public IActionResult Login()
+        {
+            return View();
+        }
         public IActionResult UserQuery()
         {
             ReturnModels.UserList users = new UserList();
