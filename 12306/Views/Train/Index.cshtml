@@ -29,15 +29,9 @@
 
 </head>
 <body>
-    <!--<div style="line-height: 50px;font-size: 20px;height: 50px;width: 1600px; color: rgb(255, 255, 255);background-color: rgb(97, 130, 240);">
-        &emsp;&emsp;&emsp;<a style="text-decoration:none; color: white;" href="/Train/Buy">铁路购票系统</a>&emsp;&emsp;<a style="text-decoration:none; color: white;" href="/Train/Buy">购票</a>&emsp;&emsp;
-        <a href="/Login/Index">
-            登录/
-        </a>
-        <a href="/Register/Index">
-            注册
-        </a>
-    </div>-->
+    <div style="line-height: 50px;font-size: 20px;height: 50px;width: 1600px; color: rgb(255, 255, 255);background-color: rgb(97, 130, 240);">
+        &emsp;&emsp;&emsp;<a style="text-decoration:none; color: white;">铁路购票系统</a>&emsp;&emsp;<a style="text-decoration:none; color: white;" href="/Person/center">个人中心</a>&emsp;&emsp;
+    </div>
     
     <div style="position:absolute; top:55px; left: 0px;height:610px; width: 1600px; overflow: hidden;">
         <img id="lbt" src="~/Train/images/main1.png" style="position:absolute;top: 55px;"></img>
@@ -82,12 +76,6 @@
             &emsp;&emsp;<a href="~/Train/test.txt">test</a>
         </div>
     </div>
-    <script>
-        function ser(){
-            window.location.href=encodeURI("Train/Buy?"+document.getElementById("bef").value+"&"+document.getElementById("bef2").value+"&"+document.getElementsByTagName("select")[0].value
-            +"&"+document.getElementsByName("datem")[0].value+"&"+document.getElementsByName("dated")[0].value);
-        }
-    </script>
     <script>
         var d=new Date();
         var year=d.getFullYear();

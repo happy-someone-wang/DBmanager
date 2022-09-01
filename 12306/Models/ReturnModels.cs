@@ -74,4 +74,26 @@ namespace ReturnModels
         public _Date Arrive_time { get => arrive_time; set => arrive_time = value; }
     }
 
+    public class Train_Result_Model
+    {
+        private List<string> passenger_name;
+        private string start_station;
+        private string end_station;
+        private List<_Seat> seat_info;
+        private List<string> order_message;
+
+        public List<string> Passenger_name { get => passenger_name; set => passenger_name = value; }
+        public string Start_station { get => start_station; set => start_station = value; }
+        public string End_station { get => end_station; set => end_station = value; }
+        public List<_Seat> Seat_info { get => seat_info; set => seat_info = value; }
+        public List<string> Order_message { get => order_message; set => order_message = value; }
+
+        public Train_Result_Model()
+        {
+            seat_info = new List<_Seat> { };
+            passenger_name = new List<string> { };
+        }
+
+    }
+
 }

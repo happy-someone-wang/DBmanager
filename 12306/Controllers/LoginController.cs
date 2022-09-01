@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Containers;
 using ReturnModels;
 using ServerSqlTools;
+using Microsoft.AspNetCore.Http;
 
 namespace _12306.Controllers
 {
@@ -40,8 +41,10 @@ namespace _12306.Controllers
             {
                 ViewBag.notice = "登陆成功，正在跳转";
                 Console.WriteLine("success!");
-                //return Json(U);
                 ReturnModels.Login a = new ReturnModels.Login();
+
+                Containers._Current_User.Instance.UserID = OracleSqlTools.Login_D(U, true);
+                //return Json(U);
                 a.IsVaild = t;
                 return View(a);
                 //return RedirectToAction("Index", "Train");

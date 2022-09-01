@@ -12,6 +12,7 @@ namespace _12306.Controllers
     public class TrainController : Controller
     {
         private static List<string> Station = new List<string> { "北京", "天津", "济南", "上海", "杭州", "台北", "福州", "南昌", "长沙", "广州", "昆明", "贵阳", "武汉", "南京", "郑州", "重庆", "成都", "西安", "兰州", "天津北" };
+        private static List<string> Seat_Level = new List<string> { "VIP", "EX", "first", "second" };
         public IActionResult Index()
         {
             return View();
@@ -93,6 +94,62 @@ namespace _12306.Controllers
             return_model.Leaving_time = new myDate._Date( leaving_time);
             return_model.Arrive_time = new myDate._Date(arrive_time);
             return View(return_model);
+        }
+        public class passenger_info
+        {
+            string idcard;
+            string name;
+            string seat;
+
+            public string Idcard { get => idcard; set => idcard = value; }
+            public string Name { get => name; set => name = value; }
+            public string Seat { get => seat; set => seat = value; }
+        }
+        [HttpPost]
+        public IActionResult Pay(string train_id,string start_station,string end_station,List<string> idcard,string payway, List<string> name, List<string> seat)
+        {
+            List<_Seat> seats = new List<_Seat> { };
+            ReturnModels.Train_Result_Model Result = new ReturnModels.Train_Result_Model { };
+
+            for(int i=0;i<idcard.Count;i++)
+            {
+                _Seat seat_temp = new _Seat();
+                if(OracleSqlTools.SearchSeat(train_id, 1+Station.IndexOf(start_station), 1+Station.IndexOf(end_station), 1+Seat_Level.IndexOf(seat[i]), 0, ref seat_temp, true)!=-1)
+                {
+                    continue;
+                }
+                seats.Add(seat_temp);
+            }
+            for(int i=0;i<idcard.Count;i++)
+            {
+                if (seats[i].TrainID==null)
+                {
+                    break;
+                }
+                _Order order_temp = new _Order();
+                //Containers._Current_User.Instance.UserID = "330881200301030073";
+                int temp = OracleSqlTools.CreateOrder(Containers._Current_User.Instance.UserID, idcard[i], seats[i], ref order_temp, true);
+                if (temp==-1)
+                {
+                    Result.Order_message.Add("订单提交成功");
+                    Result.Seat_info.Add(seats[i]);
+                }
+                else if(temp==(int)Error.OErrorCode.ERR_ORDER)
+                {
+                    Result.Order_message.Add("订单提交失败");
+                }
+                else if(temp==(int)Error.OErrorCode.ERR_OTCONFLICT)
+                {
+                    Result.Order_message.Add("与已有行程冲突");
+                }
+
+            }
+            Result.Passenger_name = name;
+            Result.Start_station = start_station;
+            Result.End_station = end_station;
+
+            //return View("Result",Result);
+            return Json(Result);
         }
     }
 }

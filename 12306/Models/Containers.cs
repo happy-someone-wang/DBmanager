@@ -3,6 +3,15 @@ using System.Collections.Generic;
 
 namespace Containers
 {
+    public struct _Current_User
+    {
+        private string userID;
+
+        public string UserID { get => userID; set => userID = value; }
+
+        public static _Current_User Instance;
+
+    }
     public struct _User
     {
         public string UserID { get; set; }

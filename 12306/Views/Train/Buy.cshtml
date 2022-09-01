@@ -10,55 +10,31 @@
 </head>
 <body>
     <div style="line-height: 50px;font-size: 20px;height: 50px;width: 1600px; color: rgb(255, 255, 255);background-color: rgb(97, 130, 240);">
-        &emsp;&emsp;&emsp;<a style="text-decoration:none; color: white;" href="/Train/Index">铁路购票系统</a>&emsp;&emsp;<a style="text-decoration:none; color: white;" href="/Train/buy">购票</a>&emsp;&emsp;登录/注册
+        &emsp;&emsp;&emsp;<a style="text-decoration:none; color: white;" href="/Train/Index">铁路购票系统</a>&emsp;&emsp;<a style="text-decoration:none; color: white;" href="/Person/center">个人中心</a>
     </div>
-    <div style="line-height: 8px;position: absolute;top: 70px;border-radius: 10px; border:1px ridge rgb(147, 147, 245);height:100px; width:1600px; background-color:aliceblue;">
-        <p>&emsp;</p>
-        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;始发站：<input onclick="in1()" id="bef3" name="始发站" placeholder=@Model.Start_station>
-        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;终点站：<input onclick="in2()" name="终点站" id="bef4" placeholder=@Model.End_station>
-        &emsp;&emsp;&emsp;&emsp;出发日期：
-        <select name="date" onchange="ch()">
-        </select>
-        <select name="datem" onchange="chm()">
-        </select>
-        <select name="dated">
-        </select>
+    <form method="post" action="/Train/Buy">
 
-        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<button onclick="huizhi()" style="height:25px; width:60px; border-width:1px">查询</button><!---->
-        <div style="position:absolute;top:25px;left:1110px">
-            类型：<input type="radio" name="tyy" checked value="普通">普通
+        <div style="line-height: 8px;position: absolute;top: 70px;border-radius: 10px; border:1px ridge rgb(147, 147, 245);height:100px; width:1600px; background-color:aliceblue;">
             <p>&emsp;</p>
-            <p>&emsp;&emsp;&emsp;<input type="radio" name="tyy" value="学生票">学生票</p>
-        </div>
-        <div id="xuanze" style='display: none; position:absolute; border:1px solid rgb(121, 173, 245); top:115px; left: 250px;height:200px; width: 200px; overflow: scroll; background-color: rgb(255, 255, 255);'></div>
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;始发站：<input onclick="in1()" id="bef3" name="start_station" placeholder="@Model.Start_station">
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;终点站：<input onclick="in2()" name="end_station" id="bef4" placeholder="@Model.End_station">
+            &emsp;&emsp;&emsp;&emsp;出发日期：
+            <select name="date" onchange="ch()">
+            </select>
+            <select name="datem" onchange="chm()">
+            </select>
+            <select name="dated">
+            </select>
 
-    </div>
-    <div style="line-height: 8px;position: absolute;top: 190px; border:1px ridge rgb(147, 147, 245);height:80px; width:1600px; background-color:rgb(255, 255, 255); color:darkslategrey">
-        <p></p>
-        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;车次类型：<input type="checkbox" name="chex" value="全部" checked>全部
-        <input type="checkbox" name="chex" value="高铁">G-高铁
-        <input type="checkbox" name="chex" value="动车">D-动车
-        <input type="checkbox" name="chex" value="快速">K-快速
-        &emsp;&emsp;&emsp;&emsp;
-        乘车时间区间:
-        <select name="shi">
-        </select>
-        时
-        <select name="fen">
-        </select>
-        分&emsp;---&emsp;
-        <select name="shi2">
-        </select>
-        时
-        <select name="fen2">
-        </select>
-        分
-    </div>
-        <div style="line-height: 1px;position: absolute;top: 290px; border:1px ridge rgb(147, 147, 245);height:50px; width:1600px; background-color:rgb(147, 147, 245); color:white">
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<button onclick="huizhi()" style="height:25px; width:60px; border-width:1px">查询</button>
+            <div id="xuanze" style='display: none; position:absolute; border:1px solid rgb(121, 173, 245); top:115px; left: 250px;height:200px; width: 200px; overflow: scroll; background-color: rgb(255, 255, 255);'></div>
+        </div>
+    </form>
+        <div style="line-height: 1px;position: absolute;top: 180px; border:1px ridge rgb(147, 147, 245);height:50px; width:1600px; background-color:rgb(147, 147, 245); color:white">
             <p>&emsp;&emsp;</p>
             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;车次&emsp;&emsp;&emsp;&emsp;出发-到达站&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;出发-到达时间&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;商务座&emsp;&emsp;头等座&emsp;&emsp;一等座&emsp;&emsp;二等座
         </div>
-        <div style="position: absolute;top: 340px;" id="chepiao">
+        <div style="position: absolute;top: 230px;" id="chepiao">
             @{
                 if (Model != null)
                     for (int i = 0; i < Model.TrainTickets.Count; i++)
@@ -149,50 +125,6 @@
 
         </script>
         <script>
-
-    function huizhi() {
-        $.ajax({
-            type: "POST",
-            url: "Buym",
-            dataType: 'json',
-            data: { "start": document.getElementById("bef3").value, "end": document.getElementById("bef4").value, "year": document.getElementsByName("date")[0].value, "month": document.getElementsByName("datem")[0].value, "day": document.getElementsByName("dated")[0].value },
-
-            success: function (result) {
-                var ii = 0;
-                var chepiao = document.getElementById("chepiao");
-                chepiao.innerHTML = "";
-                // var ur=encodeURI("pay.html?"+"北京="+"上海="+"7:03="+"9:30="+"G0000="+document.getElementsByName("date")[0].options[0].innerHTML
-                // +"-"+document.getElementsByName("datem")[0].options[0].innerHTML+"-"+document.getElementsByName("dated")[0].options[0].innerHTML);
-
-
-                for (ii = 0; ii < 1; ii++) {
-                    //   chepiao.innerHTML+="<a style='text-decoration:none' href='"+ur+"'><div style='line-height: 1px;height: 50px; width: 1600px; border: 1px solid rgb(121, 173, 245);background-color: floralwhite;'>" +
-                    //   "<p>&emsp;</p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;G0000&emsp;&emsp;&emsp;&emsp;北京-上海&emsp;&emsp;&emsp;&emsp;7:03-9:30&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;有座&emsp;&emsp;&emsp;有座&emsp;&emsp;&emsp;有座&emsp;&emsp;&emsp;有座&emsp;&emsp;&emsp;有座</div></a>"
-
-
-                    var ur = encodeURI("Pay?" + document.getElementById("bef3").value + "=" + document.getElementById("bef4").value + "=" + result[ii].stat + "=" + result[ii].endt + "=" + result[ii].ccc + "=" + document.getElementsByName("date")[0].options[0].innerHTML
-                        + "-" + document.getElementsByName("datem")[0].options[0].innerHTML + "-" + document.getElementsByName("dated")[0].options[0].innerHTML);
-                    chepiao.innerHTML += "<a style='text-decoration:none' href='" + ur + "'><div style='line-height: 1px;height: 50px; width: 1600px; border: 1px solid rgb(121, 173, 245);background-color: floralwhite;'>" +
-                        "<p>&emsp;</p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;+" + result[ii].ccc + "+&emsp;&emsp;&emsp;&emsp;" + document.getElementById("bef3").value + "-" + document.getElementById("bef4").value + "&emsp;&emsp;&emsp;&emsp;" + result[ii].stat + "-" + result[ii].endt + "&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;" + result[ii].fir + "&emsp;&emsp;&emsp;" + result[ii].yi + "&emsp;&emsp;&emsp;" + result[ii].er + "&emsp;&emsp;&emsp;有座&emsp;&emsp;&emsp;有座</div></a>"
-
-                }
-
-            },
-            error: function () {
-                alert('fail to send');
-            }
-        });
-    }
-    function Buy_ticket(i)
-    {
-        var Json_result = { "Selected": i };
-        for (var i = 0; i <@Model.TrainTickets.Count; i++)
-        {
-
-        }
-    }
-        </script>
-        <script>
             function in1() {
                 lis(1, document.getElementById('bef3').value);
                 document.getElementById('xuanze2').style.left = '245px';
@@ -210,7 +142,7 @@
                     document.getElementById('xuanze2').style.display = "none";
             }
             var a = new Array();
-            a = ["北京", "天津", "济南", "上海", "杭州", "台北", "福州", "南昌", "长沙", "广州", "昆明", "贵阳", "武汉", "南京", "郑州", "重庆", "成都", "西安", "兰州", "天津北"];
+            a = ["","北京", "天津", "济南", "上海", "杭州", "台北", "福州", "南昌", "长沙", "广州", "昆明", "贵阳", "武汉", "南京", "郑州", "重庆", "成都", "西安", "兰州", "天津北"];
 
             function cd(obj) {
                 document.getElementById('bef3').value = obj.innerHTML;
@@ -223,7 +155,7 @@
             function lis(p, cha) {
 
                 var a2 = new Array();
-
+                a2 = ["","北京", "天津", "济南", "上海", "杭州", "台北", "福州", "南昌", "长沙", "广州", "昆明", "贵阳", "武汉", "南京", "郑州", "重庆", "成都", "西安", "兰州", "天津北"];
                 var i2 = 0;
                 var i3 = 0;
                 var x = 0;
@@ -243,7 +175,8 @@
                 for (i2 = 0; i2 < a.length; i2++) {
                     x = 0 + i2 % 4 * 50;
                     y = 0 + Math.floor(i2 / 4) * 25;
-                    if (i2 > a2.length || i2 == a2.length) {
+                    if (i2 > a2.length || i2 == a2.length)
+                    {
                         before.innerHTML += "<button id='" + i2 + "' onclick='" + chu + "' style='background-color: rgb(255, 255, 255);position:absolute; border-width:1px; top:" + y + "px; left: " + x + "px; width: 50px'>&emsp;</button>";
                         continue;
                     }

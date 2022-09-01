@@ -229,6 +229,61 @@ namespace ServerSqlTools
             return -1;
         }
 
+        public static string Login_D(_User U, bool IsClose)
+        {
+            int ret = -1;
+            //1. check string security
+            if ((ret = checkUser.checkLogin(U)) != -1)
+            {
+                return null;
+            }
+
+            //2. connect to the database
+            if (!Connect())
+            {
+                Console.WriteLine("Failed to Connect to Oracle");
+                return null;
+            }
+            Console.WriteLine("2 Success");
+
+            string? md5UserPhone;
+            string queryStr = "";
+
+            if (U.UserPID != null)
+            {
+                return U.UserPID;
+            }
+            else if (U.UserPhone != null)
+            {
+                md5UserPhone = md5Crypto.MD5Encrypt32(U.UserPhone);
+                queryStr = "Select USER_PID from T_USER where USER_PHONE_NUMBER = '" + md5UserPhone + "';";
+            }
+
+            //3 query whether the User is existed and check the password
+            Console.WriteLine(queryStr);
+            OdbcCommand sqlcmd = new OdbcCommand(queryStr, conn);
+            //Execute the DataReader to Access the data
+            try
+            {
+                OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                if (!DataReader.Read()) // User dosen't exist
+                {
+                    DataReader.Close();
+                    return null;
+                }
+                else // check password
+                {
+                    string result = DataReader[0].ToString();
+                    DataReader.Close();
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+        }
         public static bool Connect()
         {
             if (conn != null && conn.State.ToString() == "Open")
@@ -1380,6 +1435,7 @@ namespace ServerSqlTools
                                 FreeSeat.CarriageNo = CNo;
                                 FreeSeat.SeatCol = j;
                                 FreeSeat.SeatRow = i;
+                                FreeSeat.TrainID = TrainID;
                                 return -1;
                             }
                         }
@@ -1852,7 +1908,7 @@ namespace ServerSqlTools
 
             return -1;
         }
-        public static int GetOrder(string PassengerID, List<_Order> OrderList, bool IsClose)
+        public static int GetPassengerOrder(string PassengerID, List<_Order> OrderList, bool IsClose)
         {
             //1 check security
             //TODO
@@ -1932,6 +1988,85 @@ namespace ServerSqlTools
             return -1;
         }
 
+        public static int GetUserOrder(string UserID, List<_Order> OrderList, bool IsClose)
+        {
+            //1 check security
+            //TODO
+
+            //2 connect to the database
+            if (!Connect())
+            {
+                Console.WriteLine("Failed to Connect to Oracle");
+                return (int)SqlErrorCode.ERR_CONN;
+            }
+            Console.WriteLine("2 Success");
+
+            //3 get OrderID
+            List<string> OrderIDList = new List<string>();
+            string queryStr = "SELECT ORDER_ID from T_ORDERS where USER_ID = '" + UserID + "';";
+            OdbcCommand sqlcmd = new OdbcCommand(queryStr, conn);
+            try
+            {
+                OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                while (DataReader.Read())
+                {
+                    OrderIDList.Add(DataReader[0].ToString());
+                }
+                DataReader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return (int)SqlErrorCode.ERR_SQLCMD;
+            }
+            Console.WriteLine("3 Success");
+
+            //4 get OrderInfo
+            foreach (string ID in OrderIDList)
+            {
+                queryStr = "SELECT * from T_ORDER_LIST where ORDER_ID = '" + ID + "';";
+                sqlcmd.CommandText = queryStr;
+                try
+                {
+                    OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                    if (DataReader.Read())
+                    {
+                        _Order TmpOrder = new _Order();
+                        TmpOrder.OrderID = DataReader[0].ToString();
+                        TmpOrder.TrainID = DataReader[1].ToString();
+                        int TmpInt;
+                        int.TryParse(DataReader[2].ToString(), out TmpInt);
+                        TmpOrder.StartStNo = TmpInt;
+                        int.TryParse(DataReader[3].ToString(), out TmpInt);
+                        TmpOrder.EndStNo = TmpInt;
+                        int.TryParse(DataReader[4].ToString(), out TmpInt);
+                        TmpOrder.CarriageNo = TmpInt;
+                        TmpOrder.SeatNo = DataReader[5].ToString();
+                        int.TryParse(DataReader[5].ToString(), out TmpInt);
+                        TmpOrder.OrderValue = TmpInt;
+                        TmpOrder.OrderCreate = DataReader[6].ToString();
+                        int.TryParse(DataReader[7].ToString(), out TmpInt);
+                        TmpOrder.OrderState = TmpInt;
+                        OrderList.Add(TmpOrder);
+                    }
+                    DataReader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return (int)SqlErrorCode.ERR_SQLCMD;
+                }
+            }
+            Console.WriteLine("4 Success");
+
+            if (IsClose)
+            {
+                Close();
+                Console.WriteLine("Connection Closed");
+            }
+
+            return -1;
+        }
         public static int Reset(string queryStr)
         {
             if (!Connect())
