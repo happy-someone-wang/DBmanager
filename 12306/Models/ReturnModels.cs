@@ -21,6 +21,12 @@ namespace ReturnModels
 
         public int IsVaild { get => isVaild; set => isVaild = value; }
     }
+    public class New_PWD
+    {
+        private string pwd;
+
+        public string Pwd { get => pwd; set => pwd = value; }
+    }
     public class UserList
     {
         public List<_User> list;
@@ -77,24 +83,41 @@ namespace ReturnModels
     public class Train_Result_Model
     {
         private List<string> passenger_name;
+        private List<_Order> order_info;
         private string start_station;
         private string end_station;
-        private List<_Seat> seat_info;
-        private List<string> order_message;
 
         public List<string> Passenger_name { get => passenger_name; set => passenger_name = value; }
+        public List<_Order> Order_info { get => order_info; set => order_info = value; }
         public string Start_station { get => start_station; set => start_station = value; }
         public string End_station { get => end_station; set => end_station = value; }
-        public List<_Seat> Seat_info { get => seat_info; set => seat_info = value; }
-        public List<string> Order_message { get => order_message; set => order_message = value; }
 
         public Train_Result_Model()
         {
-            seat_info = new List<_Seat> { };
-            passenger_name = new List<string> { };
-            order_message = new List<string> { };
+            
+            Order_info = new List<_Order> { };
+            Passenger_name = new List<string> { };
         }
 
     }
+    public class Person_Tickets
+    {
+        private List<_Order> tickets;
 
+        public List<_Order> Tickets { get => tickets; set => tickets = value; }
+    }
+    public class Train_reBuy_Model
+    {
+        private string start_station;
+        private string end_station;
+        private myDate._Date leaving_time;
+        private List<_TrainTicket> trainTickets;
+        private string order_ID;
+
+        public string Start_station { get => start_station; set => start_station = value; }
+        public string End_station { get => end_station; set => end_station = value; }
+        public List<_TrainTicket> TrainTickets { get => trainTickets; set => trainTickets = value; }
+        public _Date Leaving_time { get => leaving_time; set => leaving_time = value; }
+        public string Order_ID { get => order_ID; set => order_ID = value; }
+    }
 }

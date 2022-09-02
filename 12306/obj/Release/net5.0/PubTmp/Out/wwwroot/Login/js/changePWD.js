@@ -54,7 +54,7 @@ jQuery(document).ready(function() {
         
        }
        
-       location.href=("Login/Index");
+       location.href=("Index");
        return true;
     });
 

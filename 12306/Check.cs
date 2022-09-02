@@ -259,6 +259,22 @@ namespace Check
 
             return ret;
         }
+
+        public static int checkResetPwd(string UserPID, string UserPhone)
+        {
+            int ret = -1;
+            if((ret = checkUserPID(UserPID)) != -1)
+            {
+                return ret;
+            }
+
+            if((ret = checkUserPhone(UserPhone)) != -1)
+            {
+                return ret;
+            }
+
+            return -1;
+        }
     }
 
     class checkStation

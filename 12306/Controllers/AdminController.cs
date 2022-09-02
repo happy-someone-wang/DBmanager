@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Containers;
 using ReturnModels;
+using ServerSqlTools;
+using System;
 
 namespace _12306.Controllers
 {
@@ -19,10 +21,37 @@ namespace _12306.Controllers
 
             return View();
         }
-
+        [HttpGet]
         public IActionResult Login()
         {
             return View();
+        }
+        [HttpPost]
+        public IActionResult Login(string  username,string password)
+        {
+            _Admin admin=new _Admin();
+            admin.AdminID = username;
+            admin.AdminPWD = password;
+            int t;
+            t = ServerSqlTools.OracleSqlTools.Login_Adm(admin, true);
+            if (t == -1)
+            {
+                ViewBag.notice = "登陆成功，正在跳转";
+                Console.WriteLine("success!");
+                ReturnModels.Login a = new ReturnModels.Login();
+                //return Json(U);
+                a.IsVaild = t;
+                return View(a);
+                //return RedirectToAction("Index", "Train");
+            }
+            else
+            {
+                ViewBag.notice = "failed";
+                ReturnModels.Login a = new ReturnModels.Login();
+                a.IsVaild = t;
+                return View(a);
+                //return Json(U);
+            }
         }
         public IActionResult UserQuery()
         {

@@ -15,7 +15,7 @@
 <body>
     <div class="page-container">
         <h1>管理员登录</h1>
-        <form method="post" action="~/Admin/index">
+        <form method="post" action="~/Admin/login">
             <input type="text" name="username" id="username" class="username" placeholder="请输入管理员用户名">
             <input type="password" name="password" id="password" class="password" placeholder="请输入管理员密码">
             <button type="submit" class="submit_button" id="button">登录</button>
@@ -26,14 +26,14 @@
             if (Model.IsVaild != -1)
             {
                 <script language="javascript">
-            alert("登录失败")
+                    alert("登录失败");
                 </script>
             }
             else
             {
                 <script language="javascript">
-            alert("登录成功,正在跳转...");
-            window.location.pathname = "/Admin/Index";
+                    alert("登录成功,正在跳转...");
+                    window.location.pathname = "/Admin/OrderQuery";
                 </script>
             }
 

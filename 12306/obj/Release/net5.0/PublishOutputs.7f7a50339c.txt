@@ -1,4 +1,5 @@
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\12306.exe
+C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\css\admin.css
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\css\site.css
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\favicon.ico
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\images\1.webp
@@ -59,6 +60,11 @@ C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Login\js\logincheck.js
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Login\js\mm.js
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Login\login.html
+C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Person\image\right.png
+C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Person\personal_center.css
+C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Person\personal_information.css
+C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Person\personal_ticket.css
+C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Person\personal_ticket.js
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Register\agreement.html
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Register\images\bg.png
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Register\images\icon_right.png

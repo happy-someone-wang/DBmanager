@@ -36,6 +36,14 @@ namespace Containers
         }
 
     }
+    public class _Admin
+    {
+        private string adminID;
+        private string adminPWD;
+
+        public string AdminID { get => adminID; set => adminID = value; }
+        public string AdminPWD { get => adminPWD; set => adminPWD = value; }
+    }
 
     public struct _Station
     {
@@ -213,6 +221,9 @@ namespace Containers
         public int OrderValue { get; set; }
         public string OrderCreate { get; set; }
         public int OrderState { get; set; }
+
+        public string ArriveTime { get; set; }
+        public string LeavingTime { get; set; }
 
     }
 

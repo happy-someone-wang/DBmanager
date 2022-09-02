@@ -1,4 +1,5 @@
-﻿<!doctype html>
+﻿@model Containers._User
+<!doctype html>
     <html>
     <head>
     <meta charset="utf-8">
@@ -47,19 +48,19 @@
                             <div class="form-list form-list-view" id="basic_info_view">
                                 <div class="form-item">
                                     <div class="form-label"><span class="required">*</span>用户名：</div>
-                                    <div class="form-bd"><div class="form-bd-txt">yl_92c</div></div>
+                                    <div class="form-bd"><div class="form-bd-txt">@Model.UserID</div></div>
                                 </div>
                                 <div class="form-item">
                                     <div class="form-label"><span class="required">*</span>性别：</div>
-                                    <div class="form-bd"><div class="form-bd-txt">女</div></div>
+                                    <div class="form-bd"><div class="form-bd-txt">@Model.UserGender</div></div>
                                 </div>
                                 <div class="form-item">
                                     <div class="form-label"><span class="required">*</span>姓名：</div>
-                                    <div class="form-bd"><div class="form-bd-txt">方仪</div></div>
+                                    <div class="form-bd"><div class="form-bd-txt">@Model.UserRName</div></div>
                                 </div>
                                 <div class="form-item">
                                     <div class="form-label"><span class="required">*</span>证件号码：</div>
-                                    <div class="form-bd"><div class="form-bd-txt">3408***********540</div></div>
+                                    <div class="form-bd"><div class="form-bd-txt">@Model.UserPID</div></div>
                                 </div>
                             </div>
 
@@ -75,16 +76,16 @@
                                 <div class="form-item" style="position:relative">
                                     <div class="form-label"><span name="mobile_div_span" class="required">*</span>手机号：</div>
                                     <div class="form-bd">
-                                        <div class="form-bd-txt">187****9392</div>
+                                        <div class="form-bd-txt">@Model.UserPhone</div>
                                     </div>
                                 </div>
                                 <div class="form-item" style="position:relative">
                                     <div class="form-label">邮箱：</div>
-                                    <div class="form-bd" title="66****83@163.com"><div class="form-bd-txt">66****83@163.com</div></div>
+                                    <div class="form-bd" title="@Model.UserEmail"><div class="form-bd-txt">@Model.UserEmail</div></div>
                                 </div>
                                 <div class="form-item">
                                     <div class="form-label">地址：</div>
-                                    <div class="form-bd"><div class="form-bd-txt showAddress" title=""></div></div>
+                                    <div class="form-bd"><div class="form-bd-txt showAddress" title="">@Model.UserAddr</div></div>
                                 </div>
                             </div>
                         </div>

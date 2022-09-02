@@ -7,6 +7,7 @@ using Containers;
 using ReturnModels;
 using ServerSqlTools;
 using Microsoft.AspNetCore.Http;
+using Log;
 
 namespace _12306.Controllers
 {
@@ -17,9 +18,19 @@ namespace _12306.Controllers
         {
             return View();
         }
+        [HttpGet]
         public IActionResult ChangePWD()
         {
             return View();
+        }
+        [HttpPost]
+        public IActionResult ChangePWD(string UserID,string UserPhone)
+        {
+            ReturnModels.New_PWD Result = new ReturnModels.New_PWD { };
+            string new_pwd="";
+            OracleSqlTools.ResetPwd(UserID, UserPhone, ref new_pwd, true);
+            Result.Pwd = new_pwd;
+            return View(Result);
         }
 
         [HttpPost]
