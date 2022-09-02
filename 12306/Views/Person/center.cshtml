@@ -1,4 +1,5 @@
-﻿<!doctype html>
+﻿@model ReturnModels.Operation_staus
+<!doctype html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -8,6 +9,23 @@
 
 <body>
     <br>
+    @{
+        if (Model != null)
+        {
+            if (Model.IsVaild != -1)
+            {
+                <script language="javascript">
+                    alert("操作失败");
+                </script>
+            }
+            else
+            {
+                <script language="javascript">
+                    alert("操作成功");
+                </script>
+            }
+        }
+    }
     <div class="wrapper content">
         <!-- 面包屑 -->
         <div class="breadcrumb">
@@ -31,6 +49,11 @@
                 <li class="menu-item" role="menuitem">
                     <h2 class="menu-tit">
                         <a href="/Person/information">个人信息</a>
+                    </h2>
+                </li>
+                <li class="menu-item" role="menuitem">
+                    <h2 class="menu-tit">
+                        <a href="/Person/account">密码修改</a>
                     </h2>
                 </li>
             </ul>

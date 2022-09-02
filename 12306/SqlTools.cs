@@ -233,6 +233,57 @@ namespace ServerSqlTools
             MyLogger.LogRegister(U.UserPID, 1, "");
             return -1;
         }
+        public static int ChgPwd(string UserID, string NewPwd, bool IsClose)
+        {
+            int ret = -1;
+            //1 check security
+            if ((ret = checkUser.checkChgPwd(NewPwd)) != -1)
+            {
+                return ret;
+            }
+
+            //2 connect to the database
+            if (!Connect())
+            {
+                return (int)SqlErrorCode.ERR_CONN;
+            }
+            Console.WriteLine("2 Success");
+
+            //search whether User exists
+            string queryStr = "SELECT count(*) from T_USER where USER_ID = '" + UserID + "';";
+            OdbcCommand sqlcmd = new OdbcCommand(queryStr, conn);
+            try
+            {
+                OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                if (DataReader.Read() && DataReader[0].ToString() == "0")
+                {
+                    return (int)LoginErrorCode.ERR_UUNEXIST;
+                }
+                DataReader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return (int)SqlErrorCode.ERR_SQLCMD;
+            }
+            Console.WriteLine("3 Success");
+
+            
+            //reset UserPWD
+            queryStr = "UPDATE T_USER SET USER_PASSWORD = '" + MyCrypto.Encrypt(NewPwd) + "' where USER_ID = '" + UserID + "';";
+
+            if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
+            {
+                return ret;
+            }
+
+            if (IsClose)
+            {
+                Close();
+            }
+
+            return -1;
+        }
         public static int ResetPwd(string UserPID, string UserPhone, ref string NewPwd, bool IsClose)
         {
             int ret = -1;
@@ -541,6 +592,58 @@ namespace ServerSqlTools
 
             Console.WriteLine("4 Success");
 
+            for (int i = 0; i < OrderList.Count(); i++)
+            {
+                _Order O = OrderList[i];
+                _Passenger P = new _Passenger();
+                queryStr = "SELECT PASSENGER_ID, USER_ID from T_ORDERS where ORDER_ID = '" + O.OrderID + "';";
+                sqlcmd.CommandText = queryStr;
+                try
+                {
+                    OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                    if (DataReader.Read())
+                    {
+                        P.PassengerPID = MyCrypto.Decrypt(DataReader[0].ToString());
+                        P.UserID = DataReader[0].ToString();
+                    }
+                    else
+                    {
+                        return (int)OErrorCode.ERR_OUNEXIST;
+                    }
+                    DataReader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return (int)SqlErrorCode.ERR_SQLCMD;
+                }
+
+                queryStr = "SELECT PASSENGER_REAL_NAME from T_PASSENGER where USER_ID = '" + P.UserID + "' and PASSENGER_ID = '" + MyCrypto.Encrypt(P.PassengerPID) + "';";
+                sqlcmd.CommandText = queryStr;
+                try
+                {
+                    OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                    if (DataReader.Read())
+                    {
+                        P.PassengerRName = DataReader[0].ToString();
+                    }
+                    else
+                    {
+                        DataReader.Close();
+                        return (int)PErrorCode.ERR_PUNEXIST;
+                    }
+                    DataReader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return (int)SqlErrorCode.ERR_SQLCMD;
+                }
+
+                O.Passenger = P;
+                OrderList[i] = O;
+            }
+
             if (IsClose)
             {
                 Close();
@@ -771,6 +874,52 @@ namespace ServerSqlTools
             }
             Console.WriteLine("4 Success");
 
+            _Passenger P = new _Passenger();
+            queryStr = "SELECT PASSENGER_ID, USER_ID from T_ORDERS where ORDER_ID = '" + O.OrderID + "';";
+            sqlcmd.CommandText = queryStr;
+            try
+            {
+                OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                if (DataReader.Read())
+                {
+                    P.PassengerPID = MyCrypto.Decrypt(DataReader[0].ToString());
+                    P.UserID = DataReader[0].ToString();
+                }
+                else
+                {
+                    return (int)OErrorCode.ERR_OUNEXIST;
+                }
+                DataReader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return (int)SqlErrorCode.ERR_SQLCMD;
+            }
+
+            queryStr = "SELECT PASSENGER_REAL_NAME from T_PASSENGER where USER_ID = '" + P.UserID + "' and PASSENGER_ID = '" + MyCrypto.Encrypt(P.PassengerPID) + "';";
+            sqlcmd.CommandText = queryStr;
+            try
+            {
+                OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                if (DataReader.Read())
+                {
+                    P.PassengerRName = DataReader[0].ToString();
+                }
+                else
+                {
+                    return (int)OErrorCode.ERR_OUNEXIST;
+                }
+                DataReader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return (int)SqlErrorCode.ERR_SQLCMD;
+            }
+            O.Passenger = P;
+
+
             if (IsClose)
             {
                 Close();
@@ -779,6 +928,49 @@ namespace ServerSqlTools
 
             return -1;
 
+        }
+        public static int GetPassenger(string UserID, List<_Passenger> PList, bool IsClose)
+        {
+            //1 check security
+            //TODO
+
+            //2. connect to the database
+            if (!Connect())
+            {
+                Console.WriteLine("Failed to Connect to Oracle");
+                return (int)SqlErrorCode.ERR_CONN;
+            }
+            Console.WriteLine("2 Success");
+
+            //
+            string queryStr = "SELECT * from T_PASSENGER where USER_ID = '" + UserID + "';";
+            OdbcCommand sqlcmd = new OdbcCommand(queryStr, conn);
+            try
+            {
+                OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                while (DataReader.Read())
+                {
+                    _Passenger P = new _Passenger();
+                    P.PassengerPID = MyCrypto.Decrypt(DataReader[0].ToString());
+                    P.PassengerRName = DataReader[1].ToString();
+                    P.UserID = UserID;
+                    PList.Add(P);
+                }
+                DataReader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return (int)SqlErrorCode.ERR_SQLCMD;
+            }
+            Console.WriteLine("3 Success");
+
+            if(IsClose)
+            {
+                Close();
+            }
+
+            return -1;
         }
         public static int GetUser(string UserID, ref _User U, bool IsClose)
         {
@@ -1534,7 +1726,65 @@ namespace ServerSqlTools
             }
             return -1;
         }
+        public static int AddPassenger(_Passenger P, bool IsClose)
+        {
+            int ret = -1;
+            //1 check Security
+            //TODO
+            if((ret = checkUser.checkPassenger(P)) != -1)
+            {
+                return ret;
+            }
 
+            //2 connect to the database
+            if (!Connect())
+            {
+                Console.WriteLine("Failed to Connect to Oracle");
+                return (int)SqlErrorCode.ERR_CONN;
+            }
+            Console.WriteLine("2 Success");
+
+            string PassengerID = MyCrypto.Encrypt(P.PassengerPID);
+
+            //judge whether Passenger has existed;
+            string queryStr = "SELECT count(*) from T_PASSENGER where USER_ID = '" + P.UserID + "' and PASSENGER_ID = '" + PassengerID + "';";
+            OdbcCommand sqlcmd = new OdbcCommand(queryStr, conn);
+            //Execute the DataReader to Access the data
+            try
+            {
+                OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                if (DataReader.Read() && DataReader[0].ToString() != "0")
+                {
+                    DataReader.Close();
+                    return (int)PErrorCode.ERR_PEXIST;
+                }
+                DataReader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return (int)SqlErrorCode.ERR_SQLCMD;
+            }
+
+            //Insert Passenger
+            queryStr = "INSERT INTO T_PASSENGER Values('" + PassengerID + "','"
+                                                          + P.PassengerRName + "','"
+                                                          + P.UserID + "');";
+            if((ret = NoRetDataSqlExecute(queryStr)) != -1)
+            {
+                return ret;
+            }
+
+            if (IsClose)
+            {
+                Close();
+                Console.WriteLine("Connection Closed");
+            }
+
+            return -1;
+
+
+        }
         public static int SearchTrain(int StartStNo, int EndStNo, int year, int month, int day, List<_TrainTicket> TrainTicketList, bool IsClose)
         {
             int ret = -1;
@@ -2112,7 +2362,8 @@ namespace ServerSqlTools
                                                            + O.SeatNo + "','"
                                                            + O.OrderValue.ToString() + "','"
                                                            + O.OrderCreate.ToString() + "','"
-                                                           + O.OrderState.ToString() + "');";
+                                                           + O.OrderState.ToString() + "','"
+                                                           + O.SeatLevel.ToString() + "');";
 
             if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
             {
@@ -2212,7 +2463,7 @@ namespace ServerSqlTools
 
             return -1;
         }
-        public static int CreateOrder(string UserID, string PassengerID, _Seat S, ref _Order O, bool IsClose)
+        public static int CreateOrder(string UserID, string PassengerPID, _Seat S, ref _Order O, bool IsClose)
         {
             int ret = -1;
             //1 check security
@@ -2227,6 +2478,7 @@ namespace ServerSqlTools
             }
 
             O.OrderCreate = GetTimeStamp();
+            O.SeatLevel = S.SeatLevel;
             O.OrderID = O.OrderCreate;
             O.TrainID = S.TrainID;
             O.CarriageNo = S.CarriageNo;
@@ -2237,7 +2489,7 @@ namespace ServerSqlTools
             O.SeatNo = HashSeatRC2No(S.SeatRow, S.SeatCol);
 
             //check conflict 
-            string queryStr = "SELECT count(*) from T_ORDER_LIST where TRAIN_ID = '" + O.TrainID + "' and ORDER_ID in (SELECT ORDER_ID from T_ORDERS where PASSENGER_ID = '" + PassengerID + "');";
+            string queryStr = "SELECT count(*) from T_ORDER_LIST where TRAIN_ID = '" + O.TrainID + "' and ORDER_ID in (SELECT ORDER_ID from T_ORDERS where PASSENGER_ID = '" + MyCrypto.Encrypt(PassengerPID) + "');";
             OdbcCommand sqlcmd = new OdbcCommand(queryStr, conn);
             try
             {
@@ -2267,7 +2519,7 @@ namespace ServerSqlTools
             //4 insert T_ORDERS
             queryStr = "INSERT INTO T_ORDERS Values('" + O.OrderID + "','"
                                                        + UserID + "','"
-                                                       + PassengerID + "');";
+                                                       + MyCrypto.Encrypt(PassengerPID) + "');";
             if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
             {
                 return ret;
@@ -2549,7 +2801,14 @@ namespace ServerSqlTools
                         TmpOrder.OrderCreate = DataReader[6].ToString();
                         int.TryParse(DataReader[7].ToString(), out TmpInt);
                         TmpOrder.OrderState = TmpInt;
+                        int.TryParse(DataReader[8].ToString(), out TmpInt);
+                        TmpOrder.SeatLevel = TmpInt;
                         OrderList.Add(TmpOrder);
+                    }
+                    else
+                    {
+                        DataReader.Close();
+                        return (int)OErrorCode.ERR_OUNEXIST;
                     }
                     DataReader.Close();
                 }
@@ -2560,6 +2819,59 @@ namespace ServerSqlTools
                 }
             }
             Console.WriteLine("4 Success");
+
+            for (int i = 0; i < OrderList.Count(); i++)
+            {
+                _Order O = OrderList[i];
+                _Passenger P = new _Passenger();
+                P.UserID = UserID;
+                queryStr = "SELECT PASSENGER_ID from T_ORDERS where ORDER_ID = '" + O.OrderID + "';";
+                sqlcmd.CommandText = queryStr;
+                try
+                {
+                    OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                    if (DataReader.Read())
+                    {
+                        P.PassengerPID = MyCrypto.Decrypt(DataReader[0].ToString());
+                    }
+                    else
+                    {
+                        DataReader.Close();
+                        return (int)OErrorCode.ERR_OUNEXIST;
+                    }
+                    DataReader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return (int)SqlErrorCode.ERR_SQLCMD;
+                }
+
+                queryStr = "SELECT PASSENGER_REAL_NAME from T_PASSENGER where USER_ID = '" + UserID + "' and PASSENGER_ID = '" + MyCrypto.Encrypt(P.PassengerPID) + "';";
+                sqlcmd.CommandText = queryStr;
+                try
+                {
+                    OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                    if (DataReader.Read())
+                    {
+                        P.PassengerRName = DataReader[0].ToString();
+                    }
+                    else
+                    {
+                        DataReader.Close();
+                        return (int)PErrorCode.ERR_PUNEXIST;
+                    }
+                    DataReader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return (int)SqlErrorCode.ERR_SQLCMD;
+                }
+
+                O.Passenger = P;
+                OrderList[i] = O;
+            }
 
             if (IsClose)
             {

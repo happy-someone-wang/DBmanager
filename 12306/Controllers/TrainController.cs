@@ -117,5 +117,33 @@ namespace _12306.Controllers
             //return View("Result",Result);
             return View("order_result",Result);
         }
+        [HttpGet]
+        public IActionResult rePay(string order_id, string train_id, string start_station, string end_station, string leaving_time, string arrive_time)
+        {
+            _Order old_order = new _Order();
+            OracleSqlTools.GetOneOrder(order_id, ref old_order, true);
+            _Seat new_seat = new _Seat();
+            if (OracleSqlTools.SearchSeat(train_id, 1 + Station.IndexOf(start_station), 1 + Station.IndexOf(end_station), 1, 0, ref new_seat, true) != -1)
+            {
+                return Content("Cancel Order Failed");
+            }
+            _Order new_Order = new _Order();
+            //Containers._Current_User.Instance.UserID = "330881200301030073";
+            //int temp = OracleSqlTools.CreateOrder(Containers._Current_User.Instance.UserID, old_order., seat, ref order_temp, true);
+            //if (temp == -1)
+            {
+                //Result.Order_info.Add(order_temp);
+            }
+
+
+            ReturnModels.Train_Pay_Model return_model = new ReturnModels.Train_Pay_Model { };
+            return_model.Start_station = start_station;
+            return_model.End_station = end_station;
+            return_model.Train_ID = train_id;
+            return_model.Leaving_time = new myDate._Date(leaving_time);
+            return_model.Arrive_time = new myDate._Date(arrive_time);
+            return View(return_model);
+        }
     }
+    
 }

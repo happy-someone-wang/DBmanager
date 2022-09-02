@@ -19,10 +19,13 @@
                     <h2 class="menu-tit"> <a href="/Person/center">个人中心</a> </h2>
                 </li>
                 <li class="menu-item" role="menuitem">
-                    <h2 class="menu-tit active"> <a href="/Person/ticket;">订单中心</a> </h2>
+                    <h2 class="menu-tit active"> <a href="/Person/ticket">订单中心</a> </h2>
                 </li>
                 <li class="menu-item" role="menuitem">
                     <h2 class="menu-tit"> <a href="/Person/information">个人信息</a> </h2>
+                </li>
+                <li class="menu-item" role="menuitem">
+                    <h2 class="menu-tit"> <a href="/Person/account">密码修改</a> </h2>
                 </li>
             </ul>
             <div class="center-main">
@@ -38,7 +41,7 @@
                         </div>
                         <div class="tab-bd">
                             <!-- 未出行订单 -->
-                            <div class="tab-item" style="display:block; min-height: 830px;" id="untrip">
+                            <div class="tab-item" style="display:block; min-height: 530px;" id="untrip">
                                 <!-- 未出行订单列表 -->
                                 <div class="order-panel order-panel-history">
                                     <!-- 订单-搜索表单 -->
@@ -156,7 +159,7 @@
                                 </div>
                             </div>
                             <!-- 历史订单 -->
-                            <div class="tab-item" style="display: none; min-height: 830px;" id="history">
+                            <div class="tab-item" style="display: none; min-height: 530px;" id="history">
                                 <!-- 历史订单列表 -->
                                 <div class="order-panel order-panel-history">
                                     <!-- 订单-搜索表单 -->
@@ -266,7 +269,7 @@
                     <div class="panel-tab" id="noDataDom" style="display: none">
                         <div class="tab-bd">
                             <!-- 历史订单 -->
-                            <div class="tab-item" style="display: block; min-height: 830px;">
+                            <div class="tab-item" style="display: block; min-height: 530px;">
                                 <!-- 历史订单列表 -->
                                 <div class="order-panel order-panel-history">
                                     <div class="order-empty">
@@ -284,36 +287,20 @@
         </div>
     </div>
     <div class="alert">
-        <div class="alert-hd">
-            退票申请
-            <span class="alert-close" onclick="ac()">X</span>
-        </div>
+        <div class="alert-hd"> 退票申请 <span class="alert-close" onclick="ac()">X</span> </div>
         <div class="alert-bd">
             <h2 class="msg-tit">您确认要退票吗？</h2>
             <hr>
             <ul style="color: #333;">
-                <li class="msg" style="font-weight: bolder;">
-                    共计退款：
-                    <span class="price">6.5元</span>
-                </li>
+                <li class="msg" style="font-weight: bolder;"> 共计退款： <span class="price">6.5元</span> </li>
                 <hr>
-                <li class="msg">
-                    手续费用：
-                    <span class="price">0元</span>
-                    <span style="font-size: 10px;color: rgba(0, 0, 0, 0.500);">(距开车时间前7天（含）以上不收取退票费，其余按票价10%计)</span>
-                </li>
-                <li class="msg">
-                    车票票价：
-                    <span class="price">6.5元</span>
-                </li>
+                <li class="msg"> 手续费用： <span class="price">0元</span> <span style="font-size: 10px;color: rgba(0, 0, 0, 0.500);">(距开车时间前7天（含）以上不收取退票费，其余按票价10%计)</span> </li>
+                <li class="msg"> 车票票价： <span class="price">6.5元</span> </li>
             </ul>
             <hr>
         </div>
-        <div class="choice">
-            <a href="#" onclick="ac()" class="tc_btn">取消</a>
-            <a href="tp_succ.html" class="tc_btn" style="margin-left: 30px;">确定</a>
-        </div>
+        <div class="choice"> <a href="#" onclick="ac()" class="tc_btn">取消</a> <a href="tp_succ.html" class="tc_btn" style="margin-left: 30px;">确定</a> </div>
     </div>
-    <script type="text/javascript" src="/Person/personal_ticket.js"></script>
+    <script type="text/javascript" src="personal_ticket.js"></script>
 </body>
 </html>

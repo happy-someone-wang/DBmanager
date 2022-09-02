@@ -1,97 +1,135 @@
 ﻿@model Containers._User
 <!doctype html>
-    <html>
-    <head>
+<html>
+<head>
     <meta charset="utf-8">
-        <title>personal</title>
-        <link rel="stylesheet" href="/Person/personal_information.css" />
-    </head>
+    <title>personal</title>
+    <link rel="stylesheet" href="/Person/personal_information.css" />
+</head>
 
-    <body>
-        <br>
-        <div class="wrapper content">
-            <!-- 面包屑 -->
-            <div class="breadcrumb"> 当前位置： <a href="/Person/center">个人中心</a> <span class="sep">&gt;</span> <span class="active">个人信息</span> </div>
-            <!-- 个人信息 -->
-            <div class="center-box">
-                <!-- 个人信息左侧 -->
-                <!-- 个人信息左侧菜单 -->
-                <ul class="center-menu" role="menubar">
-                    <li class="menu-item" id="gerenzhongxin" role="menuitem">
-                        <h2 class="menu-tit">
-                            <a href="/Person/center">个人中心</a>
-                        </h2>
-                    </li>
-                    <li class="menu-item" role="menuitem">
-                        <h2 class="menu-tit">
-                            <a href="/Person/ticket">订单中心</a>
-                        </h2>
-                    </li>
-                    <li class="menu-item" role="menuitem">
-                        <h2 class="menu-tit active">
-                            <a href="/Person/information">个人信息</a>
-                        </h2>
-                    </li>
-                </ul>
+<body>
+    <br>
+    <div class="wrapper content">
+        <!-- 面包屑 -->
+        <div class="breadcrumb"> 当前位置： <a href="/Person/center">个人中心</a> <span class="sep">&gt;</span> <span class="active">个人信息</span> </div>
+        <!-- 个人信息 -->
+        <div class="center-box">
+            <!-- 个人信息左侧 -->
+            <!-- 个人信息左侧菜单 -->
+            <ul class="center-menu" role="menubar">
+                <li class="menu-item" id="gerenzhongxin" role="menuitem">
+                    <h2 class="menu-tit"> <a href="/Person/center">个人中心</a> </h2>
+                </li>
+                <li class="menu-item" role="menuitem">
+                    <h2 class="menu-tit"> <a href="/Person/ticket">订单中心</a> </h2>
+                </li>
+                <li class="menu-item" role="menuitem">
+                    <h2 class="menu-tit active"> <a href="/Person/information">个人信息</a> </h2>
+                </li>
+                <li class="menu-item" role="menuitem">
+                    <h2 class="menu-tit"> <a href="/Person/account">密码修改</a> </h2>
+                </li>
+            </ul>
 
-                <!-- 个人信息右侧内容 -->
-                <div class="center-main">
-                    <div class="panel-border" id="js-minHeight">
+            <!-- 个人信息右侧内容 -->
+            <div class="center-main">
+                <div class="panel-border" id="js-minHeight">
                     <!-- 个人信息 -->
-                        <div class="center-form-item">
-                            <!-- 基本信息 -->
-                            <div class="center-tit">
-                                <div class="tit-name">基本信息</div>
-                            </div>
-                            <br>
-                            <!-- 显示 -->
-                            <div class="form-list form-list-view" id="basic_info_view">
-                                <div class="form-item">
-                                    <div class="form-label"><span class="required">*</span>用户名：</div>
-                                    <div class="form-bd"><div class="form-bd-txt">@Model.UserID</div></div>
-                                </div>
-                                <div class="form-item">
-                                    <div class="form-label"><span class="required">*</span>性别：</div>
-                                    <div class="form-bd"><div class="form-bd-txt">@Model.UserGender</div></div>
-                                </div>
-                                <div class="form-item">
-                                    <div class="form-label"><span class="required">*</span>姓名：</div>
-                                    <div class="form-bd"><div class="form-bd-txt">@Model.UserRName</div></div>
-                                </div>
-                                <div class="form-item">
-                                    <div class="form-label"><span class="required">*</span>证件号码：</div>
-                                    <div class="form-bd"><div class="form-bd-txt">@Model.UserPID</div></div>
+                    <div class="center-form-item">
+                        <!-- 基本信息 -->
+                        <div class="center-tit">
+                            <div class="tit-name">基本信息</div>
+                        </div>
+                        <br>
+                        <!-- 显示 -->
+                        <div class="form-list form-list-view" id="basic_info_view">
+                            <div class="form-item">
+                                <div class="form-label"><span class="required">*</span>用户名：</div>
+                                <div class="form-bd">
+                                    <div class="form-bd-txt">@Model.UserID</div>
                                 </div>
                             </div>
+                            <div class="form-item">
+                                <div class="form-label"><span class="required">*</span>性别：</div>
+                                <div class="form-bd">
+                                    <div class="form-bd-txt">@Model.UserGender</div>
+                                </div>
+                            </div>
+                            <div class="form-item">
+                                <div class="form-label"><span class="required">*</span>姓名：</div>
+                                <div class="form-bd">
+                                    <div class="form-bd-txt">@Model.UserRName</div>
+                                </div>
+                            </div>
+                            <div class="form-item">
+                                <div class="form-label"><span class="required">*</span>证件号码：</div>
+                                <div class="form-bd">
+                                    <div class="form-bd-txt">@Model.UserPID</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="line-dashed"></div>
 
-                            <div class="line-dashed"></div>
-
-                            <!-- 联系方式 -->
-                            <div class="center-tit">
-                                <div class="tit-name">联系方式</div>
-                            </div>
-                            <br>
-                            <!-- 显示 -->
-                            <div class="form-list form-list-view" id="relation_way_view">
-                                <div class="form-item" style="position:relative">
-                                    <div class="form-label"><span name="mobile_div_span" class="required">*</span>手机号：</div>
-                                    <div class="form-bd">
-                                        <div class="form-bd-txt">@Model.UserPhone</div>
-                                    </div>
-                                </div>
-                                <div class="form-item" style="position:relative">
-                                    <div class="form-label">邮箱：</div>
-                                    <div class="form-bd" title="@Model.UserEmail"><div class="form-bd-txt">@Model.UserEmail</div></div>
-                                </div>
-                                <div class="form-item">
-                                    <div class="form-label">地址：</div>
-                                    <div class="form-bd"><div class="form-bd-txt showAddress" title="">@Model.UserAddr</div></div>
+                        <!-- 联系方式 -->
+                        <div class="center-tit">
+                            <div class="tit-name">联系方式</div>
+                            <input id="bt1" class="change-bt" type="button" value="更改信息">
+                        </div>
+                        <br>
+                        <!-- 显示 -->
+                        <div class="form-list form-list-view" id="relation_way_view" style="display: block">
+                            <div class="form-item" style="position:relative">
+                                <div class="form-label"><span name="mobile_div_span" class="required">*</span>手机号：</div>
+                                <div class="form-bd">
+                                    <div class="form-bd-txt">@Model.UserPhone</div>
                                 </div>
                             </div>
+                            <div class="form-item" style="position:relative">
+                                <div class="form-label">邮箱：</div>
+                                <div class="form-bd" title="@Model.UserEmail">
+                                    <div class="form-bd-txt">@Model.UserEmail</div>
+                                </div>
+                            </div>
+                            <div class="form-item">
+                                <div class="form-label">地址：</div>
+                                <div class="form-bd">
+                                    <div class="form-bd-txt showAddress" title="">@Model.UserAddr</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 更改联系方式 -->
+                        <div class="form-list form-list-view" id="relation_way_change" style="display: none">
+                            <form method="post" action="/Person/information">
+                            <input type="hidden" name="UserPID" id="UserPID" value="@Model.UserPID" />
+                            <input type="hidden" name="UserPWD" id="UserPWD" value="@Model.UserPWD" />
+                            <input type="hidden" name="UserPhone" id="UserPhone" value="@Model.UserPhone" />
+                            <input type="hidden" name="UserRname" id="UserRname" value="@Model.UserRName" />
+                            <input type="hidden" name="UserGender" id="UserGender" value="@Model.UserGender" />
+                            <div class="form-item" style="position:relative">
+                                <div class="form-label">邮箱：</div>
+                                <div class="form-bd">
+                                    <input class="input" name="Email" id="email" placeholder="请输入邮箱">
+                                    <div class="form-tips" id="emailPrompt" style="display: none">请输入正确的邮箱地址！</div>
+                                </div>
+                            </div>
+                            <div class="form-item">
+                                <div class="form-label">地址：</div>
+                                <div class="form-bd">
+                                    <input class="input" name="Address" placeholder="请输入地址">
+                                </div>
+                            </div>
+                            <div class="form-item">
+                                <input id="bt2" class="confirm-change" type="button" value="取消">
+                                @*<input id="bt3" class="confirm-change" type="button" value="确认更改">*@
+                                <button id="bt3" class="confirm-change" type="submit">确认更改</button>
+                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-      </body>
-    </html>
+    </div>
+    <script type="text/javascript" src="/Person/personal_information.js"></script>
+</body>
+</html>

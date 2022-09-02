@@ -5,133 +5,227 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>train</title>
-    <script>
-        var mid;
-        var x=1600;
-        var x2=1600;
-        var i=0;
-        var str="lbt";
-        var str2="lbt2";
-        setInterval("set()",5000);
-        function set(){
-            mid=setInterval("change()",1);
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            font-family: "Helvetica Neue",Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Heiti SC","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
         }
-        function change(){
-                x-=2;
-                document.getElementById(str2).style.left=x+'px';
-                document.getElementById(str).style.left=x-1600+'px';
-                if(x==0){
-                    clearInterval(mid);
-                    x=1600;
-                }
-        }
-    </script>
 
+        a {
+            text-decoration: none;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        .nav {
+            line-height: 40px;
+            font-size: 20px;
+            height: 40px;
+            background-image: linear-gradient(#9198e5, #1678be);
+            margin: 20px 0px;
+            padding-left: 45px;
+            letter-spacing: 1px;
+            color: white;
+        }
+
+            .nav ul {
+                width: 1190px;
+                margin: auto;
+                position: relative;
+                height: 40px;
+            }
+
+        .nav-item {
+            display: block;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            color: #FFFFFF;
+            font-size: 17px;
+            float: left;
+            width: 180px;
+        }
+
+            .nav-item:hover {
+                background-color: #1678be;
+            }
+
+        .nav a {
+            color: white;
+        }
+
+        .image {
+            height: 610px;
+            width: 1600px;
+            position: absolute;
+            overflow: hidden;
+        }
+
+        .query {
+            width: 1100px;
+            min-height: 200px;
+            margin: auto;
+        }
+
+        .query-hd {
+            border-radius: 5px 5px 0 0;
+            border-width: 1px;
+            color: rgb(255, 255, 255);
+            height: 30px;
+            line-height: 30px;
+            width: auto;
+            padding-left: 10px;
+            background-image: linear-gradient(#9198e5, #1678be);
+        }
+
+        .query-bd {
+            padding: 10px 0px;
+            background-color: #eef1f8;
+            border-top: none;
+            border-radius: 0 0 5px 5px; /*边框圆角*/
+            border: 1px solid #1678be; /*边框*/
+        }
+
+            .query-bd ul {
+                line-height: 40px;
+                text-align: center;
+            }
+
+                .query-bd ul li {
+                    float: left;
+                    margin-left: 60px;
+                    margin-right: 80px;
+                }
+
+        .btn {
+            height: 30px;
+            width: 80px;
+            border: none;
+            border-radius: 5px;
+            background-color: darkorange;
+            color: #FFFFFF;
+            font-size: 14px;
+        }
+
+        .lbti {
+            position: absolute;
+            left: 680px;
+            top: 600px;
+            letter-spacing: 20px;
+        }
+
+            .lbti button {
+                height: 20px;
+                width: 20px;
+                border-radius: 50%;
+                border: solid #eef1f8;
+                background-color: #eef1f8;
+            }
+    </style>
 </head>
 <body>
-    <div style="line-height: 50px;font-size: 20px;height: 50px;width: 1600px; color: rgb(255, 255, 255);background-color: rgb(97, 130, 240);">
-        &emsp;&emsp;&emsp;<a style="text-decoration:none; color: white;">铁路购票系统</a>&emsp;&emsp;<a style="text-decoration:none; color: white;" href="/Person/center">个人中心</a>&emsp;&emsp;
+    <div class="nav">
+        <ul>
+            <li class="nav-item">
+                <a href="/Train/Index">铁路购票系统</a>
+            </li>
+            <li class="nav-item">
+                <a href="/Person/center">个人中心</a>
+            </li>
+        </ul>
     </div>
-    
-    <div style="position:absolute; top:55px; left: 0px;height:610px; width: 1600px; overflow: hidden;">
-        <img id="lbt" src="~/Train/images/main1.png" style="position:absolute;top: 55px;"></img>
-        <img id="lbt2" src="~/Train/images/main2.png" style="position:absolute;top: 55px; left: 1600px"></img>
-    </div>
-    <div id="cc" style="position:absolute; top:300px; left: 300px;height:200px; width: 400px; background-color: rgb(255, 255, 255);">
-        <form method="post" action="/Train/Arrive">
-        <p>&emsp;&emsp;</p>
-        <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;车次：<input name="num"></p>
-        <!--<p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;日期：<input name="date"></p>-->
-        <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<button type="submit" style="width: 100px; border-width: 1px">查询</button></p>
-        </form>
-    </div>
-    <div id="sc" style="position:absolute; top:300px; left: 300px;height:200px; width: 400px; background-color: rgb(255, 255, 255);">
-        <form method="post" action="/Train/Buy">
-            <p>&emsp;&emsp;</p>
-            <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;始发站：<input onclick="in1()" id="start_station" name="start_station"></p>
-            <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;终点站：<input onclick="in2()" name="end_station" id="end_station"></p>
-            <p name="da">
-                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;出发日期：
-                <select name="date" onchange="ch()">
-                </select>
-                <select name="datem" onchange="chm()">
-                </select>
-                <select name="dated">
-                </select>
-            </p>
-            <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<button type="submit" style="width: 100px; border-width: 1px">查询</button></p>
-        </form>
-        <div id="xuanze" style='display: none; position:absolute; border:1px solid rgb(121, 173, 245); top:40px; left: 380px;height:200px; width: 200px; overflow: scroll; background-color: rgb(255, 255, 255);'></div>
+    <div class="image">
+        <img id="lbt" src="/Train/images/main1.png" style="position:absolute;top: 0px;"></img>
+        <img id="lbt2" src="/Train/images/main2.png" style="position:absolute;top: 0px; left: 1600px"></img>
 
     </div>
-    <button id="bc" onclick="hid1()" style="position:absolute; top:300px; left: 300px;background-color: rgb(121, 173, 245);border-width: 1px; color:rgb(255, 255, 255); height:100px; width: 100px;">
-        选择车票
-    </button>
-    <button id="bs" onclick="hid2()" style="position:absolute; top:400px; left: 300px;background-color: rgb(128, 128, 237);border-width: 1px; color:rgb(255, 255, 255);height:100px; width: 100px;">
-        查询车次
-    </button>
-    <div style="border-radius: 20px;border:1px ridge rgb(147, 147, 245);position:absolute;top:700px;left:100px;height:400px;width:1200px;overflow: hidden;background-color: aliceblue;">
-        <p style="position:absolute;left:400px;">网站信息</p>
-        <div style="position:absolute;left:40px;top:40px;height: 320px; width:1000px; overflow: scroll; background-color: white;border:1px solid rgb(147, 147, 245);">
-            &emsp;&emsp;<a href="~/Train/test.txt">test</a>
+    <div class="query" id="sc" style="line-height: 30px; position:absolute; top:300px; left: 300px;height:200px; width: 400px; ">
+        <div class="query-hd">选择车票</div>
+        <div class="query-bd">
+            <form method="post" action="/Train/Buy">
+                <ul>
+                    <li>
+                        <span>始&nbsp;发&nbsp;站：</span>
+                        <input onclick="in1()" id="start_station" name="start_station">
+                    </li>
+                    <li>
+                        <span>终&nbsp;点&nbsp;站：</span>
+                        <input onclick="in2()" name="end_station" id="end_station">
+                    </li>
+                    <li>
+                        <p name="da">
+                            <span>出发日期：</span>
+                            <select name="date" onchange="ch()">
+                            </select>
+                            <select name="datem" onchange="chm()">
+                            </select>
+                            <select name="dated">
+                            </select>
+                        </p>
+
+                    </li>
+                    <button class="btn" type="submit" style="width: 100px; border-width: 1px">查询</button>
+                </ul>
+            </form>
         </div>
+
+        <div id="xuanze" style='display: none; position:absolute; border:1px solid rgb(121, 173, 245); top:40px; left: 330px;height:121px; width: 200px; overflow: scroll; background-color: rgb(255, 255, 255);'></div>
+    </div>
+    <div class="lbti" style="margin: auto;">
+        <button id="lbti1" onclick="lbtc1()"></button>
+        <button id="lbti2" onclick="lbtc2()"></button>
+        <button id="lbti3" onclick="lbtc3()"></button>
+        <button id="lbti4" onclick="lbtc4()"></button>
     </div>
     <script>
-        var d=new Date();
-        var year=d.getFullYear();
-        var year2=d.getFullYear()+1;
-        var month2=d.getMonth()+2;
-        var month=d.getMonth()+1;
-        var daa=0;
-        var daiin=document.getElementsByTagName("select")[0];
-        daiin.innerHTML+="<option>"+year+"</option><option>"+year2+"</option>";
+        function ser() {
+            window.location.href = encodeURI("Train/Buy?" + document.getElementById("bef").value + "&" + document.getElementById("bef2").value + "&" + document.getElementsByTagName("select")[0].value
+                + "&" + document.getElementsByName("datem")[0].value + "&" + document.getElementsByName("dated")[0].value);
+        }
+    </script>
+    <script>
+        var d = new Date();
+        var year = d.getFullYear();
+        var year2 = d.getFullYear() + 1;
+        var month2 = d.getMonth() + 2;
+        var month = d.getMonth() + 1;
+        var daa = 0;
+        var daiin = document.getElementsByTagName("select")[0];
+        daiin.innerHTML += "<option>" + year + "</option><option>" + year2 + "</option>";
 
         var daiin2 = document.getElementsByTagName("select")[1];
-        for (; month <= 12;month++) {
+        for (; month <= 12; month++) {
             daiin2.innerHTML += "<option>" + month + "</option>";
         }
         //daiin2.innerHTML+="<option>"+month+"</option><option>"+month2+"</option>";
 
-        var daiin3=document.getElementsByTagName("select")[2];
-        var md=new Array();
-        var yearc=document.getElementsByName("date")[0].value;
-        var mousc=document.getElementsByName("datem")[0].value;
+        var daiin3 = document.getElementsByTagName("select")[2];
+        var md = new Array();
+        var yearc = document.getElementsByName("date")[0].value;
+        var mousc = document.getElementsByName("datem")[0].value;
 
-        function ch(){
-            yearc=document.getElementsByName("date")[0].value;
+        function ch() {
+            yearc = document.getElementsByName("date")[0].value;
         }
-        function chm(){
-            yearc=document.getElementsByName("datem")[0].value;
+        function chm() {
+            yearc = document.getElementsByName("datem")[0].value;
         }
-        if(yearc%4==0)
-            md=[31,29,31,30,31,30,31,31,30,31,30,31];
+        if (yearc % 4 == 0)
+            md = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
         else
-            md=[31,28,31,30,31,30,31,31,30,31,30,31];
-        var dj=0;
-        for(dj=0;dj<md[mousc-1];dj++){
-            daa=dj+1;
-            daiin3.innerHTML+="<option>"+daa+"</option>";
+            md = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        var dj = 0;
+        for (dj = 0; dj < md[mousc - 1]; dj++) {
+            daa = dj + 1;
+            daiin3.innerHTML += "<option>" + daa + "</option>";
         }
 
     </script>
     <script>
-        function hid1(){
-            document.getElementById('bs').style.backgroundColor="rgb(128, 128, 237)";
-            document.getElementById('bc').style.backgroundColor="rgb(121, 173, 245)";
-
-            document.getElementById('cc').style.display="none";
-            document.getElementById('sc').style.display="block";
-        }
-        function hid2(){
-            document.getElementById('bc').style.backgroundColor="rgb(128, 128, 237)";
-            document.getElementById('bs').style.backgroundColor="rgb(121, 173, 245)";
-            document.getElementById('sc').style.display="none";
-            document.getElementById('cc').style.display="block";
-
-        }
-    </script>
-    <script>
-        function in1(){
+        function in1() {
             lis(1, document.getElementById('start_station').value);
             var be = document.getElementById('xuanze');
             be.style.top = '40px';
@@ -139,8 +233,11 @@
                 document.getElementById('xuanze').style.display = "block";
             else
                 document.getElementById('xuanze').style.display = "none";
+            document.getElementById('start_station').onblur = function () {
+                document.getElementById('xuanze').style.display = "none";
+            }
         }
-        function in2(){
+        function in2() {
             lis(2, document.getElementById('end_station').value);
             var be2 = document.getElementById('xuanze');
             be2.style.top = '85px';
@@ -148,49 +245,153 @@
                 document.getElementById('xuanze').style.display = "block";
             else
                 document.getElementById('xuanze').style.display = "none";
+            document.getElementById('end_station').onblur = function () {
+                document.getElementById('xuanze').style.display = "none";
+            }
         }
-        function cd(obj){
-            document.getElementById('start_station').value= obj.innerHTML;
-            document.getElementById('xuanze').style.display="none";
+        function cd(obj) {
+            document.getElementById('start_station').value = obj.innerHTML;
+            document.getElementById('xuanze').style.display = "none";
         }
-        function cd2(obj){
-            document.getElementById('end_station').value= obj.innerHTML;
-            document.getElementById('xuanze').style.display="none";
+        function cd2(obj) {
+            document.getElementById('end_station').value = obj.innerHTML;
+            document.getElementById('xuanze').style.display = "none";
         }
-        var a=new Array();
+        var a = new Array();
         a = ["北京", "天津", "济南", "上海", "杭州", "台北", "福州", "南昌", "长沙", "广州", "昆明", "贵阳", "武汉", "南京", "郑州", "重庆", "成都", "西安", "兰州", "天津北"];
-        function lis(p, cha){
+        function lis(p, cha) {
 
-            var a2=new Array();
+            var a2 = new Array();
 
-            var i2=0;
-            var i3=0;
-            var x=0;
-            var y=0;
+            var i2 = 0;
+            var i3 = 0;
+            var x = 0;
+            var y = 0;
             var chu;
-            for(i2=0, i3=0;i2<a.length;i2++){
-                if(a[i2].includes(cha)||cha==null){
-                    a2[i3]=a[i2];
+            for (i2 = 0, i3 = 0; i2 < a.length; i2++) {
+                if (a[i2].includes(cha) || cha == null) {
+                    a2[i3] = a[i2];
                     i3++;
                 }
             }
-            if(p==1)
-                chu="cd(this)";
+            if (p == 1)
+                chu = "cd(this)";
             else
                 chu = "cd2(this)";
             var before = document.getElementById('xuanze');
-            for(i2=0;i2<a.length;i2++){
-                x=0+i2%4*50;
-                y=0+Math.floor(i2/4)*25;
-                if(i2>a2.length||i2==a2.length){
-                    before.innerHTML += "<button id='" + i + "' onclick='" + chu +"' style='background-color: rgb(255, 255, 255); position:absolute; border-width:1px; top:"+y+"px; left: "+x+"px; width: 50px'>&emsp;</button>";
+            for (i2 = 0; i2 < a.length; i2++) {
+                x = 0 + i2 % 4 * 50;
+                y = 0 + Math.floor(i2 / 4) * 25;
+                if (i2 > a2.length || i2 == a2.length) {
+                    //before.innerHTML += "<button id='" + i + "' onclick='" + chu +"' style='background-color: rgb(255, 255, 255); position:absolute; border-width:1px; top:"+y+"px; left: "+x+"px; width: 50px'>&emsp;</button>";
+
+                    before.innerHTML += "<button id='" + i2 + "' onclick='" + chu + "' style='background-color: #f0f2f6;position:absolute; border-width:1px; top:" + y + "px; left: " + x + "px; width: 50px;height:25px;pxborder:none;cursor:pointer;'>&emsp;</button>";
                     continue;
                 }
-                before.innerHTML += "<button id='" + i + "' onclick='" + chu +"' style='background-color: rgb(255, 255, 255); position:absolute; border-width:1px; top:"+y+"px; left: "+x+"px; width: 50px'>"+a2[i2]+"</button>";
+                //before.innerHTML += "<button id='" + i + "' onclick='" + chu +"' style='background-color: rgb(255, 255, 255); position:absolute; border-width:1px; top:"+y+"px; left: "+x+"px; width: 50px'>"+a2[i2]+"</button>";
+
+                before.innerHTML += "<button id='" + i2 + "' onclick='" + chu + "' style='background-color: #f0f2f6;position:absolute; border-width:1px; top:" + y + "px; left: " + x + "px; width: 50px;height:25px;border:none;cursor:pointer;'>" + a2[i2] + "</button>";
+
             }
         }
-
     </script>
+    <script>
+        var mid;
+        var mid_st;
+        var x = 1600;
+        var x2 = 1600;
+        var i = 0;
+        var count1 = 1;
+        var count2 = 2;
+        var str = "lbt";
+        var str2 = "lbt2";
+        function lbtc1() {
+            document.getElementById("lbti1").style.backgroundColor = "grey";
+            document.getElementById("lbti2").style.backgroundColor = "#eef1f8";
+            document.getElementById("lbti3").style.backgroundColor = "#eef1f8";
+            document.getElementById("lbti4").style.backgroundColor = "#eef1f8";
+            count1 = 1;
+            count2 = 2;
+            x = 2;
+            change();
+            clearInterval(mid_st);
+            mid_st = setInterval("set()", 5000);
+        }
+        function lbtc2() {
+            document.getElementById("lbti1").style.backgroundColor = "#eef1f8";
+            document.getElementById("lbti2").style.backgroundColor = "grey";
+            document.getElementById("lbti3").style.backgroundColor = "#eef1f8";
+            document.getElementById("lbti4").style.backgroundColor = "#eef1f8";
+            count1 = 2;
+            count2 = 3;
+            x = 2;
+            change();
+            clearInterval(mid_st);
+            mid_st = setInterval("set()", 5000);
+        }
+        function lbtc3() {
+            document.getElementById("lbti1").style.backgroundColor = "#eef1f8";
+            document.getElementById("lbti2").style.backgroundColor = "#eef1f8";
+            document.getElementById("lbti3").style.backgroundColor = "grey";
+            document.getElementById("lbti4").style.backgroundColor = "#eef1f8";
+            count1 = 3;
+            count2 = 4;
+            x = 2;
+            change();
+            clearInterval(mid_st);
+            mid_st = setInterval("set()", 5000);
+        }
+        function lbtc4() {
+            document.getElementById("lbti1").style.backgroundColor = "#eef1f8";
+            document.getElementById("lbti2").style.backgroundColor = "#eef1f8";
+            document.getElementById("lbti3").style.backgroundColor = "#eef1f8";
+            document.getElementById("lbti4").style.backgroundColor = "grey";
+            count1 = 4;
+            count2 = 1;
+            x = 2;
+            change();
+            clearInterval(mid_st);
+            mid_st = setInterval("set()", 5000);
+        }
+        mid_st = setInterval("set()", 5000);
+        document.getElementById("lbti1").style.backgroundColor = "grey";
 
+        function set() {
+            clearInterval(mid);
+            clearInterval(mid_st);
+            mid_st = setInterval("set()", 5000);
+            if (x != 1600) {
+                x = 1600;
+            }
+            mid = setInterval("change()", 1);
+            if (count1 > 4)
+                count1 = 1;
+            if (count2 > 4)
+                count2 = 1;
+            var changedbutton1 = "lbti" + count1.toString();
+            var changedbutton2 = "lbti" + count2.toString();
+            document.getElementById(changedbutton1).style.backgroundColor = "#eef1f8";
+            document.getElementById(changedbutton2).style.backgroundColor = "grey";
+        }
+        function change() {
+            x -= 2;
+
+            document.getElementById(str2).style.left = x + 'px';
+            document.getElementById(str).style.left = x - 1600 + 'px';
+            if (count1 > 4)
+                count1 = 1;
+            if (count2 > 4)
+                count2 = 1;
+            document.getElementById(str).src = "images/main" + count1 + ".png";
+            document.getElementById(str2).src = "images/main" + count2 + ".png";
+            if (x == 0) {
+                clearInterval(mid);
+                x = 1600;
+                count1++;
+                count2++;
+                count1 = count2 - 1;
+            }
+        }
+    </script>
 </body>
 </html>

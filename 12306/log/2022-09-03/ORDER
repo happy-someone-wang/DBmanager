@@ -1,0 +1,6 @@
+[2022/9/2 18:53:12] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = 1662115990,TID = G006)
+[Success]  
+[2022/9/3 0:11:26] [ORDER] [CREATE] User(PID = ) try to Create Order(OID = 1662135084,TID = G006)
+[Success]  
+[2022/9/3 0:11:28] [ORDER] [CREATE] User(PID = ) try to Create Order(OID = 1662135086,TID = G006)
+[Success]  

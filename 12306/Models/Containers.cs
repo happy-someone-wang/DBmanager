@@ -128,10 +128,12 @@ namespace Containers
         public string TrainID { get; set; }
         public int TrainNo { get; set; }
         public int StartStNo { get; set; }
+        public string StartTime { get; set; }
+        public string EndTime { get; set;} 
         public int EndStNo { get; set; }
         public int RunningTime { get; set; }
         public List<_TrainParking> Parking { get; set; }
-        public _TrainManager(string TrainID, int TrainNo, int StartStNo, int EndStNo, int RunningTime, List<_TrainParking> Parking)
+        public _TrainManager(string TrainID, int TrainNo, int StartStNo, int EndStNo, int RunningTime, List<_TrainParking> Parking, string StartTime, string EndTime)
         {
             this.TrainID = TrainID;
             this.TrainNo = TrainNo;
@@ -139,6 +141,8 @@ namespace Containers
             this.EndStNo = EndStNo;
             this.Parking = Parking;
             this.RunningTime = RunningTime;
+            this.StartTime = StartTime;
+            this.EndTime = EndTime;
         }
     }
 
@@ -221,9 +225,12 @@ namespace Containers
         public int OrderValue { get; set; }
         public string OrderCreate { get; set; }
         public int OrderState { get; set; }
+        public int SeatLevel  { get; set; }
 
         public string ArriveTime { get; set; }
         public string LeavingTime { get; set; }
+
+        public _Passenger Passenger { get; set; }
 
     }
 
@@ -232,6 +239,13 @@ namespace Containers
         public int CarriageNo { get; set; }
         public int SeatLevel { get; set; }
         public char[] Bitmap { get; set; }
+    }
+
+    public struct _Passenger
+    {
+        public string PassengerPID { get; set;}
+        public string UserID { get; set;}
+        public string PassengerRName { get; set;}
     }
 }
 

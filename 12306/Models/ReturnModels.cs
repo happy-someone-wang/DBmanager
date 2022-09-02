@@ -8,6 +8,12 @@ using myDate;
 
 namespace ReturnModels
 {
+    public class Operation_staus
+    {
+        private int isVaild;
+
+        public int IsVaild { get => isVaild; set => isVaild = value; }
+    }
     public class Register
     {
         private int isVaild;
