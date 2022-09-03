@@ -1,7 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
 	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 	ViewData["Title"] = "车次查询";
 }
@@ -15,52 +12,61 @@
 	<li><a class="active" asp-controller="Admin" asp-action="TrainQuery">车次查询</a></li>
 </ul>
 <div class="column">
-	<label for="train">车次编号</label>
-	<input type="text" id="trainNo" name="trainNo" placeholder=" ">
-	<input type="submit" value="搜索" onclick="Search()">
-	<script>
-		function Search() {
-			var trainNo = document.getElementById('trainNo').value;
-			var ta = document.getElementById('trainlist');
-			var tr = ta.getElementsByTagName("tr");
+    <form method="post" asp-action="TrainQuery">
+        <label for="train">车次编号</label>
+        @{ 
+                if (Model.List.Count == 1)
+                {
+                    <input type="text" id="TrainID" name="TrainID" value="@Model.List[0].TrainID" placeholder="@Model.List[0].TrainID">
+                }
+                else
+                {
+                    <input type="text" id="TrainID" name="TrainID" placeholder=" ">
+            }
 
-			//循环表格每一行，查找匹配项
-			for (i = 0; i < tr.length; i++) {
-				var td = tr[i].getElementsByTagName("td")[0].innerHTML;
-				if (td == trainNo) {
-					// 
-					alert(tr[1].getElementsByTagName("td")[1].innerHTML);
-					return;
-				}
-			}
-			alert("不存在此车次");
-		}
-	</script>
+        }
+        @*<input type="submit" value="搜索" onclick="Search()">*@
+        <button type="submit" id="submit_button">搜索</button>
+    </form>
+    @*<script>
+        function Search() {
+            var trainNo = document.getElementById('trainNo').value;
+            var ta = document.getElementById('trainlist');
+            var tr = ta.getElementsByTagName("tr");
 
-	<table border="1" id="trainlist">
-		<tr>
-			<th>列车编号</th>
-			<th>起始站</th>
-			<th>终点站</th>
-			<th>发车日期</th>
-			<th>出发时间</th>
-			<th>到达时间</th>
-			<th>剩余座位</th>
-		</tr>
-		@*@{
-			if (Model != null)
-				foreach (var x in Model.list)
-				{
-					<tr>
-						<td>@x.UserID</td>
-						<td>@x.UserRName</td>
-						<td>@x.UserGender</td>
-						<td>@x.UserPID</td>
-						<td>@x.UserPhone</td>
-						<td>@x.UserEmail</td>
-						<td>@x.UserAddr</td>
-					</tr>
-				}
-		}*@
-	</table>
+            //循环表格每一行，查找匹配项
+            for (i = 0; i < tr.length; i++) {
+                var td = tr[i].getElementsByTagName("td")[0].innerHTML;
+                if (td == trainNo) {
+                    //
+                    alert(tr[1].getElementsByTagName("td")[1].innerHTML);
+                    return;
+                }
+            }
+            alert("不存在此车次");
+        }
+    </script>*@
+
+<table border="1" id="trainlist">
+    <tr>
+        <th>列车编号</th>
+        <th>起始站</th>
+        <th>终点站</th>
+        <th>出发时间</th>
+        <th>到达时间</th>
+    </tr>
+    @{
+        if (Model != null)
+            for (int i = 0; i < Model.List.Count; i++)
+            {
+                <tr>
+                    <td>@Model.List[i].TrainID</td>
+                    <td>@Model.Start_station[i]</td>
+                    <td>@Model.End_station[i]</td>
+                    <td>@Model.List[i].StartTime</td>
+                    <td>@Model.List[i].EndTime</td>
+                </tr>
+            }
+    }
+</table>
 </div>

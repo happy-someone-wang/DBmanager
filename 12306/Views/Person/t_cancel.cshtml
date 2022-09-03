@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model ReturnModels.Operation_staus
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -17,15 +18,13 @@
             left: 50%;
             transform: translate(-50%,-50%);
             width: 800px;
-            height: 310px;
+            height: auto;
             border: 1px solid #1678be; /*边框*/
             border-radius: 5px 5px 0 0; /*边框圆角*/
             background-color: #fff;
         }
 
         .pay-tips {
-            padding: 35px 50px 35px 50px;
-            position: relative;
             border-top: 0;
         }
 
@@ -43,11 +42,24 @@
             padding-top: 5px;
             font-size: 30px;
             line-height: 30px;
+            margin-left: 50px;
+            margin-top: 30px;
+            margin-bottom: 20px;
         }
 
-        .color {
-            color: #26a306;
+        button {
+            height: 30px;
+            width: 100px;
+            border: none;
+            border-radius: 5px;
+            background-color: darkorange;
+            color: #FFFFFF;
         }
+
+            button:hover {
+                background-color: rgba(255, 140, 0, 0.642);
+                cursor: pointer;
+            }
     </style>
 </head>
 <body>
@@ -56,31 +68,30 @@
             退票申请
         </div>
         <div class="pay-tips">
-            <div class="tip" style="color: #26a306;">
-                <img src="/Person/image/right.png" alt="加载失败" style="width: 30px; line-height: 30px; vertical-align: middle;">
-                <strong>操作成功！</strong>
+            @{
+                if (Model != null)
+                {
+                    if (Model.IsVaild == -1)
+                    {
+                <div class="tip" style="color: #26a306;">
+                    <img src="/Person/image/right.png" alt="加载失败" style="width: 30px; line-height: 30px; vertical-align: middle;">
+                    <strong>退票成功！</strong>
+                </div>
+                    }
+                    else
+                    {
+                <div class="tip" style="color: red;">
+                    <img src="/Person/image/wrong.png" alt="加载失败" style="width: 30px; line-height: 30px; vertical-align: middle;">
+                    <strong>退票失败！</strong>
+                </div>
+                    }
+
+                }
+            }
+            <div style="text-align:center;">
+                <button type="button" onclick="location.href=('/Person/center')">返回个人主页</button>
             </div>
             <br>
-            <div style="padding-top: 20px;">
-                乘车日期：
-                <span class="color">2022年09月07日</span>
-                <br>
-                车次：
-                <span class="color">7515</span>
-                <br>
-                共计退款：
-                <span class="color">6.5元</span>
-                <br>
-                票款原价：
-                <span class="color">6.5元</span>
-                <br>
-                退票手续费：
-                <span class="color">0.0元</span>
-                <span>（按<span class="color">0%</span>收取退票手续费）</span>
-                <br>
-                <br>
-                <br>
-            </div>
         </div>
     </div>
 </body>

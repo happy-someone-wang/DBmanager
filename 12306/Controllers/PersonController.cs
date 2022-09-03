@@ -10,6 +10,9 @@ namespace _12306.Controllers
 {
     public class PersonController : Controller
     {
+        private List<string> Station = new List<string> { "", "北京", "天津", "济南", "上海", "杭州", "台北", "福州", "南昌", "长沙", "广州", "昆明", "贵阳", "武汉", "南京", "郑州", "重庆", "成都", "西安", "兰州", "天津北" };
+        private List<string> Seat= new List<string> { "","商务座","特等座","一等座","二等座" };
+
         public IActionResult center()
         {
             return View();
@@ -56,12 +59,36 @@ namespace _12306.Controllers
         [HttpGet]
         public IActionResult ticket()
         {
+            ReturnModels.OrderList Result = new ReturnModels.OrderList();
+            List<_Order> Orders = new List<_Order>();
+            List<string> start = new List<string>();
+            List<string> end = new List<string>();
+            List<string> seat = new List<string>();
+            //Containers._Current_User.Instance.UserID = "330881200301030073";
+            OracleSqlTools.GetOrder(Containers._Current_User.Instance.UserID, Orders, true);
 
-            return View();
+
+            foreach (_Order x in Orders)
+            {
+                start.Add(Station[x.StartStNo]);
+                end.Add(Station[x.EndStNo]);
+                seat.Add(Seat[x.SeatLevel]);
+            }
+            Result.List = Orders;
+            Result.Start_station = start;
+            Result.End_station = end;
+            Result.Seat_level = seat;
+
+            return View(Result);
         }
-        public IActionResult t_cancel()
+        [HttpGet]
+        public IActionResult t_cancel(string Order_ID)
         {
-            return View();
+            ReturnModels.Operation_staus Result = new ReturnModels.Operation_staus();
+            int t;
+            t = OracleSqlTools.CancelOrder(Order_ID, Containers._Current_User.Instance.UserID,true);
+            Result.IsVaild = t;
+            return View(Result);
         }
         [HttpGet]
         public IActionResult account()

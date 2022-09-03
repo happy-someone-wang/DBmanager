@@ -202,10 +202,10 @@
     </div>
     <div class="tickets-bd" id="chepiao">
         @{
-            if (Model != null)
+            if (Model.TrainTickets!=null)
                 for (int i = 0; i < Model.TrainTickets.Count; i++)
                 {
-                <a style="text-decoration:none;" onclick="location.href = ('/Train/rePay?order_id=@Model.Order_ID&train_id=@Model.TrainTickets[i].TrainID&start_station=@Model.TrainTickets[i].StartStName&end_station=@Model.TrainTickets[i].EndStName&leaving_time=@Model.TrainTickets[i].LeavingTime&arrive_time=@Model.TrainTickets[i].ArriveTime')">
+                <a style="text-decoration:none;" onclick="location.href = ('/Train/rePay?order_id=@Model.Order_ID&train_id=@Model.TrainTickets[i].TrainID&start_station=@Model.TrainTickets[i].StartStName&end_station=@Model.TrainTickets[i].EndStName')">
                     <table class="tickets">
                         <tr>
                             <td>@Model.TrainTickets[i].TrainID</td>

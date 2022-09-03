@@ -4,30 +4,20 @@ using Containers;
 using ReturnModels;
 using ServerSqlTools;
 using System;
+using Crypto;
 
 namespace _12306.Controllers
 {
     public class AdminController : Controller
     {
+        private List<string> Station = new List<string> { "","北京", "天津", "济南", "上海", "杭州", "台北", "福州", "南昌", "长沙", "广州", "昆明", "贵阳", "武汉", "南京", "郑州", "重庆", "成都", "西安", "兰州", "天津北" };
         [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
-
         [HttpPost]
-        public IActionResult Index(string username,string password)
-        {
-
-            return View();
-        }
-        [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult Login(string  username,string password)
+        public IActionResult Index(string  username,string password)
         {
             _Admin admin=new _Admin();
             admin.AdminID = username;
@@ -53,37 +43,184 @@ namespace _12306.Controllers
                 //return Json(U);
             }
         }
+        [HttpGet]
         public IActionResult UserQuery()
         {
             ReturnModels.UserList users = new UserList();
             List<_User> list = new List<_User>();
-            _User U1 = new _User();
+            //_User U1 = new _User();
+            OracleSqlTools.GetAllUser(list, true);
+            
+            //U1.UserID = "1";
+            //U1.UserPWD = "1";
+            //U1.UserPhone = "1";
+            //U1.UserEmail = "1@1.com";
+            //U1.UserRName = "张三";
+            //U1.UserGender = "男";
+            //U1.UserPID = "1";
+            //U1.UserAddr = "上海市";
 
-            U1.UserID = "1";
-            U1.UserPWD = "1";
-            U1.UserPhone = "1";
-            U1.UserEmail = "1@1.com";
-            U1.UserRName = "张三";
-            U1.UserGender = "男";
-            U1.UserPID = "1";
-            U1.UserAddr = "上海市";
+            //list.Add(U1);
+            users.List = list;
+
+            return View(users);
+        }
+        [HttpPost]
+        public IActionResult UserQuery(string ID)
+        {
+            ReturnModels.UserList users = new UserList();
+            List<_User> list = new List<_User>();
+            _User U1 = new _User();
+            string EnID = MyCrypto.Encrypt(ID);
+            OracleSqlTools.GetUser(EnID,ref U1,true);
+
+            if (U1.UserGender == "1")
+            {
+                U1.UserGender = "男";
+            }
+            else
+            {
+                U1.UserGender = "女";
+            }
+            //U1.UserID = "1";
+            //U1.UserPWD = "1";
+            //U1.UserPhone = "1";
+            //U1.UserEmail = "1@1.com";
+            //U1.UserRName = "张三";
+            //U1.UserGender = "男";
+            //U1.UserPID = "1";
+            //U1.UserAddr = "上海市";
 
             list.Add(U1);
             users.List = list;
 
             return View(users);
         }
+        [HttpGet]
         public IActionResult TrainQuery()
         {
-            // 需要得到一个车次类型的list
-            // （）
-            return View();
+            ReturnModels.TrainList trains = new TrainList();
+            List<_TrainManager> list = new List<_TrainManager>();
+            List<string> start = new List<string>();
+            List<string> end = new List<string>();
+            //_User U1 = new _User();
+            OracleSqlTools.GetAllTrain(list, true);
+            foreach (_TrainManager x in list)
+            {
+                start.Add(Station[x.StartStNo]);
+                end.Add(Station[x.EndStNo]);
+            }
+
+            //U1.UserID = "1";
+            //U1.UserPWD = "1";
+            //U1.UserPhone = "1";
+            //U1.UserEmail = "1@1.com";
+            //U1.UserRName = "张三";
+            //U1.UserGender = "男";
+            //U1.UserPID = "1";
+            //U1.UserAddr = "上海市";
+
+            //list.Add(U1);
+            trains.List = list;
+            trains.Start_station = start;
+            trains.End_station = end;
+
+            return View(trains);
         }
+        [HttpPost]
+        public IActionResult TrainQuery(string TrainID)
+        {
+            ReturnModels.TrainList trains = new TrainList();
+            List<_TrainManager> list = new List<_TrainManager>();
+            List<string> start = new List<string>();
+            List<string> end = new List<string>();
+            _TrainManager T = new _TrainManager();
+            OracleSqlTools.GetOneTrain(TrainID, ref T, true);
+
+            list.Add(T);
+            foreach (_TrainManager x in list)
+            {
+                start.Add(Station[x.StartStNo]);
+                end.Add(Station[x.EndStNo]);
+            }
+
+            //U1.UserID = "1";
+            //U1.UserPWD = "1";
+            //U1.UserPhone = "1";
+            //U1.UserEmail = "1@1.com";
+            //U1.UserRName = "张三";
+            //U1.UserGender = "男";
+            //U1.UserPID = "1";
+            //U1.UserAddr = "上海市";
+
+            trains.List = list;
+            trains.Start_station = start;
+            trains.End_station = end;
+
+            return View(trains);
+        }
+        [HttpGet]
         public IActionResult OrderQuery()
         {
-            // 需要得到订单类型的list
-            // （）
-            return View();
+            ReturnModels.OrderList orders = new OrderList();
+            List<_Order> list = new List<_Order>();
+            List<string> start = new List<string>();
+            List<string> end = new List<string>();
+            //_User U1 = new _User();
+            OracleSqlTools.GetAllOrder(list, true);
+            foreach(_Order x in list)
+            {
+                start.Add(Station[x.StartStNo]);
+                end.Add(Station[x.EndStNo]);
+            }
+
+            //U1.UserID = "1";
+            //U1.UserPWD = "1";
+            //U1.UserPhone = "1";
+            //U1.UserEmail = "1@1.com";
+            //U1.UserRName = "张三";
+            //U1.UserGender = "男";
+            //U1.UserPID = "1";
+            //U1.UserAddr = "上海市";
+
+            //list.Add(U1);
+            orders.List = list;
+            orders.Start_station = start;
+            orders.End_station = end;
+
+            return View(orders);
+        }
+        [HttpPost]
+        public IActionResult OrderQuery(string OrderID)
+        {
+            ReturnModels.OrderList orders = new OrderList();
+            List<_Order> list = new List<_Order>();
+            List<string> start = new List<string>();
+            List<string> end = new List<string>();
+            _Order O1 = new _Order();
+            OracleSqlTools.GetOneOrder(OrderID, ref O1, true);
+
+            list.Add(O1);
+            foreach (_Order x in list)
+            {
+                start.Add(Station[x.StartStNo]);
+                end.Add(Station[x.EndStNo]);
+            }
+
+            //U1.UserID = "1";
+            //U1.UserPWD = "1";
+            //U1.UserPhone = "1";
+            //U1.UserEmail = "1@1.com";
+            //U1.UserRName = "张三";
+            //U1.UserGender = "男";
+            //U1.UserPID = "1";
+            //U1.UserAddr = "上海市";
+
+            orders.List = list;
+            orders.Start_station = start;
+            orders.End_station = end;
+
+            return View(orders);
         }
     }
 }

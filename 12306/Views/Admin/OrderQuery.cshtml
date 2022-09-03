@@ -1,7 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
 	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 	ViewData["Title"] = "订单查询";
 }
@@ -15,10 +12,22 @@
 	<li><a asp-controller="Admin" asp-action="TrainQuery">车次查询</a></li>
 </ul>
 <div class="column">
-	<label for="order">订单编号</label>
-	<input type="text" id="order" name="order" placeholder=" ">
-	<input type="submit" value="搜索" onclick="Search()">
-	<script>
+    <form method="post" asp-action="OrderQuery">
+        <label for="order">订单编号:</label>
+        @{
+            if (Model.List.Count == 1)
+            {
+                <input type="text" id="OrderID" name="OrderID" value="@Model.List[0].OrderID" placeholder="@Model.List[0].OrderID">
+            }
+            else
+            {
+                <input type="text" id="OrderID" name="OrderID" placeholder=" ">
+            }
+        }
+        @*<input type="submit" value="搜索" onclick="Search()">*@
+        <button type="submit" id="submit_botton">搜索</button>
+    </form>
+	@*<script>
 		function Search() {
 			var order = document.getElementById('order').value;
 			var ta = document.getElementById('orderlist');
@@ -34,31 +43,30 @@
 			}
 			alert("不存在此订单");
 		}
-	</script>
+	</script>*@
 	<table border="1" id="orderlist">
 		<tr>
 			<th>订单编号</th>
 			<th>乘坐人</th>
 			<th>起始站</th>
 			<th>终点站</th>
-			<th>发车日期</th>
-			<th>出发时间</th>
-			<th>到达时间</th>			
+			<th>车次号</th>
+			<th>订单价格</th>			
 		</tr>
-		@*@{
-			if (Model != null)
-				foreach (var x in Model.list)
-				{
+		@{
+            if (Model != null)
+
+            for(int i=0;i<Model.List.Count;i++)
+            {
 					<tr>
-						<td>@x.UserID</td>
-						<td>@x.UserRName</td>
-						<td>@x.UserGender</td>
-						<td>@x.UserPID</td>
-						<td>@x.UserPhone</td>
-						<td>@x.UserEmail</td>
-						<td>@x.UserAddr</td>
+						<td>@Model.List[i].OrderID</td>
+						<td>@Model.List[i].Passenger.PassengerRName</td>
+						<td>@Model.Start_station[i]</td>
+						<td>@Model.End_station[i]</td>
+						<td>@Model.List[i].TrainID</td>
+						<td>@Model.List[i].OrderValue</td>
 					</tr>
 				}
-		}*@
+		}
 	</table>
 </div>

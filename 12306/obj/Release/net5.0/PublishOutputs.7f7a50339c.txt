@@ -55,14 +55,17 @@ C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Login\images\6.webp
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Login\images\7.webp
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Login\images\8.jpg
-C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Login\js\changePWD.js
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Login\js\jquery.js
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Login\js\logincheck.js
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Login\js\mm.js
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Login\login.html
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Person\image\right.png
+C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Person\image\wrong.png
+C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Person\personal_account.css
+C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Person\personal_account.js
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Person\personal_center.css
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Person\personal_information.css
+C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Person\personal_information.js
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Person\personal_ticket.css
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Person\personal_ticket.js
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Register\agreement.html
@@ -75,6 +78,8 @@ C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Register\register.js
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Train\images\main1.png
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Train\images\main2.png
+C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Train\images\main3.png
+C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Train\images\main4.png
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Train\images\row.jpg
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Train\jquery-3.5.1\jquery-3.5.1.js
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Release\net5.0\PubTmp\Out\wwwroot\Train\jquery-3.5.1\jquery-3.5.1.min.js

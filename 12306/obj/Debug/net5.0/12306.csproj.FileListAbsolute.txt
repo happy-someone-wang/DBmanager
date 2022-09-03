@@ -65,8 +65,6 @@ C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\scopedcss\bun
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\12306.TagHelpers.input.cache
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\12306.TagHelpers.output.cache
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\12306.RazorCoreGenerate.cache
-C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\Razor\Views\Admin\Index.cshtml.g.cs
-C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\Razor\Views\Admin\Login.cshtml.g.cs
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\Razor\Views\Admin\OrderQuery.cshtml.g.cs
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\Razor\Views\Admin\TrainQuery.cshtml.g.cs
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\Razor\Views\Admin\UserQuery.cshtml.g.cs
@@ -196,3 +194,4 @@ C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\12306.Views.p
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\12306.csproj.CopyComplete
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\12306.genruntimeconfig.cache
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\12306.csproj.AssemblyReference.cache
+C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\Razor\Views\Admin\Index.cshtml.g.cs

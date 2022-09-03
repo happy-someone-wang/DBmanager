@@ -1,6 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
 @{
 	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 	ViewData["Title"] = "用户查询";
@@ -15,10 +13,22 @@
 	<li><a asp-controller="Admin" asp-action="TrainQuery">车次查询</a></li>
 </ul>
 <div class="column">
-	<label for="user">用户ID</label>
-	<input type="text" id="id" name="id" placeholder=" ">
-	<input type="submit" value="搜索" onclick="Search()">
-	<script>
+    <form method="post" asp-action="UserQuery">
+        <label for="user">用户身份证号:</label>
+        @{
+                if (Model.List.Count==1)
+                {
+                    <input type="text" id="ID" name="ID" value="@Model.List[0].UserPID" placeholder="@Model.List[0].UserPID">
+                }
+                else
+                {
+                    <input type="text" id="ID" name="ID" placeholder=" ">
+                }
+        }
+        <button type="submit" id="bottom">搜索</button>
+        @*<input type="submit" value="搜索" onclick="Search()">*@
+    </form>
+	@*<script>
 		function Search() {
 			var id = document.getElementById('id').value;
 			var ta = document.getElementById('userlist');
@@ -34,23 +44,21 @@
 			}
 			alert("不存在此用户");
 		}
-	</script>
+	</script>*@
 	<table border="1" id="userlist">
-		<tr>
-			<th>ID</th>
-			<th>姓名</th>
-			<th>性别</th>
-			<th>身份证号</th>
-			<th>电话</th>
-			<th>邮箱</th>
-			<th>居住地</th>
-		</tr>
+        <tr>
+            <th>姓名</th>
+            <th>性别</th>
+            <th>身份证号</th>
+            <th>电话</th>
+            <th>邮箱</th>
+            <th>居住地</th>
+        </tr>
 		@{
 			if (Model != null)
-				foreach (var x in Model.list)
+				foreach (var x in Model.List)
 				{
 					<tr>
-						<td>@x.UserID</td>
 						<td>@x.UserRName</td>
 						<td>@x.UserGender</td>
 						<td>@x.UserPID</td>

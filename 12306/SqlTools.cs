@@ -121,14 +121,7 @@ namespace ServerSqlTools
             string EnUserID = EnUserPID;
 
             //6. insert users
-            string queryStr = "INSERT INTO T_USER Values('" + EnUserID + "','"
-                                                            + EnUserPWD + "','"
-                                                            + EnUserPhone + "','"
-                                                            + U.UserEmail + "','"
-                                                            + EnUserRName + "','"
-                                                            + U.UserGender + "','"
-                                                            + U.UserAddr + "','"
-                                                            + EnUserPID + "');";
+            string queryStr = "UPDATE T_USER SET USER_EMAIL='"+U.UserEmail+"', USER_ADDRESS='"+U.UserAddr+"' WHERE USER_ID ='"+EnUserID+"';";
 
             if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
             {
@@ -466,7 +459,7 @@ namespace ServerSqlTools
             else if (U.UserPhone != null)
             {
                 md5UserPhone = MyCrypto.Encrypt(U.UserPhone);
-                queryStr = "Select USER_PID from T_USER where USER_PHONE_NUMBER = '" + md5UserPhone + "';";
+                queryStr = "Select USER_ID from T_USER where USER_PHONE_NUMBER = '" + md5UserPhone + "';";
             }
 
             //3 query whether the User is existed and check the password
@@ -522,6 +515,14 @@ namespace ServerSqlTools
                     U.UserEmail = DataReader[3].ToString();
                     U.UserRName = MyCrypto.Decrypt(DataReader[4].ToString());
                     U.UserGender = DataReader[5].ToString();
+                    if (U.UserGender == "1")
+                    {
+                        U.UserGender = "男";
+                    }
+                    else
+                    {
+                        U.UserGender = "女";
+                    }
                     U.UserAddr = DataReader[6].ToString();
                     U.UserPID = MyCrypto.Decrypt(DataReader[7].ToString());
                     UList.Add(U);
@@ -562,7 +563,7 @@ namespace ServerSqlTools
             try
             {
                 OdbcDataReader DataReader = sqlcmd.ExecuteReader();
-                if (DataReader.Read())
+                while (DataReader.Read())
                 {
                     _Order TmpOrder = new _Order();
                     TmpOrder.OrderID = DataReader[0].ToString();
@@ -575,10 +576,10 @@ namespace ServerSqlTools
                     int.TryParse(DataReader[4].ToString(), out TmpInt);
                     TmpOrder.CarriageNo = TmpInt;
                     TmpOrder.SeatNo = DataReader[5].ToString();
-                    int.TryParse(DataReader[5].ToString(), out TmpInt);
+                    int.TryParse(DataReader[6].ToString(), out TmpInt);
                     TmpOrder.OrderValue = TmpInt;
-                    TmpOrder.OrderCreate = DataReader[6].ToString();
-                    int.TryParse(DataReader[7].ToString(), out TmpInt);
+                    TmpOrder.OrderCreate = DataReader[7].ToString();
+                    int.TryParse(DataReader[8].ToString(), out TmpInt);
                     TmpOrder.OrderState = TmpInt;
                     OrderList.Add(TmpOrder);
                 }
@@ -604,7 +605,7 @@ namespace ServerSqlTools
                     if (DataReader.Read())
                     {
                         P.PassengerPID = MyCrypto.Decrypt(DataReader[0].ToString());
-                        P.UserID = DataReader[0].ToString();
+                        P.UserID = DataReader[1].ToString();
                     }
                     else
                     {
@@ -855,11 +856,13 @@ namespace ServerSqlTools
                     int.TryParse(DataReader[4].ToString(), out TmpInt);
                     O.CarriageNo = TmpInt;
                     O.SeatNo = DataReader[5].ToString();
-                    int.TryParse(DataReader[5].ToString(), out TmpInt);
+                    int.TryParse(DataReader[6].ToString(), out TmpInt);
                     O.OrderValue = TmpInt;
-                    O.OrderCreate = DataReader[6].ToString();
-                    int.TryParse(DataReader[7].ToString(), out TmpInt);
+                    O.OrderCreate = DataReader[7].ToString();
+                    int.TryParse(DataReader[8].ToString(), out TmpInt);
                     O.OrderState = TmpInt;
+                    int.TryParse(DataReader[9].ToString(), out TmpInt);
+                    O.SeatLevel = TmpInt;
                 }
                 else
                 {
@@ -883,7 +886,7 @@ namespace ServerSqlTools
                 if (DataReader.Read())
                 {
                     P.PassengerPID = MyCrypto.Decrypt(DataReader[0].ToString());
-                    P.UserID = DataReader[0].ToString();
+                    P.UserID = DataReader[1].ToString();
                 }
                 else
                 {
@@ -985,7 +988,6 @@ namespace ServerSqlTools
                 return (int)SqlErrorCode.ERR_CONN;
             }
             Console.WriteLine("2 Success");
-
             //
             string queryStr = "SELECT * from T_USER where USER_ID = '" + UserID + "';";
             OdbcCommand sqlcmd = new OdbcCommand(queryStr, conn);
@@ -2721,13 +2723,14 @@ namespace ServerSqlTools
             }
 
             //5-3 delete order
-            queryStr = "DELETE from T_ORDER_LIST where ORDER_ID = '" + TmpOrder.OrderID + "';";
+            
+            queryStr = "DELETE from T_ORDERS where ORDER_ID = '" + TmpOrder.OrderID + "';";
             if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
             {
                 MyLogger.LogOrder(UserID, OrderID, TmpOrder.TrainID, 1, 0, "SQL Command Error / Connection Failed");
                 return ret;
             }
-            queryStr = "DELETE from T_ORDERS where ORDER_ID = '" + TmpOrder.OrderID + "';";
+            queryStr = "DELETE from T_ORDER_LIST where ORDER_ID = '" + TmpOrder.OrderID + "';";
             if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
             {
                 MyLogger.LogOrder(UserID, OrderID, TmpOrder.TrainID, 1, 0, "SQL Command Error / Connection Failed");
@@ -2796,12 +2799,12 @@ namespace ServerSqlTools
                         int.TryParse(DataReader[4].ToString(), out TmpInt);
                         TmpOrder.CarriageNo = TmpInt;
                         TmpOrder.SeatNo = DataReader[5].ToString();
-                        int.TryParse(DataReader[5].ToString(), out TmpInt);
+                        int.TryParse(DataReader[6].ToString(), out TmpInt);
                         TmpOrder.OrderValue = TmpInt;
-                        TmpOrder.OrderCreate = DataReader[6].ToString();
-                        int.TryParse(DataReader[7].ToString(), out TmpInt);
-                        TmpOrder.OrderState = TmpInt;
+                        TmpOrder.OrderCreate = DataReader[7].ToString();
                         int.TryParse(DataReader[8].ToString(), out TmpInt);
+                        TmpOrder.OrderState = TmpInt;
+                        int.TryParse(DataReader[9].ToString(), out TmpInt);
                         TmpOrder.SeatLevel = TmpInt;
                         OrderList.Add(TmpOrder);
                     }

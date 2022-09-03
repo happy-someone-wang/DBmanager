@@ -1,4 +1,5 @@
-﻿<!doctype html>
+﻿@model ReturnModels.OrderList
+<!doctype html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -102,58 +103,67 @@
                                         </tbody>
                                     </table>
                                     <div id="not_travel">
-                                        <div class="order-item">
-                                            <div class="order-item-hd">
-                                                <div class="order-hd-info"><span class="txt-light">订票日期：</span><span class="dingqiaoDate" data-date="2022-08-31 21:23:25">2022-08-31</span></div>
-                                                <div class="order-hd-info"><span class="txt-light">订单号：</span>ED43099486</div>
-                                            </div>
-                                            <div class="order-item-bd">
-                                                <table class="order-item-table" id="query_order_form_ED43099486">
-                                                    <colgroup>
-                                                        <col class="col-train">
-                                                        <col class="col-passenger">
-                                                        <col class="col-seat">
-                                                        <col class="col-price">
-                                                        <col class="col-state">
-                                                        <col>
-                                                    </colgroup>
-                                                    <tbody>
-                                                        <tr class="has-order-num ">
-                                                            <td class="td-left align-top" rowspan="1">
-                                                                <div class="order-info-ticket">
-                                                                    <!-- <div class="order-num-one">去程</div> -->
-                                                                    <div class="txt-bold txt-lg">白银西&nbsp;&gt;&nbsp;长征 7515</div>
-                                                                    <div>2022-09-14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 11:10 开</div>
-                                                                </div>
-                                                            </td>
-                                                            <td style="width: 200px;">
-                                                                <div class="passenger-operation">
-                                                                    <div class="passenger-check data-val" data-sequence="ED43099486" data-value="ED43099486,1,03,0011,2022-09-14 11:10" data-tradeno="NN1NNNJ0Z0Z1N0W1Z00N00  000Z0Z      00Z"> </div>
-                                                                    <div>白晶晶 </div>
-                                                                    <div> 中国居民身份证 </div>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div>硬座</div>
-                                                                <div>03车011号</div>
-                                                            </td>
-                                                            <td style="position: relative;">
-                                                                <div> 成人票 </div>
-                                                                <div><span class="txt-price">6.5元</span></div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="ticket-status-name">
-                                                                    <div> 已支付 </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td colspan="6" class="order-operation"><div class="btn-right"> <a href="javascript:void(0)" class="btn resignTrain" data-sequenceno="ED43099486" data-type="N" data-start-train-date-page="2022-09-14 11:10">改签</a> <a href="javascript:void(0)" class="btn resignTrain" data-sequenceno="ED43099486" data-type="Y" onclick="ac()">退票</a> </div></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
+                                        @{
+                                            if (Model != null)
+                                            {
+                                                for(int i=0;i<Model.List.Count;i++)
+                                                {
+                                                <div class="order-item">
+                                                    <div class="order-item-hd">
+                                                        <div class="order-hd-info"><span class="txt-light">订票时间：</span><span class="dingqiaoDate" data-date="@Model.List[i].OrderCreate">@Model.List[i].OrderCreate</span></div>
+                                                        <div class="order-hd-info"><span class="txt-light">订单号：</span>@Model.List[i].OrderID</div>
+                                                    </div>
+                                                    <div class="order-item-bd">
+                                                        <table class="order-item-table" id="query_order_form_ED43099486">
+                                                            <colgroup>
+                                                                <col class="col-train">
+                                                                <col class="col-passenger">
+                                                                <col class="col-seat">
+                                                                <col class="col-price">
+                                                                <col class="col-state">
+                                                                <col>
+                                                            </colgroup>
+                                                            <tbody>
+                                                                <tr class="has-order-num ">
+                                                                    <td class="td-left align-top" rowspan="1">
+                                                                        <div class="order-info-ticket">
+                                                                            <!-- <div class="order-num-one">去程</div> -->
+                                                                            <div class="txt-bold txt-lg">@Model.Start_station[i]&nbsp;&gt;&nbsp;@Model.End_station[i] @Model.List[i].TrainID</div>
+                                                                            <div>@Model.List[i].LeavingTime 开</div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td style="width: 200px;">
+                                                                        <div class="passenger-operation">
+                                                                            <div class="passenger-check data-val" data-sequence="ED43099486" data-value="ED43099486,1,03,0011,2022-09-14 11:10" data-tradeno="NN1NNNJ0Z0Z1N0W1Z00N00  000Z0Z      00Z"> </div>
+                                                                            <div>@Model.List[i].Passenger.PassengerRName </div>
+                                                                            <div> 中国居民身份证 </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div>@Model.Seat_level[i]</div>
+                                                                        <div>@Model.List[i].CarriageNo 车 @Model.List[i].SeatNo 号</div>
+                                                                    </td>
+                                                                    <td style="position: relative;">
+                                                                        <div> 成人票 </div>
+                                                                        <div><span class="txt-price">@Model.List[i].OrderValue 元</span></div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="ticket-status-name">
+                                                                            <div> 已支付 </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="6" class="order-operation"><div class="btn-right"> <a href="/Train/reBuy?Order_ID=@Model.List[i].OrderID" class="btn resignTrain" data-sequenceno="ED43099486" data-type="N" data-start-train-date-page="2022-09-14 11:10">改签</a> <a href="/Person/t_cancel?Order_ID=@Model.List[i].OrderID" class="btn resignTrain" data-sequenceno="@Model.List[i].OrderID" data-type="Y">退票</a> </div></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                }
+                                                
+                                            }
+                                        }
                                     </div>
                                     <div id="J-Trip" class="pagination mt-lg"></div>
                                 </div>
@@ -299,7 +309,7 @@
             </ul>
             <hr>
         </div>
-        <div class="choice"> <a href="#" onclick="ac()" class="tc_btn">取消</a> <a href="tp_succ.html" class="tc_btn" style="margin-left: 30px;">确定</a> </div>
+        <div class="choice"> <a href="#" onclick="ac()" class="tc_btn">取消</a> <a href="/Person/t_cancel?Order_ID=" class="tc_btn" style="margin-left: 30px;">确定</a> </div>
     </div>
     <script type="text/javascript" src="personal_ticket.js"></script>
 </body>
