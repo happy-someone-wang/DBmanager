@@ -10,11 +10,13 @@ namespace _12306.Controllers
 {
     public class PersonController : Controller
     {
-        private List<string> Station = new List<string> { "", "北京", "天津", "济南", "上海", "杭州", "台北", "福州", "南昌", "长沙", "广州", "昆明", "贵阳", "武汉", "南京", "郑州", "重庆", "成都", "西安", "兰州", "天津北" };
+        private static List<_Station> Station = new List<_Station>();
         private List<string> Seat= new List<string> { "","商务座","特等座","一等座","二等座" };
 
         public IActionResult center()
         {
+            Station.Clear();
+            OracleSqlTools.GetAllStation(Station, true);
             return View();
         }
         [HttpGet]
@@ -70,8 +72,8 @@ namespace _12306.Controllers
 
             foreach (_Order x in Orders)
             {
-                start.Add(Station[x.StartStNo]);
-                end.Add(Station[x.EndStNo]);
+                start.Add(Station[x.StartStNo].StationName);
+                end.Add(Station[x.EndStNo].StationName);
                 seat.Add(Seat[x.SeatLevel]);
             }
             Result.List = Orders;

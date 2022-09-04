@@ -544,6 +544,51 @@ namespace ServerSqlTools
             return -1;
 
         }
+        public static int GetAllStation(List<_Station> SList, bool IsClose)
+        {
+            //1. check security
+            //TODO
+
+            //2. connect to the database
+            if (!Connect())
+            {
+                Console.WriteLine("Failed to Connect to Oracle");
+                return (int)SqlErrorCode.ERR_CONN;
+            }
+            Console.WriteLine("2 Success");
+
+            //3
+            string queryStr = "SELECT * from T_STATION_INFO;";
+            OdbcCommand sqlcmd = new OdbcCommand(queryStr, conn);
+            try
+            {
+                OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                while (DataReader.Read())
+                {
+                    _Station S = new _Station();
+                    int TmpInt;
+                    int.TryParse(DataReader[0].ToString(), out TmpInt);
+                    S.StationNo = TmpInt;
+                    S.StationName = DataReader[1].ToString();
+                    SList.Add(S);
+                }
+                DataReader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return (int)SqlErrorCode.ERR_SQLCMD;
+            }
+
+            if (IsClose)
+            {
+                Close();
+                Console.WriteLine("Connection Closed");
+            }
+
+            return -1;
+
+        }
         public static int GetAllOrder(List<_Order> OrderList, bool IsClose)
         {
             //1 check security

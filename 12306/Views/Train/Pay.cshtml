@@ -138,14 +138,6 @@
             padding: 20px 0px;
         }
     </style>
-    @{
-        if (Model == null)
-        {
-            <script>
-                window.history.go(-1);
-            </script>
-        }
-    }
 
 </head>
 <body>
@@ -239,12 +231,9 @@
             </div>
         </div>
         <div class="pay-type">
-            <label><input type="radio" name="payway" value="Wechat">微信支付</label>
-            &emsp;&emsp;&emsp;
-            <label><input type="radio" name="payway" value="Alipay">支付宝支付</label>
             <p style="padding: 20px 0px;"><button class="btn" type="submit" style="width: 200px;font-size:medium;background-image: linear-gradient(#9198e5, #9198e5);">订票</button></p>
         </div>
-        </form>
+    </form>
         <script>
             function on(e) {
                 e.setAttribute("value", e.value);

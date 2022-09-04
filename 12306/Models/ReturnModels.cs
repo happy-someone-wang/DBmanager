@@ -72,11 +72,15 @@ namespace ReturnModels
         private string end_station;
         private myDate._Date leaving_time;
         private List<_TrainTicket> trainTickets;
+        private List<_Station> Station;
+        private List<List<_TrainParking>> Passing_station;
 
         public string Start_station { get => start_station; set => start_station = value; }
         public string End_station { get => end_station; set => end_station = value; }
         public List<_TrainTicket> TrainTickets { get => trainTickets; set => trainTickets = value; }
         public _Date Leaving_time { get => leaving_time; set => leaving_time = value; }
+        public List<_Station> Station1 { get => Station; set => Station = value; }
+        public List<List<_TrainParking>> Passing_station1 { get => Passing_station; set => Passing_station = value; }
     }
 
     public class Train_Pay_Model
@@ -86,12 +90,16 @@ namespace ReturnModels
         private string end_station;
         private myDate._Date leaving_time;
         private myDate._Date arrive_time;
+        private List<_TrainParking> passing_stations;
+        private List<_Passenger> myPassengers;
 
         public string Train_ID { get => train_ID; set => train_ID = value; }
         public string Start_station { get => start_station; set => start_station = value; }
         public string End_station { get => end_station; set => end_station = value; }
         public _Date Leaving_time { get => leaving_time; set => leaving_time = value; }
         public _Date Arrive_time { get => arrive_time; set => arrive_time = value; }
+        public List<_Passenger> MyPassengers { get => myPassengers; set => myPassengers = value; }
+        public List<_TrainParking> Passing_stations { get => passing_stations; set => passing_stations = value; }
     }
 
     public class Train_Result_Model
@@ -126,6 +134,7 @@ namespace ReturnModels
         private string end_station;
         private myDate._Date leaving_time;
         private List<_TrainTicket> trainTickets;
+        private List<_Station> Station;
         private string order_ID;
 
         public string Start_station { get => start_station; set => start_station = value; }
@@ -133,5 +142,6 @@ namespace ReturnModels
         public List<_TrainTicket> TrainTickets { get => trainTickets; set => trainTickets = value; }
         public _Date Leaving_time { get => leaving_time; set => leaving_time = value; }
         public string Order_ID { get => order_ID; set => order_ID = value; }
+        public List<_Station> Station1 { get => Station; set => Station = value; }
     }
 }

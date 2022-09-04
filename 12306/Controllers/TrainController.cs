@@ -11,11 +11,13 @@ namespace _12306.Controllers
    
     public class TrainController : Controller
     {
-        private static List<string> Station = new List<string> { "北京", "天津", "济南", "上海", "杭州", "台北", "福州", "南昌", "长沙", "广州", "昆明", "贵阳", "武汉", "南京", "郑州", "重庆", "成都", "西安", "兰州", "天津北" };
+        private static List<_Station> Station = new List<_Station> ();
         private static List<string> Seat_Level = new List<string> { "VIP", "EX", "first", "second" };
         public IActionResult Index()
         {
-            return View();
+            Station.Clear();
+            OracleSqlTools.GetAllStation(Station, true);
+            return View(Station);
         }
         [HttpGet]
         public IActionResult Buy()
@@ -26,8 +28,23 @@ namespace _12306.Controllers
         public IActionResult Buy(string start_station,string end_station,string date,string datem,string dated)
         {
             List<_TrainTicket> trainTickets = new List<_TrainTicket> { };
-            int start = 1+Station.IndexOf(start_station);
-            int end = 1+Station.IndexOf(end_station);
+            int start = 0;
+            int end = 0;
+            foreach(_Station m in Station)
+            {
+                if(m.StationName==start_station)
+                {
+                    start = m.StationNo;
+                }
+                if(m.StationName==end_station)
+                {
+                    end = m.StationNo;
+                }
+                if(start>0&&end>0)
+                {
+                    break;
+                }
+            }
             OracleSqlTools.SearchTrain(start, end, Convert.ToInt32(date), Convert.ToInt32(datem), Convert.ToInt32(dated), trainTickets, true);
             ReturnModels.Train_Buy_Model ReturnModel = new ReturnModels.Train_Buy_Model { };
             ReturnModel.Start_station = start_station;
@@ -51,8 +68,8 @@ namespace _12306.Controllers
                 return Content("Order_id error");
             }
             ReturnModels.Train_reBuy_Model ReturnModel = new ReturnModels.Train_reBuy_Model { };
-            ReturnModel.Start_station = Station[O_temp.StartStNo-1];
-            ReturnModel.End_station = Station[O_temp.EndStNo - 1];
+            ReturnModel.Start_station = Station[O_temp.StartStNo-1].StationName;
+            ReturnModel.End_station = Station[O_temp.EndStNo - 1].StationName;
             ReturnModel.Order_ID = Order_ID;
             myDate._Date temp = new myDate._Date("1900/01/01 01:00:00");
             ReturnModel.Leaving_time = temp;
@@ -85,8 +102,8 @@ namespace _12306.Controllers
             }
             trainTickets.RemoveAt(old_train);
             ReturnModels.Train_reBuy_Model ReturnModel = new ReturnModels.Train_reBuy_Model { };
-            ReturnModel.Start_station = Station[O_temp.StartStNo - 1];
-            ReturnModel.End_station = Station[O_temp.EndStNo - 1];
+            ReturnModel.Start_station = Station[O_temp.StartStNo - 1].StationName;
+            ReturnModel.End_station = Station[O_temp.EndStNo - 1].StationName;
             leaving.Year = leaving.Year;
             leaving.Month = leaving.Month;
             leaving.Day = leaving.Day;
@@ -104,8 +121,13 @@ namespace _12306.Controllers
             return_model.Start_station = start_station;
             return_model.End_station = end_station;
             return_model.Train_ID = train_id;
+            if(leaving_time==null)
+            {
+                return View();
+            }
             return_model.Leaving_time = new myDate._Date( leaving_time);
             return_model.Arrive_time = new myDate._Date(arrive_time);
+            OracleSqlTools.GetPassenger(Containers._Current_User.Instance.UserID, return_model.MyPassengers,true);
             return View(return_model);
         }
         public class passenger_info
@@ -127,7 +149,24 @@ namespace _12306.Controllers
             for(int i=0;i<idcard.Count;i++)
             {
                 _Seat seat_temp = new _Seat();
-                if(OracleSqlTools.SearchSeat(train_id, 1+Station.IndexOf(start_station), 1+Station.IndexOf(end_station), 1+Seat_Level.IndexOf(seat[i]), 0, ref seat_temp, true)!=-1)
+                int start = 0;
+                int end = 0;
+                foreach (_Station m in Station)
+                {
+                    if (m.StationName == start_station)
+                    {
+                        start = m.StationNo;
+                    }
+                    if (m.StationName == end_station)
+                    {
+                        end = m.StationNo;
+                    }
+                    if (start > 0 && end > 0)
+                    {
+                        break;
+                    }
+                }
+                if (OracleSqlTools.SearchSeat(train_id, start,end, 1+Seat_Level.IndexOf(seat[i]), 0, ref seat_temp, true)!=-1)
                 {
                     continue;
                 }
@@ -162,7 +201,24 @@ namespace _12306.Controllers
             _Order old_order = new _Order();
             OracleSqlTools.GetOneOrder(order_id, ref old_order, true);
             _Seat new_seat = new _Seat();
-            if (OracleSqlTools.SearchSeat(train_id, 1 + Station.IndexOf(start_station), 1 + Station.IndexOf(end_station), old_order.SeatLevel, 0, ref new_seat, true) != -1)
+            int start = 0;
+            int end = 0;
+            foreach (_Station m in Station)
+            {
+                if (m.StationName == start_station)
+                {
+                    start = m.StationNo;
+                }
+                if (m.StationName == end_station)
+                {
+                    end = m.StationNo;
+                }
+                if (start > 0 && end > 0)
+                {
+                    break;
+                }
+            }
+            if (OracleSqlTools.SearchSeat(train_id, start,end, old_order.SeatLevel, 0, ref new_seat, true) != -1)
             {
                 return Content("new seat notfound");
             }
@@ -178,9 +234,14 @@ namespace _12306.Controllers
             ReturnModels.Train_Result_Model Result = new ReturnModels.Train_Result_Model { };
             Result.Order_info.Add(new_Order);
             Result.Passenger_name.Add(old_order.Passenger.PassengerRName);
-            Result.Start_station = Station[new_Order.StartStNo - 1];
-            Result.End_station = Station[new_Order.EndStNo - 1];
+            Result.Start_station = Station[new_Order.StartStNo - 1].StationName;
+            Result.End_station = Station[new_Order.EndStNo - 1].StationName;
             return View("order_result",Result);
+        }
+        [HttpGet]
+        public IActionResult order_result()
+        {
+            return View();
         }
     }
     
