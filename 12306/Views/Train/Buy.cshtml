@@ -164,11 +164,11 @@
             <ul>
                 <li>
                     <span>始发站：</span>
-                    <input onclick="in1()" id="bef3" name="start_station" placeholder="@Model.Start_station">
+                    <input onclick="in1()" id="bef3" name="start_station" placeholder="@Model.Start_station" value="@Model.Start_station">
                  </li>
                         <li>
                             <span>终点站：</span>
-                            <input onclick="in2()" name="end_station" id="bef4" placeholder="@Model.End_station">
+                            <input onclick="in2()" name="end_station" id="bef4" placeholder="@Model.End_station" value="@Model.End_station">
                         </li>
             <li>
                 <span>出发日期：</span>
@@ -209,7 +209,7 @@
                         <tr>
                             <td>@Model.TrainTickets[i].TrainID</td>
                             <td>@Model.TrainTickets[i].StartStName--@Model.TrainTickets[i].EndStName</td>
-                            <td>@Model.TrainTickets[i].LeavingTime--@Model.TrainTickets[i].LeavingTime</td>
+                            <td>@Model.TrainTickets[i].LeavingTime--@Model.TrainTickets[i].ArriveTime</td>
                             <td>@Model.TrainTickets[i].VIPAmount</td>
                             <td>@Model.TrainTickets[i].EXAmount</td>
                             <td>@Model.TrainTickets[i].FirstAmount</td>

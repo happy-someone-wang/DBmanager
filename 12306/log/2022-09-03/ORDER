@@ -72,3 +72,9 @@
 [Success]  
 [2022/9/3 18:31:12] [ORDER] [CANCEL] User(PID = 5xaa5xaa5aaa5Faa5aaa54aa54aa5aaa5aaa5baa5aaa5Faa54aa5baa5aaa5Eaa5yaa5zaa) try to Cancel Order(OID = 1662201049,TID = G003)
 [Success]  Success
+[2022/9/3 20:42:43] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = 1662208961,TID = G006)
+[Success]  
+[2022/9/3 20:43:35] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = 1662209014,TID = G006)
+[Success]  
+[2022/9/3 20:43:37] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = 1662209016,TID = G006)
+[Success]  
