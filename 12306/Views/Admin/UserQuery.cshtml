@@ -1,93 +1,93 @@
-﻿
-@{
-	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-	ViewData["Title"] = "用户查询";
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["Title"] = "用户查询";
 }
 @model ReturnModels.UserList;
-<div class="header">
-	<h1>管理员页面</h1>
-</div>
-<ul>
-	<li><a asp-controller="Admin" asp-action="OrderQuery">订单查询</a></li>
-	<li><a class="active" asp-controller="Admin" asp-action="UserQuery">用户查询</a></li>
-	<li><a asp-controller="Admin" asp-action="TrainQuery">车次查询</a></li>
-</ul>
-<div class="column">
-    <form method="post" asp-action="UserQuery">
-        <label for="user">用户身份证号:</label>
-        @{
-                if (Model.List.Count==1)
-                {
-                    <input type="text" id="ID" name="ID" value="@Model.List[0].UserPID" placeholder="@Model.List[0].UserPID">
-                }
-                else
-                {
-                    <input type="text" id="ID" name="ID" placeholder=" ">
-                }
-        }
-        <button type="submit" id="bottom">搜索</button>
-        @*<input type="submit" value="搜索" onclick="Search()">*@
-    </form>
-	@*<script>
-		function Search() {
-			var id = document.getElementById('id').value;
-			var ta = document.getElementById('userlist');
-			var tr = ta.getElementsByTagName("tr");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户查询</title>
+    <link rel="stylesheet" href="/Admin/admin.css">
+</head>
+<body>
+    <div class="nav">
+        <div class="nav-hd">
+            铁路购票系统
+        </div>
+        <hr style="margin-top: 45px;color:#fff">
+        <div class="nav-bd" id="nav">
+            <ul>
+                <li class="nav-item">
+                    <img class="img1" src="/Admin/image/订单查询1.png">
+                    <img class="img2" src="/Admin/image/订单查询2.png">
+                    <a href="/Admin/OrderQuery">订单查询</a>
+                </li>
+                <li class="current nav-item">
+                    <img class="img1" src="/Admin/image/用户查询1.png">
+                    <img class="img2" src="/Admin/image/用户查询2.png">
+                    <a href="/Admin/UserQuery">用户查询</a>
+                </li>
+                <li class="nav-item">
+                    <img class="img1" src="/Admin/image/车次查询1.png">
+                    <img class="img2" src="/Admin/image/车次查询2.png">
+                    <a href="/Admin/TrainQuery">车次查询</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="logout">
+        <span>您好！</span>
+        <span style="color: #6F9BFF;">管理员</span>
+    </div>
 
-			//循环表格每一行，查找匹配项
-			for (i = 0; i < tr.length; i++) {
-				var td = tr[i].getElementsByTagName("td")[0].innerHTML;
-				if (td == id) {
-					alert(tr[1].getElementsByTagName("td")[1].innerHTML);
-					return;
-				}
-			}
-			alert("不存在此用户");
-		}
-	</script>*@
-	<table border="1" id="userlist">
-        <tr>
-            <th>姓名</th>
-            <th>性别</th>
-            <th>身份证号</th>
-            <th>电话</th>
-            <th>邮箱</th>
-            <th>居住地</th>
-        </tr>
-		@{
-			if (Model != null)
-				foreach (var x in Model.List)
-				{
-					<tr>
-						<td>@x.UserRName</td>
-						<td>@x.UserGender</td>
-						<td>@x.UserPID</td>
-						<td>@x.UserPhone</td>
-						<td>@x.UserEmail</td>
-						<td>@x.UserAddr</td>
-					</tr>
-				}
-		}
-
-		<!--
-		  <tr>
-			  <td>123</td>
-			  <td>Alex</td>
-			  <td>男</td>
-			  <td>111111111111111111</td>
-			  <td>110</td>
-			  <td>111@1.com</td>
-			  <td>sss</td>
-		  </tr>
-		  <tr>
-			  <td>321</td>
-			  <td>Ken</td>
-			  <td>男</td>
-			  <td>222222221111111111</td>
-			  <td>119</td>
-			  <td>121@1.com</td>
-			  <td>aaa</td>
-		  </tr>
-		  -->
-	</table>
-</div>
+    <div class="content">
+        <div class="search">
+            <form method="post" asp-action="UserQuery">
+                <label for="user">
+                    <h2 style="display: inline-block;">用户身份证号：</h2>
+                </label>
+                        <input type="text" id="ID" name="ID" placeholder=" ">
+                <button style="margin-left: 750px;" class="query" type="submit" id="bottom" style="margin-left: 410px;">搜索</button>
+                @*<input style="margin-left: 750px;" class="i_submit" type="submit" value="搜索" onclick="Search()">*@
+            </form>
+        </div>
+        <div class="lists">
+            <div class="lists-hd">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>姓名</th>
+                            <th>性别</th>
+                            <th>身份证号</th>
+                            <th>电话</th>
+                            <th>邮箱</th>
+                            <th>居住地</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="lists-bd">
+                <table class="list" id="userlist">
+                    @{
+                        if (Model != null)
+                            foreach (var x in Model.List)
+                            {
+                                <tr>
+                                    <td>@x.UserRName</td>
+                                    <td>@x.UserGender</td>
+                                    <td>@x.UserPID</td>
+                                    <td>@x.UserPhone</td>
+                                    <td>@x.UserEmail</td>
+                                    <td>@x.UserAddr</td>
+                                </tr>
+                            }
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

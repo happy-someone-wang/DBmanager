@@ -103,5 +103,132 @@ namespace myDate
             this.Minute = Minute;
             this.Second = Second;
         }
+
+        public void SetDate(string Date) //Date格式为yyyy-mm-dd
+        {
+            int Year = 0;
+            int Month = 0; 
+            int Day = 0;
+            int eleCnt = 0;
+            string TmpStr = "";
+            for(int i = 0; i < Date.Count(); i++)
+            {
+                if(Date[i] != '-')
+                {
+                    TmpStr += Date[i];
+                }
+                else if(eleCnt == 0)
+                {
+                    int.TryParse(TmpStr, out Year);
+                    TmpStr = "";
+                    eleCnt++;
+                }
+                else if(eleCnt == 1)
+                {
+                    int.TryParse(TmpStr, out Month);
+                    TmpStr = "";
+                    eleCnt++;
+                }
+                else if(eleCnt == 2)
+                {
+                    int.TryParse(TmpStr, out Day);
+                    TmpStr = "";
+                    eleCnt++;
+                }
+            }
+            this.Year = Year;
+            this.Month = Month;
+            this.Day = Day;
+        }
+
+        public void SetTime(string Time) //Time格式为hh:mm:ss
+        {
+            int Hour = 0;
+            int Minute = 0; 
+            int Second = 0;
+            int eleCnt = 0;
+            string TmpStr = "";
+            for(int i = 0; i < Time.Count(); i++)
+            {
+                if(Time[i] != ':')
+                {
+                    TmpStr += Time[i];
+                }
+                else if(eleCnt == 0)
+                {
+                    int.TryParse(TmpStr, out Hour);
+                    TmpStr = "";
+                    eleCnt++;
+                }
+                else if(eleCnt == 1)
+                {
+                    int.TryParse(TmpStr, out Minute);
+                    TmpStr = "";
+                    eleCnt++;
+                }
+                else if(eleCnt == 2)
+                {
+                    int.TryParse(TmpStr, out Second);
+                    TmpStr = "";
+                    eleCnt++;
+                }
+            }
+            this.Hour = Hour;
+            this.Minute = Minute;
+            this.Second = Second;
+        } 
+
+        public static bool Compare(_Date Left, _Date Right)
+        {
+            if(Left.Year == Right.Year)
+            {
+                if(Left.Month == Right.Month)
+                {
+                    if(Left.Day == Right.Day)
+                    {
+                        if(Left.Hour == Right.Hour)
+                        {
+                            if(Left.Minute == Right.Minute)
+                            {
+                                if(Left.Second == Right.Second)
+                                {
+                                    return true;
+                                }
+                                return Left.Second > Right.Second;
+                            }
+                            return Left.Minute > Right.Minute;
+                        }
+                        return Left.Hour > Right.Hour;
+                    }
+                    return Left.Day > Right.Day;
+                }
+                return Left.Month > Right.Month;
+            }
+            return Left.Year > Right.Year;
+        }
+
+        public string GetDate() //yyyy-mm-dd
+        {
+            string Result = "";
+            Result += Year.ToString();
+            Result += '-';
+            if(Month < 10)
+            {
+                Result += '0';
+            }
+            Result += Month.ToString();
+            Result += '-';
+            if(Day < 10)
+            {
+                Result += '0';            
+            }
+            Result += Day.ToString();
+            return Result;
+        }
+
+        public void AddDate(int DayCnt)
+        {
+            this.Day += DayCnt;
+        }
     }
 }

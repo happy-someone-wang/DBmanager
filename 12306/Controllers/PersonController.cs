@@ -72,8 +72,25 @@ namespace _12306.Controllers
 
             foreach (_Order x in Orders)
             {
-                start.Add(Station[x.StartStNo].StationName);
-                end.Add(Station[x.EndStNo].StationName);
+                string startSt = null;
+                string endSt = null;
+                foreach (_Station m in Station)
+                {
+                    if (m.StationName == x.StartStNo)
+                    {
+                        startSt = m.StationName;
+                    }
+                    if (m.StationName == x.EndStNo)
+                    {
+                        endSt = m.StationName;
+                    }
+                    if (start != null && end != null)
+                    {
+                        break;
+                    }
+                }
+                start.Add(startSt);
+                end.Add(endSt);
                 seat.Add(Seat[x.SeatLevel]);
             }
             Result.List = Orders;
@@ -101,7 +118,7 @@ namespace _12306.Controllers
         [HttpPost]
         public IActionResult account(string newPassword)
         {
-            int t = OracleSqlTools.ChgPwd(Containers._Current_User.Instance.UserID, newPassword, true);
+            int t = OracleSqlTools.ChangePWD(Containers._Current_User.Instance.UserID, newPassword, true);
             ReturnModels.Operation_staus Result = new ReturnModels.Operation_staus();
             Result.IsVaild = t;
             return View("center", Result);

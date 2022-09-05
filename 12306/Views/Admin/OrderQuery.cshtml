@@ -1,72 +1,111 @@
 ﻿@{
-	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-	ViewData["Title"] = "订单查询";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["Title"] = "订单查询";
 }
-@model ReturnModels.OrderList;
-<div class="header">
-	<h1>管理员页面</h1>
-</div>
-<ul>
-	<li><a class="active" asp-controller="Admin" asp-action="OrderQuery">订单查询</a></li>
-	<li><a asp-controller="Admin" asp-action="UserQuery">用户查询</a></li>
-	<li><a asp-controller="Admin" asp-action="TrainQuery">车次查询</a></li>
-</ul>
-<div class="column">
-    <form method="post" asp-action="OrderQuery">
-        <label for="order">订单编号:</label>
-        @{
-            if (Model.List.Count == 1)
-            {
-                <input type="text" id="OrderID" name="OrderID" value="@Model.List[0].OrderID" placeholder="@Model.List[0].OrderID">
-            }
-            else
-            {
-                <input type="text" id="OrderID" name="OrderID" placeholder=" ">
-            }
-        }
-        @*<input type="submit" value="搜索" onclick="Search()">*@
-        <button type="submit" id="submit_botton">搜索</button>
-    </form>
-	@*<script>
-		function Search() {
-			var order = document.getElementById('order').value;
-			var ta = document.getElementById('orderlist');
-			var tr = ta.getElementsByTagName("tr");
-			
-			//循环表格每一行，查找匹配项
-			for (i = 0; i < tr.length; i++) {
-				var td = tr[i].getElementsByTagName("td")[0].innerHTML;
-				if (td == order) {
-					alert(tr[1].getElementsByTagName("td")[1].innerHTML);
-					return;
-				}
-			}
-			alert("不存在此订单");
-		}
-	</script>*@
-	<table border="1" id="orderlist">
-		<tr>
-			<th>订单编号</th>
-			<th>乘坐人</th>
-			<th>起始站</th>
-			<th>终点站</th>
-			<th>车次号</th>
-			<th>订单价格</th>			
-		</tr>
-		@{
-            if (Model != null)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户查询</title>
+    <link rel="stylesheet" href="/Admin/admin.css">
+</head>
+<body>
+    <div class="nav">
+        <div class="nav-hd">
+            铁路购票系统
+        </div>
+        <hr style="margin-top: 45px;color:#fff">
+        <div class="nav-bd" id="nav">
+            <ul>
+                <li class="current nav-item">
+                    <img class="img1" src="/Admin/image/订单查询1.png">
+                    <img class="img2" src="/Admin/image/订单查询2.png">
+                    <a href="/Admin/OrderQuery">订单查询</a>
+                </li>
+                <li class="nav-item">
+                    <img class="img1" src="/Admin/image/用户查询1.png">
+                    <img class="img2" src="/Admin/image/用户查询2.png">
+                    <a href="/Admin/UserQuery">用户查询</a>
+                </li>
+                <li class="nav-item">
+                    <img class="img1" src="/Admin/image/车次查询1.png">
+                    <img class="img2" src="/Admin/image/车次查询2.png">
+                    <a href="/Admin/TrainQuery">车次查询</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="logout">
+        <span>您好！</span>
+        <span style="color: #6F9BFF;">管理员</span>
+    </div>
 
-            for(int i=0;i<Model.List.Count;i++)
-            {
-					<tr>
-						<td>@Model.List[i].OrderID</td>
-						<td>@Model.List[i].Passenger.PassengerRName</td>
-						<td>@Model.Start_station[i]</td>
-						<td>@Model.End_station[i]</td>
-						<td>@Model.List[i].TrainID</td>
-						<td>@Model.List[i].OrderValue</td>
-					</tr>
-				}
-		}
-	</table>
-</div>
+    <div class="content">
+        <div class="search">
+            <form method="post" asp-action="OrderQuery">
+                <label for="order">
+                    <h2 style="display: inline-block;">订单编号：</h2>
+                </label>
+                        <input type="text" id="OrderID" name="OrderID" placeholder=" ">
+                @*<input class="i_submit" style="margin-left: 800px;" type="submit" value="搜索" onclick="Search()">*@
+                <button style="margin-left: 800px;" class="query" type="submit" id="submit_botton">搜索</button>
+            </form>
+        </div>
+        <div class="lists">
+            <div class="lists-hd">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>订单编号</th>
+                            <th>乘坐人</th>
+                            <th>起始站</th>
+                            <th>终点站</th>
+                            <th>车次号</th>
+                            <th>订单价格</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="lists-bd">
+                <table class="list" id="orderlist">
+                    @{
+                        if (Model != null)
+
+                            for (int i = 0; i < Model.List.Count; i++)
+                            {
+
+                                <tr>
+                                    <td>@Model.List[i].OrderID</td>
+                                    <td>@Model.List[i].Passenger.PassengerRName</td>
+                                    <td>@Model.Start_station[i]</td>
+                                    <td>@Model.End_station[i]</td>
+                                    <td>@Model.List[i].TrainID</td>
+                                    <td>@Model.List[i].OrderValue</td>
+                                </tr>
+                            }
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+    @*<script>
+            function Search() {
+                var order = document.getElementById('order').value;
+                var ta = document.getElementById('orderlist');
+                var tr = ta.getElementsByTagName("tr");
+
+                //循环表格每一行，查找匹配项
+                for (i = 0; i < tr.length; i++) {
+                    var td = tr[i].getElementsByTagName("td")[0].innerHTML;
+                    if (td == order) {
+                        alert(tr[1].getElementsByTagName("td")[1].innerHTML);
+                        return;
+                    }
+                }
+                alert("不存在此订单");
+            }
+        </script>*@
+</body>
+</html>

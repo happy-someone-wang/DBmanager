@@ -47,10 +47,10 @@ namespace Containers
 
     public struct _Station
     {
-        public int StationNo { get; set; }
+        public string StationNo { get; set; }
         public string StationName { get; set; }
 
-        public _Station(int No, string Name)
+        public _Station(string No, string Name)
         {
             this.StationNo = No;
             this.StationName = Name;
@@ -127,13 +127,13 @@ namespace Containers
     {
         public string TrainID { get; set; }
         public int TrainNo { get; set; }
-        public int StartStNo { get; set; }
+        public string StartStNo { get; set; }
         public string StartTime { get; set; }
         public string EndTime { get; set;} 
-        public int EndStNo { get; set; }
+        public string EndStNo { get; set; }
         public int RunningTime { get; set; }
         public List<_TrainParking> Parking { get; set; }
-        public _TrainManager(string TrainID, int TrainNo, int StartStNo, int EndStNo, int RunningTime, List<_TrainParking> Parking, string StartTime, string EndTime)
+        public _TrainManager(string TrainID, int TrainNo, string StartStNo, string EndStNo, int RunningTime, List<_TrainParking> Parking, string StartTime, string EndTime)
         {
             this.TrainID = TrainID;
             this.TrainNo = TrainNo;
@@ -151,6 +151,7 @@ namespace Containers
         public string TrainID { get; set; }
         public string StartStName { get; set; }
         public string EndStName { get; set; }
+        public string TrainDate { get; set;}
         public string LeavingTime { get; set; }
         public string ArriveTime { get; set; }
         public string TotalTime { get; set; }
@@ -159,10 +160,11 @@ namespace Containers
         public int FirstAmount { get; set; }
         public int SecondAmount { get; set; }
 
-        public _TrainTicket(string TrainID, string StartStName, string EndStName, string LeavingTime, string ArriveTime, string TotalTime, int VIPAmount, int EXAmount, int FirstAmount, int SecondAmount)
+        public _TrainTicket(string TrainID, string StartStName, string EndStName, string LeavingTime, string ArriveTime, string TotalTime, int VIPAmount, int EXAmount, int FirstAmount, int SecondAmount, string TrainDate)
         {
             this.TrainID = TrainID;
             this.StartStName = StartStName;
+            this.TrainDate = TrainDate;
             this.EndStName = EndStName;
             this.LeavingTime = LeavingTime;
             this.ArriveTime = ArriveTime;
@@ -194,14 +196,15 @@ namespace Containers
     public struct _Seat
     {
         public string TrainID { get; set; }
-        public int StartStNo { get; set; }
-        public int EndStNo { get; set; }
+        public string StartStNo { get; set; }
+        public string EndStNo { get; set; }
         public int CarriageNo { get; set; }
         public int SeatLevel { get; set; }
         public int SeatRow { get; set; }
         public int SeatCol { get; set; }
+        public string TrainDate { get; set;}
 
-        public _Seat(string TrainID, int StartStNo, int EndStNo, int CarriageNo, int SeatLevel, int SeatRow, int SeatCol)
+        public _Seat(string TrainID, string StartStNo, string EndStNo, int CarriageNo, int SeatLevel, int SeatRow, int SeatCol, string TrainDate)
         {
             this.TrainID = TrainID;
             this.StartStNo = StartStNo;
@@ -210,6 +213,7 @@ namespace Containers
             this.SeatLevel = SeatLevel;
             this.SeatRow = SeatRow;
             this.SeatCol = SeatCol;
+            this.TrainDate = TrainDate;
         }
 
     }
@@ -218,8 +222,8 @@ namespace Containers
     {
         public string OrderID { get; set; }
         public string TrainID { get; set; }
-        public int StartStNo { get; set; }
-        public int EndStNo { get; set; }
+        public string StartStNo { get; set; }
+        public string EndStNo { get; set; }
         public int CarriageNo { get; set; }
         public string SeatNo { get; set; }
         public int OrderValue { get; set; }
@@ -229,6 +233,7 @@ namespace Containers
 
         public string ArriveTime { get; set; }
         public string LeavingTime { get; set; }
+        public string TrainDate { get; set; }
 
         public _Passenger Passenger { get; set; }
 
@@ -246,6 +251,20 @@ namespace Containers
         public string PassengerPID { get; set;}
         public string UserID { get; set;}
         public string PassengerRName { get; set;}
+    }
+
+    public struct _TransitTrainTicket
+    {
+        public _TrainTicket TrainTicket1 { get; set;}
+        public _TrainTicket TrainTicket2 { get; set;}
+    }
+
+    public struct _ParkingStation
+    {
+        public string StationNo { get; set;}
+        public string LeavingTime { get; set;}
+        public string ArriveTime  { get; set;}
+        public string ParkingTime { get; set;}
     }
 }
 

@@ -1,135 +1,265 @@
-﻿@model Containers._User
-<!doctype html>
-<html>
+﻿<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>personal</title>
-    <link rel="stylesheet" href="/Person/personal_information.css" />
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="personal_information.css" />
 </head>
-
 <body>
-    <br>
-    <div class="wrapper content">
-        <!-- 面包屑 -->
-        <div class="breadcrumb"> 当前位置： <a href="/Person/center">个人中心</a> <span class="sep">&gt;</span> <span class="active">个人信息</span> </div>
-        <!-- 个人信息 -->
-        <div class="center-box">
-            <!-- 个人信息左侧 -->
-            <!-- 个人信息左侧菜单 -->
-            <ul class="center-menu" role="menubar">
-                <li class="menu-item" id="gerenzhongxin" role="menuitem">
-                    <h2 class="menu-tit"> <a href="/Person/center">个人中心</a> </h2>
+    <div class="nav">
+        <div class="nav-hd">
+            铁路购票系统
+        </div>
+        <hr style="margin-top: 45px;color:#fff">
+        <div class="nav-bd" id="nav">
+            <ul>
+                <li class="current nav-item">
+                    <img class="img1" src="/Person/image/系统首页1.png">
+                    <img class="img2" src="image\系统首页2.png">
+                    <a href="#">系统首页</a>
                 </li>
-                <li class="menu-item" role="menuitem">
-                    <h2 class="menu-tit"> <a href="/Person/ticket">订单中心</a> </h2>
+                <li class="nav-item">
+                    <img class="img1" src="image\订票中心1.png">
+                    <img class="img2" src="image\订票中心2.png">
+                    <a href="#">订票中心</a>
                 </li>
-                <li class="menu-item" role="menuitem">
-                    <h2 class="menu-tit active"> <a href="/Person/information">个人信息</a> </h2>
+                <li class="nav-item">
+                    <img class="img1" src="image\个人信息1.png">
+                    <img class="img2" src="image\个人信息2.png">
+                    <a href="#">个人信息</a>
                 </li>
-                <li class="menu-item" role="menuitem">
-                    <h2 class="menu-tit"> <a href="/Person/account">密码修改</a> </h2>
+                <li class="nav-item">
+                    <img class="img1" src="image\我的订单1.png">
+                    <img class="img2" src="image\我的订单2.png">
+                    <a href="#">我的订单</a>
+                </li>
+                <li class="nav-item">
+                    <img class="img1" src="image\安全中心1.png">
+                    <img class="img2" src="image\安全中心2.png">
+                    <a href="#">安全中心</a>
                 </li>
             </ul>
+        </div>
+    </div>
+    <div class="logout">
+        <img src="image\train.png">
+        <span>您好！</span>
+        <span>白晶晶</span>
+        <a href="#">退出登录</a>
+    </div>
 
-            <!-- 个人信息右侧内容 -->
-            <div class="center-main">
-                <div class="panel-border" id="js-minHeight">
-                    <!-- 个人信息 -->
-                    <div class="center-form-item">
-                        <!-- 基本信息 -->
-                        <div class="center-tit">
-                            <div class="tit-name">基本信息</div>
-                        </div>
-                        <br>
-                        <!-- 显示 -->
-                        <div class="form-list form-list-view" id="basic_info_view">
-                            <div class="form-item">
-                                <div class="form-label"><span class="required">*</span>用户名：</div>
-                                <div class="form-bd">
-                                    <div class="form-bd-txt">@Model.UserID</div>
-                                </div>
-                            </div>
-                            <div class="form-item">
-                                <div class="form-label"><span class="required">*</span>性别：</div>
-                                <div class="form-bd">
-                                    <div class="form-bd-txt">@Model.UserGender</div>
-                                </div>
-                            </div>
-                            <div class="form-item">
-                                <div class="form-label"><span class="required">*</span>姓名：</div>
-                                <div class="form-bd">
-                                    <div class="form-bd-txt">@Model.UserRName</div>
-                                </div>
-                            </div>
-                            <div class="form-item">
-                                <div class="form-label"><span class="required">*</span>证件号码：</div>
-                                <div class="form-bd">
-                                    <div class="form-bd-txt">@Model.UserPID</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="line-dashed"></div>
 
-                        <!-- 联系方式 -->
-                        <div class="center-tit">
-                            <div class="tit-name">联系方式</div>
-                            <input id="bt1" class="change-bt" type="button" value="更改信息">
+    <div class="box1">
+        <div class="box1_1">
+            <div class="box1_1_1" id="box1_1_1">
+                <div class="text_1">我的信息</div>
+            </div>
+            <div class="box1_1_2" id="box1_1_2">
+                <div class="text_1"> 乘车人信息 </div>
+            </div>
+        </div>
+        <div class="box1_2">
+            <div class="box1_2_1">
+                <div class="box1_2_1_1">
+                    <!-- 我的信息 -->
+                    <div class="panel-border" style="display: block" id="myInfo">
+                        <!-- 个人信息 -->
+                        <div class="center-form-item">
+                            <!-- 基本信息 -->
+                            <div class="center-tit">
+                                <div class="tit-name">基本信息</div>
+                            </div>
+                            <br>
+                            <!-- 显示 -->
+                            <div class="form-list form-list-view" id="basic_info_view">
+                                <div class="form-item">
+                                    <div class="form-label"><span class="required">*</span>用户名：</div>
+                                    <div class="form-bd">
+                                        <div class="form-bd-txt">yl_92c</div>
+                                    </div>
+                                </div>
+                                <div class="form-item">
+                                    <div class="form-label"><span class="required">*</span>性别：</div>
+                                    <div class="form-bd">
+                                        <div class="form-bd-txt">女</div>
+                                    </div>
+                                </div>
+                                <div class="form-item">
+                                    <div class="form-label"><span class="required">*</span>姓名：</div>
+                                    <div class="form-bd">
+                                        <div class="form-bd-txt">方仪</div>
+                                    </div>
+                                </div>
+                                <div class="form-item">
+                                    <div class="form-label"><span class="required">*</span>证件号码：</div>
+                                    <div class="form-bd">
+                                        <div class="form-bd-txt">3408***********540</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="line-dashed"></div>
+
+                            <!-- 联系方式 -->
+                            <div class="center-tit">
+                                <div class="tit-name">联系方式</div>
+                                <input id="bt1" class="change-bt" type="button" value="更改信息">
+                            </div>
+                            <br>
+                            <!-- 显示 -->
+                            <div class="form-list form-list-view" id="relation_way_view" style="display: block">
+                                <div class="form-item" style="position:relative">
+                                    <div class="form-label"><span name="mobile_div_span" class="required">*</span>手机号：</div>
+                                    <div class="form-bd">
+                                        <div class="form-bd-txt">187****9392</div>
+                                    </div>
+                                </div>
+                                <div class="form-item" style="position:relative">
+                                    <div class="form-label">邮箱：</div>
+                                    <div class="form-bd" title="66****83@163.com">
+                                        <div class="form-bd-txt">66****83@163.com</div>
+                                    </div>
+                                </div>
+                                <div class="form-item">
+                                    <div class="form-label">地址：</div>
+                                    <div class="form-bd">
+                                        <div class="form-bd-txt showAddress" title=""></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 更改联系方式 -->
+                            <div class="form-list form-list-view" id="relation_way_change" style="display: none">
+                                <div class="form-item" style="position:relative">
+                                    <div class="form-label"><span name="mobile_div_span" class="required">*</span>手机号：</div>
+                                    <div class="form-bd">
+                                        <input class="input" id="mobileNo" placeholder="请输入手机号">
+                                        <div class="form-tips" id="phonePrompt" style="display: none">请输入正确的手机号！</div>
+                                    </div>
+                                </div>
+                                <div class="form-item" style="position:relative">
+                                    <div class="form-label">邮箱：</div>
+                                    <div class="form-bd">
+                                        <input class="input" id="email" placeholder="请输入邮箱">
+                                        <div class="form-tips" id="emailPrompt" style="display: none">请输入正确的邮箱地址！</div>
+                                    </div>
+                                </div>
+                                <div class="form-item">
+                                    <div class="form-label">地址：</div>
+                                    <div class="form-bd">
+                                        <input class="input" placeholder="请输入地址">
+                                    </div>
+                                </div>
+                                <div class="form-item">
+                                    <input id="bt2" class="cancel-change" type="button" value="取消">
+                                    <input id="bt3" class="confirm-change" type="button" value="确认更改">
+                                </div>
+                            </div>
                         </div>
-                        <br>
-                        <!-- 显示 -->
-                        <div class="form-list form-list-view" id="relation_way_view" style="display: block">
-                            <div class="form-item" style="position:relative">
-                                <div class="form-label"><span name="mobile_div_span" class="required">*</span>手机号：</div>
-                                <div class="form-bd">
-                                    <div class="form-bd-txt">@Model.UserPhone</div>
+                    </div>
+                    <!-- 乘车人信息 -->
+                    <div class="panel-border" style="display: none" id="partnerInfo">
+                        <div class="form-list">
+                            <!-- 个人信息不可删除 -->
+                            <div class="partner" id="self">
+                                <div class="partner-top">
+                                    <div class="partnerInfo">
+                                        <div class="form-item">
+                                            <div class="form-label"><span class="required">*</span>姓名：</div>
+                                            <div class="form-bd">
+                                                <div class="form-bd-txt">方仪</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-item">
+                                            <div class="form-label"><span class="required">*</span>证件号码：</div>
+                                            <div class="form-bd">
+                                                <div class="form-bd-txt">3408***********540</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                    </div>
+                                </div>
+                                <div class="line-dashed"></div>
+                            </div>
+                            <!-- 除自己以外乘车人信息 -->
+                            <div class="partner" id="partner-1">
+                                <div class="partner-top">
+                                    <div class="partnerInfo">
+                                        <div class="form-item">
+                                            <div class="form-label"><span class="required">*</span>姓名：</div>
+                                            <div class="form-bd">
+                                                <div class="form-bd-txt">方仪</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-item">
+                                            <div class="form-label"><span class="required">*</span>证件号码：</div>
+                                            <div class="form-bd">
+                                                <div class="form-bd-txt">3408***********540</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <input id="deletPartner-1" class="deletPartner" type="button" value="删 除" onclick="deletePartner(this.id)">
+                                    </div>
+                                </div>
+                                <div class="line-dashed"></div>
+                            </div>
+                            <div class="partner" id="partner-2">
+                                <div class="partner-top">
+                                    <div class="partnerInfo">
+                                        <div class="form-item">
+                                            <div class="form-label"><span class="required">*</span>姓名：</div>
+                                            <div class="form-bd">
+                                                <div class="form-bd-txt">方仪</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-item">
+                                            <div class="form-label"><span class="required">*</span>证件号码：</div>
+                                            <div class="form-bd">
+                                                <div class="form-bd-txt">3408***********540</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <input id="deletPartner-2" class="deletPartner" type="button" value="删 除" onclick="deletePartner(this.id)">
+                                    </div>
+                                </div>
+                                <div class="line-dashed"></div>
+                            </div>
+                            <!--增添新的乘车人-->
+
+                            <div class="partner" id="addPartnerInfo" style="display: none">
+                                <div class="partner-top">
+                                    <div class="partnerInfo">
+                                        <div class="form-item">
+                                            <div class="form-label"><span class="required">*</span>姓名：</div>
+                                            <div class="form-bd">
+                                                <input class="input" placeholder="请输入姓名">
+                                            </div>
+                                        </div>
+                                        <div class="form-item">
+                                            <div class="form-label"><span class="required">*</span>证件号码：</div>
+                                            <div class="form-bd">
+                                                <input class="input" placeholder="请输入证件号码">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="line-dashed"></div>
+                                <div class="form-item">
+                                    <input class="cancel-change" type="button" value="取消" onClick="cancelAddPartener()">
+                                    <input class="confirm-change" type="button" value="确认添加" onClick="confirmAddPartener()">
                                 </div>
                             </div>
-                            <div class="form-item" style="position:relative">
-                                <div class="form-label">邮箱：</div>
-                                <div class="form-bd" title="@Model.UserEmail">
-                                    <div class="form-bd-txt">@Model.UserEmail</div>
-                                </div>
-                            </div>
-                            <div class="form-item">
-                                <div class="form-label">地址：</div>
-                                <div class="form-bd">
-                                    <div class="form-bd-txt showAddress" title="">@Model.UserAddr</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 更改联系方式 -->
-                        <div class="form-list form-list-view" id="relation_way_change" style="display: none">
-                            <form method="post" action="/Person/information">
-                            <input type="hidden" name="UserPID" id="UserPID" value="@Model.UserPID" />
-                            <input type="hidden" name="UserPWD" id="UserPWD" value="@Model.UserPWD" />
-                            <input type="hidden" name="UserPhone" id="UserPhone" value="@Model.UserPhone" />
-                            <input type="hidden" name="UserRname" id="UserRname" value="@Model.UserRName" />
-                            <input type="hidden" name="UserGender" id="UserGender" value="@Model.UserGender" />
-                            <div class="form-item" style="position:relative">
-                                <div class="form-label">邮箱：</div>
-                                <div class="form-bd">
-                                    <input class="input" name="Email" id="email" placeholder="请输入邮箱">
-                                    <div class="form-tips" id="emailPrompt" style="display: none">请输入正确的邮箱地址！</div>
-                                </div>
-                            </div>
-                            <div class="form-item">
-                                <div class="form-label">地址：</div>
-                                <div class="form-bd">
-                                    <input class="input" name="Address" placeholder="请输入地址">
-                                </div>
-                            </div>
-                            <div class="form-item">
-                                <input id="bt2" class="confirm-change" type="button" value="取消">
-                                @*<input id="bt3" class="confirm-change" type="button" value="确认更改">*@
-                                <button id="bt3" class="confirm-change" type="submit">确认更改</button>
-                            </div>
-                            </form>
+                            <input id="createPartner" style="display: block" class="addPartner" type="button" value="+增添乘车人" onClick="addPartener()">
+                            <div class="blank"> </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="/Person/personal_information.js"></script>
+
+
 </body>
+<script type="text/javascript" src="personal_information.js"></script>
 </html>

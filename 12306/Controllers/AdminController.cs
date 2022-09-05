@@ -10,10 +10,12 @@ namespace _12306.Controllers
 {
     public class AdminController : Controller
     {
-        private List<string> Station = new List<string> { "","北京", "天津", "济南", "上海", "杭州", "台北", "福州", "南昌", "长沙", "广州", "昆明", "贵阳", "武汉", "南京", "郑州", "重庆", "成都", "西安", "兰州", "天津北" };
+        private static List<_Station> Station = new List<_Station>();
         [HttpGet]
         public IActionResult Index()
         {
+            Station.Clear();
+            OracleSqlTools.GetAllStation(Station, true);
             return View();
         }
         [HttpPost]
@@ -107,8 +109,25 @@ namespace _12306.Controllers
             OracleSqlTools.GetAllTrain(list, true);
             foreach (_TrainManager x in list)
             {
-                start.Add(Station[x.StartStNo]);
-                end.Add(Station[x.EndStNo]);
+                string StartSt = null;
+                string EndSt = null;
+                foreach(_Station m in Station)
+                {
+                    if(m.StationName == x.StartStNo)
+                    {
+                        StartSt = m.StationName;
+                    }
+                    if (m.StationName == x.EndStNo)
+                    {
+                        EndSt = m.StationName;
+                    }
+                    if (start != null && end != null)
+                    {
+                        break;
+                    }
+                }
+                start.Add(StartSt);
+                end.Add(EndSt);
             }
 
             //U1.UserID = "1";
@@ -140,8 +159,25 @@ namespace _12306.Controllers
             list.Add(T);
             foreach (_TrainManager x in list)
             {
-                start.Add(Station[x.StartStNo]);
-                end.Add(Station[x.EndStNo]);
+                string StartSt = null;
+                string EndSt = null;
+                foreach (_Station m in Station)
+                {
+                    if (m.StationName == x.StartStNo)
+                    {
+                        StartSt = m.StationName;
+                    }
+                    if (m.StationName == x.EndStNo)
+                    {
+                        EndSt = m.StationName;
+                    }
+                    if (start != null && end != null)
+                    {
+                        break;
+                    }
+                }
+                start.Add(EndSt);
+                end.Add(StartSt);
             }
 
             //U1.UserID = "1";
@@ -170,8 +206,25 @@ namespace _12306.Controllers
             OracleSqlTools.GetAllOrder(list, true);
             foreach(_Order x in list)
             {
-                start.Add(Station[x.StartStNo]);
-                end.Add(Station[x.EndStNo]);
+                string StartSt = null;
+                string EndSt = null;
+                foreach (_Station m in Station)
+                {
+                    if (m.StationName == x.StartStNo)
+                    {
+                        StartSt = m.StationName;
+                    }
+                    if (m.StationName == x.EndStNo)
+                    {
+                        EndSt = m.StationName;
+                    }
+                    if (start != null && end != null)
+                    {
+                        break;
+                    }
+                }
+                start.Add(EndSt);
+                end.Add(StartSt);
             }
 
             //U1.UserID = "1";
@@ -203,8 +256,25 @@ namespace _12306.Controllers
             list.Add(O1);
             foreach (_Order x in list)
             {
-                start.Add(Station[x.StartStNo]);
-                end.Add(Station[x.EndStNo]);
+                string StartSt = null;
+                string EndSt = null;
+                foreach (_Station m in Station)
+                {
+                    if (m.StationName == x.StartStNo)
+                    {
+                        StartSt = m.StationName;
+                    }
+                    if (m.StationName == x.EndStNo)
+                    {
+                        EndSt = m.StationName;
+                    }
+                    if (start != null && end != null)
+                    {
+                        break;
+                    }
+                }
+                start.Add(EndSt);
+                end.Add(StartSt);
             }
 
             //U1.UserID = "1";
