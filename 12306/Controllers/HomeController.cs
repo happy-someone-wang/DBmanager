@@ -20,8 +20,17 @@ namespace _12306.Controllers
 
         public IActionResult Index()
         {
-            return Redirect("https://www.12306.cn/");
-            //return View();
+            ReturnModels.Login_Staus Result= new ReturnModels.Login_Staus();
+            if(Containers._Current_User.Instance.UserID==null)
+            {
+                Result.IsLogin = 0;
+                
+            }
+            else
+            {
+
+            }
+            return View();
         }
 
         public IActionResult Privacy()

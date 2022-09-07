@@ -130,18 +130,18 @@ function deletePartner(id){
         return null;
     }
     // 添加注册事件
-    for (let i=0;i<oUL.children.length;i++){
-        let oLi = oUL.children[i];
-        oLi.onclick = LiClick;
-    }
-    function LiClick() {
-        for (let i=0;i<oUL.children.length;i++){
-            let oLi = oUL.children[i];
-            oLi.className = 'nav-item';
-        }
-        this.className = 'current';
-        return false;
-    }
+    //for (let i=0;i<oUL.children.length;i++){
+    //    let oLi = oUL.children[i];
+    //    oLi.onclick = LiClick;
+    //}
+    //function LiClick() {
+    //    for (let i=0;i<oUL.children.length;i++){
+    //        let oLi = oUL.children[i];
+    //        oLi.className = 'nav-item';
+    //    }
+    //    this.className = 'current';
+    //    return false;
+    //}
 
 // 添加乘车人按钮
 var addPartnerInfoBtn = document.getElementById('createPartner');

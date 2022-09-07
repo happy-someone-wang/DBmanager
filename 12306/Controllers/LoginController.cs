@@ -16,6 +16,7 @@ namespace _12306.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            Containers._Current_User.Instance.UserID = null;
             return View();
         }
         [HttpGet]

@@ -1,9 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@model ReturnModels.Person_Information
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <title>Title</title>
-    <link rel="stylesheet" href="personal_information.css" />
+    <link rel="stylesheet" href="/Person/personal_information.css" />
 </head>
 <body>
     <div class="nav">
@@ -13,39 +14,39 @@
         <hr style="margin-top: 45px;color:#fff">
         <div class="nav-bd" id="nav">
             <ul>
-                <li class="current nav-item">
+                <li class="nav-item">
                     <img class="img1" src="/Person/image/系统首页1.png">
-                    <img class="img2" src="image\系统首页2.png">
-                    <a href="#">系统首页</a>
+                    <img class="img2" src="/Person/image/系统首页2.png">
+                    <a href="/Home/Index">系统首页</a>
                 </li>
                 <li class="nav-item">
-                    <img class="img1" src="image\订票中心1.png">
-                    <img class="img2" src="image\订票中心2.png">
-                    <a href="#">订票中心</a>
+                    <img class="img1" src="/Person/image/订票中心1.png">
+                    <img class="img2" src="/Person/image/订票中心2.png">
+                    <a href="/Train/Index">订票中心</a>
+                </li>
+                <li class="current nav-item">
+                    <img class="img1" src="/Person/image/个人信息1.png">
+                    <img class="img2" src="/Person/image/个人信息2.png">
+                    <a href="/Person/information">个人信息</a>
                 </li>
                 <li class="nav-item">
-                    <img class="img1" src="image\个人信息1.png">
-                    <img class="img2" src="image\个人信息2.png">
-                    <a href="#">个人信息</a>
+                    <img class="img1" src="/Person/image/我的订单1.png">
+                    <img class="img2" src="/Person/image/我的订单2.png">
+                    <a href="/Person/ticket">我的订单</a>
                 </li>
                 <li class="nav-item">
-                    <img class="img1" src="image\我的订单1.png">
-                    <img class="img2" src="image\我的订单2.png">
-                    <a href="#">我的订单</a>
-                </li>
-                <li class="nav-item">
-                    <img class="img1" src="image\安全中心1.png">
-                    <img class="img2" src="image\安全中心2.png">
-                    <a href="#">安全中心</a>
+                    <img class="img1" src="/Person/image/安全中心1.png">
+                    <img class="img2" src="/Person/image/安全中心2.png">
+                    <a href="/Person/account">安全中心</a>
                 </li>
             </ul>
         </div>
     </div>
     <div class="logout">
-        <img src="image\train.png">
+        <img src="/Person/image/train.png">
         <span>您好！</span>
-        <span>白晶晶</span>
-        <a href="#">退出登录</a>
+        <span>@Model.Myuser.UserRName</span>
+        <a href="/Login/Index">退出登录</a>
     </div>
 
 
@@ -75,25 +76,25 @@
                                 <div class="form-item">
                                     <div class="form-label"><span class="required">*</span>用户名：</div>
                                     <div class="form-bd">
-                                        <div class="form-bd-txt">yl_92c</div>
+                                        <div class="form-bd-txt">@Model.Myuser.UserPID</div>
                                     </div>
                                 </div>
                                 <div class="form-item">
                                     <div class="form-label"><span class="required">*</span>性别：</div>
                                     <div class="form-bd">
-                                        <div class="form-bd-txt">女</div>
+                                        <div class="form-bd-txt">@Model.Myuser.UserGender</div>
                                     </div>
                                 </div>
                                 <div class="form-item">
                                     <div class="form-label"><span class="required">*</span>姓名：</div>
                                     <div class="form-bd">
-                                        <div class="form-bd-txt">方仪</div>
+                                        <div class="form-bd-txt">@Model.Myuser.UserRName</div>
                                     </div>
                                 </div>
                                 <div class="form-item">
                                     <div class="form-label"><span class="required">*</span>证件号码：</div>
                                     <div class="form-bd">
-                                        <div class="form-bd-txt">3408***********540</div>
+                                        <div class="form-bd-txt">@Model.Myuser.UserPID</div>
                                     </div>
                                 </div>
                             </div>
@@ -110,49 +111,54 @@
                                 <div class="form-item" style="position:relative">
                                     <div class="form-label"><span name="mobile_div_span" class="required">*</span>手机号：</div>
                                     <div class="form-bd">
-                                        <div class="form-bd-txt">187****9392</div>
+                                        <div class="form-bd-txt">@Model.Myuser.UserPhone</div>
                                     </div>
                                 </div>
                                 <div class="form-item" style="position:relative">
                                     <div class="form-label">邮箱：</div>
-                                    <div class="form-bd" title="66****83@163.com">
-                                        <div class="form-bd-txt">66****83@163.com</div>
+                                    <div class="form-bd" title="@Model.Myuser.UserEmail">
+                                        <div class="form-bd-txt">@Model.Myuser.UserEmail</div>
                                     </div>
                                 </div>
                                 <div class="form-item">
                                     <div class="form-label">地址：</div>
                                     <div class="form-bd">
-                                        <div class="form-bd-txt showAddress" title=""></div>
+                                        <div class="form-bd-txt showAddress" title="">@Model.Myuser.UserAddr</div>
                                     </div>
                                 </div>
                             </div>
                             <!-- 更改联系方式 -->
+
                             <div class="form-list form-list-view" id="relation_way_change" style="display: none">
                                 <div class="form-item" style="position:relative">
-                                    <div class="form-label"><span name="mobile_div_span" class="required">*</span>手机号：</div>
+                                    <div class="form-label" hidden="hidden">手机号：</div>
                                     <div class="form-bd">
-                                        <input class="input" id="mobileNo" placeholder="请输入手机号">
+                                        <input class="input" id="mobileNo" value="@Model.Myuser.UserPhone" placeholder="@Model.Myuser.UserPhone" hidden="hidden">
                                         <div class="form-tips" id="phonePrompt" style="display: none">请输入正确的手机号！</div>
                                     </div>
                                 </div>
-                                <div class="form-item" style="position:relative">
-                                    <div class="form-label">邮箱：</div>
-                                    <div class="form-bd">
-                                        <input class="input" id="email" placeholder="请输入邮箱">
-                                        <div class="form-tips" id="emailPrompt" style="display: none">请输入正确的邮箱地址！</div>
+                                <form method="post" action="/Person/information">
+                                    <div class="form-item" style="position:relative">
+                                        <div class="form-label">邮箱：</div>
+                                        <div class="form-bd">
+                                            <input class="input" name="email" id="email" placeholder="请输入邮箱">
+                                            <div class="form-tips"  id="emailPrompt" style="display: none">请输入正确的邮箱地址！</div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-item">
-                                    <div class="form-label">地址：</div>
-                                    <div class="form-bd">
-                                        <input class="input" placeholder="请输入地址">
+                                    <div class="form-item">
+                                        <div class="form-label">地址：</div>
+                                        <div class="form-bd">
+                                            <input class="input" name="address" placeholder="请输入地址">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-item">
-                                    <input id="bt2" class="cancel-change" type="button" value="取消">
-                                    <input id="bt3" class="confirm-change" type="button" value="确认更改">
-                                </div>
+                                    <div class="form-item">
+                                        <input id="bt2" class="cancel-change" type="button" value="取消">
+                                        @*<input id="bt3" class="confirm-change" type="button" value="确认更改">*@
+                                        <button class="confirm-change" type="submit">确认修改</button>
+                                    </div>
+                                </form>
                             </div>
+
                         </div>
                     </div>
                     <!-- 乘车人信息 -->
@@ -165,13 +171,13 @@
                                         <div class="form-item">
                                             <div class="form-label"><span class="required">*</span>姓名：</div>
                                             <div class="form-bd">
-                                                <div class="form-bd-txt">方仪</div>
+                                                <div class="form-bd-txt">@Model.Myuser.UserRName</div>
                                             </div>
                                         </div>
                                         <div class="form-item">
                                             <div class="form-label"><span class="required">*</span>证件号码：</div>
                                             <div class="form-bd">
-                                                <div class="form-bd-txt">3408***********540</div>
+                                                <div class="form-bd-txt">@Model.Myuser.UserPID</div>
                                             </div>
                                         </div>
                                     </div>
@@ -181,65 +187,58 @@
                                 <div class="line-dashed"></div>
                             </div>
                             <!-- 除自己以外乘车人信息 -->
-                            <div class="partner" id="partner-1">
-                                <div class="partner-top">
-                                    <div class="partnerInfo">
-                                        <div class="form-item">
-                                            <div class="form-label"><span class="required">*</span>姓名：</div>
-                                            <div class="form-bd">
-                                                <div class="form-bd-txt">方仪</div>
-                                            </div>
-                                        </div>
-                                        <div class="form-item">
-                                            <div class="form-label"><span class="required">*</span>证件号码：</div>
-                                            <div class="form-bd">
-                                                <div class="form-bd-txt">3408***********540</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <input id="deletPartner-1" class="deletPartner" type="button" value="删 除" onclick="deletePartner(this.id)">
-                                    </div>
-                                </div>
-                                <div class="line-dashed"></div>
-                            </div>
-                            <div class="partner" id="partner-2">
-                                <div class="partner-top">
-                                    <div class="partnerInfo">
-                                        <div class="form-item">
-                                            <div class="form-label"><span class="required">*</span>姓名：</div>
-                                            <div class="form-bd">
-                                                <div class="form-bd-txt">方仪</div>
-                                            </div>
-                                        </div>
-                                        <div class="form-item">
-                                            <div class="form-label"><span class="required">*</span>证件号码：</div>
-                                            <div class="form-bd">
-                                                <div class="form-bd-txt">3408***********540</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <input id="deletPartner-2" class="deletPartner" type="button" value="删 除" onclick="deletePartner(this.id)">
-                                    </div>
-                                </div>
-                                <div class="line-dashed"></div>
-                            </div>
+                            @{
+                                if (Model != null && Model.Mypassenger!=null&& Model.Mypassenger.Count > 0)
+                                {
+                                    for (int i = 0; i < Model.Mypassenger.Count; i++)
+                                    {
+                                                        <form method="post" action="/Person/deletePassenger">
+                                                            <div class="partner" id="partner-@(i+1)">
+                                                                <div class="partner-top">
+                                                                    <div class="partnerInfo">
+                                                                        <div class="form-item">
+                                                                            <div class="form-label"><span class="required">*</span>姓名：</div>
+                                                                            <div class="form-bd">
+                                                                                <input hidden="hidden" name="PassengerName" value="@Model.Mypassenger[i].PassengerRName"/>
+                                                                                <div class="form-bd-txt" >@Model.Mypassenger[i].PassengerRName</div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-item">
+                                                                            <div class="form-label"><span class="required">*</span>证件号码：</div>
+                                                                            <div class="form-bd">
+                                                                                <input hidden="hidden" name="PassengerPID" value="@Model.Mypassenger[i].PassengerPID" />
+                                                                                <div class="form-bd-txt" >@Model.Mypassenger[i].PassengerPID</div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div>
+                                                                        @*<input id="deletPartner-@(i+2)" class="deletPartner" type="button" value="删 除" onclick="deletePartner(this.id)">*@
+                                                                        <button id="deletPartner-@(i+1)" class="deletPartner" type="submit">删 除</button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="line-dashed"></div>
+                                                            </div>
+                                                        </form>   
+                                    }
+                                }
+                            }
+
                             <!--增添新的乘车人-->
 
-                            <div class="partner" id="addPartnerInfo" style="display: none">
+                        <div class="partner" id="addPartnerInfo" style="display: none">
+                            <form method="post" action="/Person/addPassenger">
                                 <div class="partner-top">
                                     <div class="partnerInfo">
                                         <div class="form-item">
                                             <div class="form-label"><span class="required">*</span>姓名：</div>
                                             <div class="form-bd">
-                                                <input class="input" placeholder="请输入姓名">
+                                                <input class="input" name="pName" placeholder="请输入姓名">
                                             </div>
                                         </div>
                                         <div class="form-item">
                                             <div class="form-label"><span class="required">*</span>证件号码：</div>
                                             <div class="form-bd">
-                                                <input class="input" placeholder="请输入证件号码">
+                                                <input class="input" name="pID" placeholder="请输入证件号码">
                                             </div>
                                         </div>
                                     </div>
@@ -247,9 +246,12 @@
                                 <div class="line-dashed"></div>
                                 <div class="form-item">
                                     <input class="cancel-change" type="button" value="取消" onClick="cancelAddPartener()">
-                                    <input class="confirm-change" type="button" value="确认添加" onClick="confirmAddPartener()">
+                                    @*<input class="confirm-change" type="button" value="确认添加" onClick="confirmAddPartener()">*@
+                                    <button class="confirm-change" type="submit">确认添加</button>
                                 </div>
-                            </div>
+                            </form>
+                        </div>
+
                             <input id="createPartner" style="display: block" class="addPartner" type="button" value="+增添乘车人" onClick="addPartener()">
                             <div class="blank"> </div>
                         </div>
@@ -261,5 +263,13 @@
 
 
 </body>
-<script type="text/javascript" src="personal_information.js"></script>
 </html>
+<script type="text/javascript" src="/Person/personal_information.js"></script>
+@{
+    if (Model.Deal_message != null)
+    {
+        <script>
+             alert("@Model.Deal_message");
+        </script>
+    }
+}

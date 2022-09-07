@@ -160,7 +160,9 @@ namespace Containers
         public int FirstAmount { get; set; }
         public int SecondAmount { get; set; }
 
-        public _TrainTicket(string TrainID, string StartStName, string EndStName, string LeavingTime, string ArriveTime, string TotalTime, int VIPAmount, int EXAmount, int FirstAmount, int SecondAmount, string TrainDate)
+        public List<_ParkingStation> Parkstations { get; set; }
+
+        public _TrainTicket(string TrainID, string StartStName, string EndStName, string LeavingTime, string ArriveTime, string TotalTime, int VIPAmount, int EXAmount, int FirstAmount, int SecondAmount, string TrainDate, List<_ParkingStation> parkstations)
         {
             this.TrainID = TrainID;
             this.StartStName = StartStName;
@@ -173,6 +175,7 @@ namespace Containers
             this.EXAmount = EXAmount;
             this.FirstAmount = FirstAmount;
             this.SecondAmount = SecondAmount;
+            this.Parkstations = parkstations;
         }
     }
 

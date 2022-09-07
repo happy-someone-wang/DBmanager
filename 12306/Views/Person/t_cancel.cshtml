@@ -1,4 +1,4 @@
-﻿@model ReturnModels.Operation_staus
+﻿@model ReturnModels.Login_Staus
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,10 +12,131 @@
             padding: 0;
         }
 
-        .t-succ {
+        ul {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .nav {
+            width: 160px;
+            background-color: #6F9BFF;
+            padding: 20px 30px;
             position: fixed;
-            top: 50%;
-            left: 50%;
+            top: 0px;
+            bottom: 0px;
+        }
+
+        .nav-hd {
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+            font-family: '微软雅黑';
+            letter-spacing: 1px;
+            text-align: center;
+            margin: 25px 0px;
+        }
+
+        .nav-bd {
+            margin-top: 50px;
+        }
+
+        .nav-item {
+            height: 40px;
+            background: #6F9BFF;
+            border-radius: 20px;
+            margin: 30px 0px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .current {
+            height: 40px;
+            background: #fff;
+            border-radius: 20px;
+            margin: 30px 0px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .nav-item a {
+            height: 40px;
+            line-height: 40px;
+            color: #fff;
+            vertical-align: middle;
+        }
+
+        .current a {
+            height: 40px;
+            line-height: 40px;
+            color: rgb(42, 130, 228);
+            vertical-align: middle;
+        }
+
+        img {
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        .nav-item .img1 {
+            display: inline-block;
+        }
+
+        .nav-item .img2 {
+            display: none;
+        }
+
+        .current .img1 {
+            display: none;
+        }
+
+        .current .img2 {
+            display: inline-block;
+        }
+
+        .logout {
+            height: 80px;
+            text-align: right;
+            vertical-align: middle;
+            box-shadow: 3px 3px 3px rgb(0 0 0 / 10%);
+            font-size: 16px;
+        }
+
+            .logout img {
+                height: 50px;
+                width: 1090px;
+                opacity: 40%;
+                position: absolute;
+                top: 30px;
+                left: 250px;
+            }
+
+            .logout a {
+                vertical-align: middle;
+                height: 80px;
+                line-height: 80px;
+                margin: 0px 20px;
+                color: #6F9BFF;
+            }
+
+                .logout a:hover {
+                    color: rgb(42, 130, 228);
+                }
+
+            .logout span {
+                vertical-align: middle;
+                color: rgba(128, 128, 128, 0.859);
+                height: 80px;
+                line-height: 80px;
+            }
+
+        .t-succ {
+            box-shadow: 0px 2px 8px rgb(0 0 0 / 30%);
+            position: fixed;
+            top: 55%;
+            left: 55%;
             transform: translate(-50%,-50%);
             width: 800px;
             height: auto;
@@ -35,7 +156,7 @@
             padding-left: 20px;
             font-size: 18px;
             position: relative;
-            background-color: #3B99FC;
+            background-color: #6F9BFF;
         }
 
         .tip {
@@ -63,6 +184,48 @@
     </style>
 </head>
 <body>
+    <div class="nav">
+        <div class="nav-hd">
+            铁路购票系统
+        </div>
+        <hr style="margin-top: 45px;color:#fff">
+        <div class="nav-bd" id="nav">
+            <ul>
+                <li class="nav-item">
+                    <img class="img1" src="/Person/image/系统首页1.png">
+                    <img class="img2" src="/Person/image/系统首页2.png">
+                    <a href="/Home/Index">系统首页</a>
+                </li>
+                <li class="nav-item">
+                    <img class="img1" src="/Person/image/订票中心1.png">
+                    <img class="img2" src="/Person/image/订票中心2.png">
+                    <a href="/Train/Index">订票中心</a>
+                </li>
+                <li class="nav-item">
+                    <img class="img1" src="/Person/image/个人信息1.png">
+                    <img class="img2" src="/Person/image/个人信息2.png">
+                    <a href="/Person/information">个人信息</a>
+                </li>
+                <li class="nav-item">
+                    <img class="img1" src="/Person/image/我的订单1.png">
+                    <img class="img2" src="/Person/image/我的订单2.png">
+                    <a href="/Person/ticket">我的订单</a>
+                </li>
+                <li class="current nav-item">
+                    <img class="img1" src="/Person/image/安全中心1.png">
+                    <img class="img2" src="/Person/image/安全中心2.png">
+                    <a href="/Person/account">安全中心</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="logout">
+        <img src="../image/train.png">
+        <span>您好！</span>
+        <span>@Model.Myuser.UserRName</span>
+        <a href="#">退出登录</a>
+    </div>
+
     <div class="t-succ">
         <div class="tips-hd">
             退票申请
@@ -71,7 +234,7 @@
             @{
                 if (Model != null)
                 {
-                    if (Model.IsVaild == -1)
+                    if (Model.IsLogin == -1)
                     {
                 <div class="tip" style="color: #26a306;">
                     <img src="/Person/image/right.png" alt="加载失败" style="width: 30px; line-height: 30px; vertical-align: middle;">

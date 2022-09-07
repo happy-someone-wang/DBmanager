@@ -300,30 +300,30 @@ registForm.onsubmit = function (e) {
     else
         UserGender = '0'
 
-    $.ajax({
-        //提交类型
-        type: "post",
-        //接收数据的地址
-        url: "/Register/Index",
-        //提交的数据
-        data: { "UserPWD": UserPWD, "UserPhone": UserPhone, "UserEmail": UserEmail, "UserRName": UserRName, "UserGender": UserGender, "UserAddr": UserAddr, "UserPID": UserPID },
-        dataType: JSON,
-        //回调函数（成功之后的操作）
-        success:function (data) {           
-            if (data.IsVaild==0) {
-                alert("success");
-                Response.redirect("~/Login/Index");
-            }
-            else {
-                alert("failed");
-                Response.redirect("~/Register/Index");
-            }
-        },
-        //失败之后的操作
-        error: function(){
-            alert("表单提交失败！");
-        }
-    });
+    //$.ajax({
+    //    //提交类型
+    //    type: "post",
+    //    //接收数据的地址
+    //    url: "/Register/Index",
+    //    //提交的数据
+    //    data: { "UserPWD": UserPWD, "UserPhone": UserPhone, "UserEmail": UserEmail, "UserRName": UserRName, "UserGender": UserGender, "UserAddr": UserAddr, "UserPID": UserPID },
+    //    dataType: JSON,
+    //    //回调函数（成功之后的操作）
+    //    success:function (data) {           
+    //        if (data.IsVaild==0) {
+    //            alert("success");
+    //            Response.redirect("~/Login/Index");
+    //        }
+    //        else {
+    //            alert("failed");
+    //            Response.redirect("~/Register/Index");
+    //        }
+    //    },
+    //    //失败之后的操作
+    //    error: function(){
+    //        alert("表单提交失败！");
+    //    }
+    //});
 
   /*   $.ajax({
         url: '/Register/Index',//接收数据后端路径

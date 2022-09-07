@@ -13,21 +13,16 @@ namespace _12306.Controllers
         private static List<_Station> Station = new List<_Station>();
         private List<string> Seat= new List<string> { "","商务座","特等座","一等座","二等座" };
 
-        public IActionResult center()
-        {
-            Station.Clear();
-            OracleSqlTools.GetAllStation(Station, true);
-            return View();
-        }
         [HttpGet]
         public IActionResult information()
         {
-            _User U_temp = new _User();
-            //_Current_User.Instance.UserID = "330881200301030073";
-            if(OracleSqlTools.GetUser(_Current_User.Instance.UserID, ref U_temp, true)!=-1)
-            {
-                return View();
-            }
+            ReturnModels.Person_Information Result = new ReturnModels.Person_Information();
+            _User U = new _User();
+            OracleSqlTools.GetUser(Containers._Current_User.Instance.UserID, ref U, true);
+            Result.Myuser = U;
+            Result.Mypassenger = new List<_Passenger>();
+            OracleSqlTools.GetPassenger(Containers._Current_User.Instance.UserID, Result.Mypassenger, true);
+            _User U_temp = Result.Myuser;
             if(U_temp.UserGender=="1")
             {
                 U_temp.UserGender = "男";
@@ -36,31 +31,45 @@ namespace _12306.Controllers
             {
                 U_temp.UserGender = "女";
             }
-            U_temp.UserID = U_temp.UserPID;
-            return View(U_temp);
+            Result.Myuser = U_temp;
+            return View(Result);
         }
         [HttpPost]
-        public IActionResult information(string UserPID,string UserPWD,string UserPhone,string UserRname,string UserGender,string Email,string Address)
+        public IActionResult information(string email,string address)
         {
+            ReturnModels.Person_Information Result = new ReturnModels.Person_Information();
             _User U_temp = new _User();
-            U_temp.UserAddr = Address;
-            U_temp.UserEmail = Email;
-            U_temp.UserGender = (UserGender == "男") ? ("1") : ("0");
-            U_temp.UserID = Containers._Current_User.Instance.UserID;
-            U_temp.UserPhone = UserPhone;
-            U_temp.UserPID = UserPID;
-            U_temp.UserPWD = UserPWD;
-            U_temp.UserRName = UserRname;
+            OracleSqlTools.GetUser(Containers._Current_User.Instance.UserID, ref U_temp, true);
+            OracleSqlTools.GetPassenger(Containers._Current_User.Instance.UserID, Result.Mypassenger, true);
+            U_temp.UserEmail = email;
+            U_temp.UserAddr = address;
             //_Current_User.Instance.UserID = "330881200301030073";
             int t = OracleSqlTools.UpdateUser(U_temp, true);
-            ReturnModels.Operation_staus Result = new ReturnModels.Operation_staus();
-            Result.IsVaild = t;
-            return View("center", Result);
+            if (U_temp.UserGender == "1")
+            {
+                U_temp.UserGender = "男";
+            }
+            else
+            {
+                U_temp.UserGender = "女";
+            }
+            Result.Myuser = U_temp;
+            if(t!=-1)
+            {
+                Result.Deal_message = "modify failed";
+            }
+            else
+            {
+                Result.Deal_message = "modify success";
+            }
+            return View(Result);
         }
 
         [HttpGet]
         public IActionResult ticket()
         {
+            Station.Clear();
+            OracleSqlTools.GetAllStation(Station, true);
             ReturnModels.OrderList Result = new ReturnModels.OrderList();
             List<_Order> Orders = new List<_Order>();
             List<string> start = new List<string>();
@@ -103,10 +112,10 @@ namespace _12306.Controllers
         [HttpGet]
         public IActionResult t_cancel(string Order_ID)
         {
-            ReturnModels.Operation_staus Result = new ReturnModels.Operation_staus();
+            ReturnModels.Login_Staus Result = new ReturnModels.Login_Staus();
             int t;
             t = OracleSqlTools.CancelOrder(Order_ID, Containers._Current_User.Instance.UserID,true);
-            Result.IsVaild = t;
+            Result.IsLogin = t;
             return View(Result);
         }
         [HttpGet]
@@ -119,9 +128,59 @@ namespace _12306.Controllers
         public IActionResult account(string newPassword)
         {
             int t = OracleSqlTools.ChangePWD(Containers._Current_User.Instance.UserID, newPassword, true);
-            ReturnModels.Operation_staus Result = new ReturnModels.Operation_staus();
-            Result.IsVaild = t;
+            ReturnModels.Login_Staus Result = new ReturnModels.Login_Staus();
+            Result.IsLogin = t;
             return View("center", Result);
+        }
+        public IActionResult addPassenger(string pID,string pName)
+        {
+            ReturnModels.Person_Information Result = new ReturnModels.Person_Information();
+            _User U = new _User();
+            OracleSqlTools.GetUser(Containers._Current_User.Instance.UserID, ref U, true);
+            if (U.UserGender == "1")
+            {
+                U.UserGender = "男";
+            }
+            else
+            {
+                U.UserGender = "女";
+            }
+            Result.Myuser = U;
+            _Passenger P = new _Passenger();
+            P.PassengerPID = pID;
+            P.PassengerRName = pName;
+            P.UserID = Containers._Current_User.Instance.UserID;
+            int t=OracleSqlTools.AddPassenger(P, true);
+            if(t!=-1)
+            {
+                Result.Deal_message = "Add Passenger failed";
+            }
+            else
+            {
+                Result.Deal_message = "Add Passenger success";
+            }
+            Result.Mypassenger = new List<_Passenger>();
+            OracleSqlTools.GetPassenger(Containers._Current_User.Instance.UserID, Result.Mypassenger, true);
+            return View("information",Result);
+        }
+        public IActionResult deletePassenger(string PassengerName, string PassengerPID)
+        {
+            ReturnModels.Person_Information Result = new ReturnModels.Person_Information();
+            _User U = new _User();
+            OracleSqlTools.GetUser(Containers._Current_User.Instance.UserID, ref U, true);
+            Result.Myuser = U;
+            int t=OracleSqlTools.DeletePassenger(Containers._Current_User.Instance.UserID, PassengerPID);
+            if(t!=-1)
+            {
+                Result.Deal_message = "Unfinished Order exists,modify failed";
+            }
+            else
+            {
+                Result.Deal_message = "Passenger modify success";
+            }
+            Result.Mypassenger = new List<_Passenger>();
+            OracleSqlTools.GetPassenger(Containers._Current_User.Instance.UserID, Result.Mypassenger, true);
+            return View("information",Result);
         }
     }
 }

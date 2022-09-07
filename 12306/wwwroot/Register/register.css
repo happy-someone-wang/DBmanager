@@ -42,7 +42,7 @@ html{
 
 /*账户信息*/
 .reg {
-    border: 1px solid #1678be;  /*边框*/
+    border: 1px solid #6F98FF;  /*边框*/
     border-radius: 5px 5px 0 0;   /*边框圆角*/
     box-shadow: 10px 10px 5px rgba(0, 0, 0, .2); /*边框阴影*/
 }
@@ -55,7 +55,7 @@ html{
     padding-left: 20px;
     font-size: 14px;
     position: relative;
-    background-image: linear-gradient(#9198e5, #1678be);
+    background-color: #6F98FF;
 }
 
 /*账户信息主要内容*/
@@ -152,10 +152,14 @@ html{
     height: 30px;
     border: none;
     border-radius: 15px 15px;
-    background-image: linear-gradient(#9198e5, #1678be);
-    cursor: pointer; 
+    background-color: #6F98FF;
     color: #fff;
 }
+.lay-btn input:hover{
+    background-color: #597fdd;
+    cursor: pointer; rgb(94, 137, 248)rgb(73, 123, 249)rgb(73, 123, 249)rgb(100, 135, 226)rgb(110, 147, 241)rgb(110, 147, 241)
+}
+
 
 /*正确信息*/
 .i-ok{

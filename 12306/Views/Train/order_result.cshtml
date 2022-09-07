@@ -7,59 +7,178 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        .content {
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .nav {
+            width: 160px;
+            background-color: #6F9BFF;
+            padding: 20px 30px;
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%,-50%);
+            top: 0px;
+            bottom: 0px;
+        }
+
+        .nav-hd {
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+            font-family: '微软雅黑';
+            letter-spacing: 1px;
+            text-align: center;
+            margin: 25px 0px;
+        }
+
+        .nav-bd {
+            margin-top: 50px;
+        }
+
+        .nav-item {
+            height: 40px;
+            background: #6F9BFF;
+            border-radius: 20px;
+            margin: 30px 0px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .current {
+            height: 40px;
+            background: #fff;
+            border-radius: 20px;
+            margin: 30px 0px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .nav-item a {
+            height: 40px;
+            line-height: 40px;
+            color: #fff;
+            vertical-align: middle;
+        }
+
+        .current a {
+            height: 40px;
+            line-height: 40px;
+            color: rgb(42, 130, 228);
+            vertical-align: middle;
+        }
+
+        img {
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        .nav-item .img1 {
+            display: inline-block;
+        }
+
+        .nav-item .img2 {
+            display: none;
+        }
+
+        .current .img1 {
+            display: none;
+        }
+
+        .current .img2 {
+            display: inline-block;
+        }
+
+        .logout {
+            height: 80px;
+            text-align: right;
+            vertical-align: middle;
+            box-shadow: 3px 3px 3px rgb(0 0 0 / 10%);
+            font-size: 16px;
+        }
+
+            .logout img {
+                height: 50px;
+                width: 1090px;
+                opacity: 40%;
+                position: absolute;
+                top: 30px;
+                left: 250px;
+            }
+
+            .logout a {
+                vertical-align: middle;
+                height: 80px;
+                line-height: 80px;
+                margin: 0px 20px;
+                color: #6F9BFF;
+            }
+
+                .logout a:hover {
+                    color: rgb(42, 130, 228)
+                }
+
+            .logout span {
+                vertical-align: middle;
+                color: rgba(128, 128, 128, 0.859);
+                height: 80px;
+                line-height: 80px;
+            }
+
+        .content {
+            margin: 30px 260px;
             width: 900px;
-            background-color: #fff;
         }
 
         .tip {
-            border: #1678be;
+            border-radius: 5px;
+            height: 60px;
+            width: 1185px;
+            margin: auto;
+            padding: 15px 25px;
+            box-shadow: 0px 2px 8px rgb(0 0 0 / 20%);
         }
 
-            .tip div {
+            .tip div, .tip span {
                 font-size: 20px;
                 margin-bottom: 5px;
+                line-height: 60px;
             }
 
         .t-succ {
-            border-radius: 5px;
-            padding: 15px 15px;
             background-color: rgb(224, 247, 224);
-            /* display: none; */
         }
 
         .t-fail {
-            border-radius: 5px;
-            padding: 15px 15px;
             background-color: #ffebda;
-            /* display: none; */
-        }
-
-        .orders {
-            width: 900px;
-            border: 1px solid #1678be; /*边框*/
-            border-radius: 5px 5px 0 0; /*边框圆角*/
-            background-color: #fff;
         }
 
         .orders-hd {
+            padding: 10px 15px;
+            width: 100px;
             height: 40px;
             line-height: 38px;
-            color: #fff;
-            padding-left: 20px;
-            font-size: 18px;
-            position: relative;
-            background-image: linear-gradient(#9198e5, #1678be);
+            margin-top: 18px;
+            color: rgba(51, 51, 51, 0.900);
         }
 
         .orders-bd {
             padding: 15px 15px;
             position: relative;
             border-top: 0;
+            border-radius: 5px;
+            min-height: 410px;
+            width: 1185px;
+            height: auto;
+            padding: 15px 25px;
+            box-shadow: 0px 2px 8px rgb(0 0 0 / 30%);
         }
 
         table {
@@ -87,97 +206,154 @@
             text-align: left;
         }
 
-        ;
+        .orders-bd button {
+            position: absolute;
+            bottom: 20px;
+            left: 46%;
+            height: 30px;
+            width: 86px;
+            border: none;
+            border-radius: 5px;
+            background-color: rgb(255, 144, 71);
+            color: #FFF;
+            font-size: 14px;
+        }
+
+            .orders-bd button:hover {
+                background-color: rgba(255, 144, 71, 0.600);
+                cursor: pointer;
+            }
     </style>
 </head>
 <body>
+    <div class="nav">
+        <div class="nav-hd">
+            铁路购票系统
+        </div>
+        <hr style="margin-top: 45px;color:#fff">
+        <div class="nav-bd" id="nav">
+            <ul>
+                <li class="nav-item">
+                    <img class="img1" src="/Person/image/系统首页1.png">
+                    <img class="img2" src="/Person/image/系统首页2.png">
+                    <a href="/Home/Index">系统首页</a>
+                </li>
+                <li class="current nav-item">
+                    <img class="img1" src="/Person/image/订票中心1.png">
+                    <img class="img2" src="/Person/image/订票中心2.png">
+                    <a href="/Train/Index">订票中心</a>
+                </li>
+                <li class="nav-item">
+                    <img class="img1" src="/Person/image/个人信息1.png">
+                    <img class="img2" src="/Person/image/个人信息2.png">
+                    <a href="/Person/information">个人信息</a>
+                </li>
+                <li class="nav-item">
+                    <img class="img1" src="/Person/image/我的订单1.png">
+                    <img class="img2" src="/Person/image/我的订单2.png">
+                    <a href="/Person/ticket">我的订单</a>
+                </li>
+                <li class="nav-item">
+                    <img class="img1" src="/Person/image/安全中心1.png">
+                    <img class="img2" src="/Person/image/安全中心2.png">
+                    <a href="/Person/account">安全中心</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="logout">
+        <img src="/Train/images/train.png">
+        <span>您好！</span>
+        <span>@Model.Myuser.UserRName</span>
+        <a href="/Login/Index">退出登录</a>
+    </div>
     <div class="content">
         @{
             if (Model != null && Model.Order_info.Count > 0)
             {
                 <div class="tip t-succ">
                     <div style="color: #26a306;">
-                        <img src="/Person/image/right.png" alt="加载失败" style="width: 30px; line-height: 30px; vertical-align: middle;">
-                        <strong>订票成功！</strong>
-                    </div>
-                </div>
-                <br>
-                <div class="orders">
-                    <div class="orders-hd">订单信息</div>
-                    <div class="orders-bd">
-                                <div>
-                                    &nbsp;&nbsp;
-                                    <strong style="color: #fb7403;">@Model.Order_info[0].TrainID</strong>
-                                    次&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <strong style="color: #fb7403;">@Model.Start_station</strong>
-                                    站(
-                                    <strong>
-                                        <span>@Model.Order_info[0].LeavingTime</span>
-                                    </strong>
-                                    )—
-                                    <strong>
-                                        <span style="color: #fb7403;">@Model.End_station</span>
-                                    </strong>
-                                    站(
-                                    <strong>
-                                        <span>@Model.Order_info[0].ArriveTime</span>
-                                    </strong>
-                                    )
-                                    <button type="button" onclick="location.href=('/Train/Index')">返回首页</button>
-                                </div>
-
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <th style="width: 40px;">
-                                        <strong>订单号</strong>
-                                    </th>
-                                    <th>
-                                        <strong>姓名</strong>
-                                    </th>
-                                    <th>
-                                        <strong>车厢</strong>
-                                    </th>
-                                    <th>
-                                        <strong>席位号</strong>
-                                    </th>
-                                    <th>
-                                        <strong>票价（元）</strong>
-                                    </th>
-                                </tr>
-                                @if (Model != null)
-                                {
-                                for (int i = 0; i < Model.Order_info.Count; i++)
-                                {
-                                <tr>
-                                    <td>@Model.Order_info[i].OrderID</td>
-                                    <td>@Model.Passenger_name[i]</td>
-                                    <td>
-                                        <span>@Model.Order_info[i].CarriageNo</span>
-                                    </td>
-                                    <td>@Model.Order_info[i].SeatNo 座</td>
-                                    <td>@Model.Order_info[i].OrderValue</td>
-                                </tr>
-                                }
-                                }
-                                }
-                            </tbody>
-                        </table>
+                        <strong> 订票已成功！</strong>
                     </div>
                 </div>
             }
             else
             {
                 <div class="tip t-fail">
-                    <div style="color: red;">
-                        <img src="/Person/image/wrong.png" alt="加载失败" style="width: 30px; line-height: 30px; vertical-align: middle;">
-                        <strong>订票失败！</strong>
-                    </div>
-                    <a href="/Train/Index">请重新查询！</a>
+                    <span style="color: red;">
+                        <strong style="font-size: 20px;">订票失败！</strong>
+                    </span>
+                    <span style="font-size: 14px;">请重新操作！</span>
+
                 </div>
             }
         }
-
+        @if (Model != null && Model.Order_info.Count > 0)
+        {
+            <div>
+                <h2 class="orders-hd">订单信息</h2>
+                <div class="orders-bd">
+                    <div>
+                        &nbsp;&nbsp;
+                        <strong style="color: #fb7403;">@Model.Order_info[0].TrainID</strong>
+                        次&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <strong style="color: #fb7403;">@Model.Order_info[0].StartStNo</strong>
+                        站(
+                        <strong>
+                            <span>@Model.Order_info[0].LeavingTime</span>
+                        </strong>
+                        )—
+                        <strong>
+                            <span style="color: #fb7403;">@Model.Order_info[0].EndStNo</span>
+                        </strong>
+                        站(
+                        <strong>
+                            <span>@Model.Order_info[0].ArriveTime</span>
+                        </strong>
+                        )
+                    </div>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th style="width: 40px;">
+                                    <strong>订单号</strong>
+                                </th>
+                                <th>
+                                    <strong>姓名</strong>
+                                </th>
+                                <th>
+                                    <strong>车厢</strong>
+                                </th>
+                                <th>
+                                    <strong>席位号</strong>
+                                </th>
+                                <th>
+                                    <strong>票价（元）</strong>
+                                </th>
+                            </tr>
+                            @{
+                                if (Model != null)
+                                {
+                                    for (int i = 0; i < Model.Order_info.Count; i++)
+                                    {
+                                        <tr>
+                                            <td>@Model.Order_info[i].OrderID</td>
+                                            <td>@Model.Order_info[i].Passenger.PassengerRName</td>
+                                            <td>
+                                                <span>@Model.Order_info[i].CarriageNo</span>
+                                            </td>
+                                            <td>@Model.Order_info[i].SeatNo 座</td>
+                                            <td>@Model.Order_info[i].OrderValue</td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        <button type="button" onclick="location.href=('/Train/Index')">返回查票界面</button>
     </div>
 </body>
 </html>

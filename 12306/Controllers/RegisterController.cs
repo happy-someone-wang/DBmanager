@@ -51,7 +51,7 @@ namespace _12306.Controllers
             U.UserRName = user_real_name;
             U.UserGender = user_gender;
             U.UserPID = user_person_ID;
-            U.UserAddr = user_address;
+            U.UserAddr = user_address; 
             Console.WriteLine(U);
             int t;
             //ServerSqlTools.OracleSqlTools.resetUser();

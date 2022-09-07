@@ -14,17 +14,19 @@
 </head>
 <body onload='createCode()'>
     <div class="page-container">
-        <h1>密码修改</h1>
-        <form method="post" action="/Login/ChangePWD">
-            <input type="text" name="UserID" id="UserID" class="username" placeholder="请输入您的身份证号">
-            <div class="errors"><span>请输入身份证号!</span></div>
-            <input type="text" name="UserPhone" id="UserPhone" class="username" placeholder="请输入您的手机号码">
-            <div class="errors"><span>请输入手机号码!</span></div>
-            <button type="submit" class="submit_button1" id="button">确认</button>
+        <h1 style="padding-left: 150px;margin-bottom: 50px;padding-top: 85px;">密码修改</h1>
+        <div class="cpwd">
+            <form method="post" action="/Login/ChangePWD">
+                <input type="text" name="UserID" id="UserID" class="username" placeholder="请输入您的身份证号">
+                <div class="errors"><span>请输入身份证号!</span></div>
+                <input type="text" name="UserPhone" id="UserPhone" class="username" placeholder="请输入您的手机号码">
+                <div class="errors"><span>请输入手机号码!</span></div>
+                <button type="submit" class="submit_button1" id="button">确认</button>
 
 
-            <div class="error"><span>+</span></div>
-        </form>
+                <div class="error"><span>+</span></div>
+            </form>
+        </div>
         @if (Model != null)
         {
             if (Model.Pwd =="")

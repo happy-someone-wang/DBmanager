@@ -113,15 +113,15 @@ namespace _12306.Controllers
                 string EndSt = null;
                 foreach(_Station m in Station)
                 {
-                    if(m.StationName == x.StartStNo)
+                    if(m.StationNo == x.StartStNo)
                     {
                         StartSt = m.StationName;
                     }
-                    if (m.StationName == x.EndStNo)
+                    if (m.StationNo == x.EndStNo)
                     {
                         EndSt = m.StationName;
                     }
-                    if (start != null && end != null)
+                    if (StartSt != null && EndSt != null)
                     {
                         break;
                     }
@@ -163,11 +163,11 @@ namespace _12306.Controllers
                 string EndSt = null;
                 foreach (_Station m in Station)
                 {
-                    if (m.StationName == x.StartStNo)
+                    if (m.StationNo == x.StartStNo)
                     {
                         StartSt = m.StationName;
                     }
-                    if (m.StationName == x.EndStNo)
+                    if (m.StationNo == x.EndStNo)
                     {
                         EndSt = m.StationName;
                     }

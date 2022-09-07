@@ -129,13 +129,11 @@ namespace myDate
                     TmpStr = "";
                     eleCnt++;
                 }
-                else if(eleCnt == 2)
-                {
-                    int.TryParse(TmpStr, out Day);
-                    TmpStr = "";
-                    eleCnt++;
-                }
+                
             }
+            int.TryParse(TmpStr, out Day);
+            TmpStr = "";
+            eleCnt++;
             this.Year = Year;
             this.Month = Month;
             this.Day = Day;

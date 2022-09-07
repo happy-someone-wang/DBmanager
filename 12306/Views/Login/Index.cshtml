@@ -28,18 +28,25 @@
 </head>
 <body onload='createCode()'>
     <div class="page-container">
-        <h1>登录12306</h1>
-        <form method="post" action="~/Login/Index">
-            <input type="text" name="username" id="username" class="username" placeholder="请输入您的用户名">
-            <input type="password" name="password" id="password" class="password" placeholder="请输入密码">
-            <input type="Captcha" id="Captcha" class="Captcha" name="Captcha" placeholder="输入验证码">
-            <input type="button" id="code" onclick="createCode()" style="height:40px;width:120px" title='点击更换验证码' />
-            <p>忘记密码? <a href="/Login/ChangePWD" font-size>重置密码</a></p>
-            <button type="submit" class="submit_button" id="button">登录</button>
+        <h1>登录</h1>
+        <div class="login">
+            <form method="post" action="~/Login/Index">
+                <input type="text" name="username" id="username" class="username" placeholder="请输入您的用户名">
+                <input type="password" name="password" id="password" class="password" placeholder="请输入密码">
+                <div></div>
+                <input type="Captcha" id="Captcha" class="Captcha" name="Captcha" placeholder="输入验证码">
+                <input class="abc" type="button" id="code" onclick="createCode()" title='点击更换验证码' />
+                <div class="recode" style="font-size: 14px;">
+                    <span>忘记密码?</span>
+                    &nbsp;
+                    <a href="/Login/ChangePWD">重置密码</a>
+                </div>
+                <button type="submit" class="submit_button" id="button">登录</button>
 
-            <button type="button" onclick="location.href=('/register/Index')" class="register_button" id="register">注册</button>
-            <div class="error"><span>+</span></div>
-        </form>
+                <button type="button" onclick="location.href=('/register/Index')" class="register_button" id="register">注册</button>
+                <div class="error"><span>+</span></div>
+            </form>
+        </div>
         @if (Model != null)
         {
         if (Model.IsVaild != -1)

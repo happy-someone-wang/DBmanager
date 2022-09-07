@@ -1,4 +1,4 @@
-﻿@model ReturnModels.Train_Pay_Model;
+﻿@model ReturnModels.Train_Pay_Model
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,107 +6,173 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>pay</title>
-    <script src="jquery-3.5.1/jquery-3.5.1.min.js"></script>
+    <script src="/Train/jquery-3.5.1/jquery-3.5.1.js"></script>
     <style>
         * {
-            margin: 0px;
-            padding: 0px;
-            font-family: "Helvetica Neue",Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Heiti SC","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style: none;
         }
 
         a {
             text-decoration: none;
         }
 
-        ul, li {
-            list-style: none;
-        }
-
         .nav {
-            line-height: 40px;
-            font-size: 20px;
-            height: 40px;
-            background-image: linear-gradient(#9198e5, #1678be);
-            margin: 20px 0px;
-            padding-left: 45px;
-            letter-spacing: 1px;
-            color: white;
+            float: left;
+            width: 160px;
+            background-color: #6F9BFF;
+            padding: 20px 30px;
+            position: fixed;
+            top: 0px;
+            bottom: 0px;
         }
 
-            .nav ul {
-                width: 1190px;
-                margin: auto;
-                position: relative;
-                height: 40px;
-            }
+        .nav-hd {
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+            font-family: '微软雅黑';
+            letter-spacing: 1px;
+            text-align: center;
+            margin: 25px 0px;
+        }
+
+        .nav-bd {
+            margin-top: 50px;
+        }
 
         .nav-item {
-            display: block;
+            height: 40px;
+            background: #6F9BFF;
+            border-radius: 20px;
+            margin: 30px 0px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .current {
+            height: 40px;
+            background: #fff;
+            border-radius: 20px;
+            margin: 30px 0px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .nav-item a {
             height: 40px;
             line-height: 40px;
-            text-align: center;
-            color: #FFFFFF;
-            font-size: 17px;
-            float: left;
-            width: 180px;
+            color: #fff;
+            vertical-align: middle;
         }
 
-            .nav-item:hover {
-                background-color: #1678be;
+        .current a {
+            height: 40px;
+            line-height: 40px;
+            color: rgb(42, 130, 228);
+            vertical-align: middle;
+        }
+
+        img {
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        .nav-item .img1 {
+            display: inline-block;
+        }
+
+        .nav-item .img2 {
+            display: none;
+        }
+
+        .current .img1 {
+            display: none;
+        }
+
+        .current .img2 {
+            display: inline-block;
+        }
+
+        .logout {
+            height: 80px;
+            text-align: right;
+            vertical-align: middle;
+            box-shadow: 3px 3px 3px rgb(0 0 0 / 10%);
+            font-size: 16px;
+        }
+
+            .logout img {
+                height: 50px;
+                width: 1090px;
+                opacity: 40%;
+                position: absolute;
+                top: 30px;
+                left: 250px;
             }
 
-        .nav a {
-            color: white;
+            .logout a {
+                vertical-align: middle;
+                height: 80px;
+                line-height: 80px;
+                margin: 0px 20px;
+                color: #6F9BFF;
+            }
+
+                .logout a:hover {
+                    color: rgb(42, 130, 228)
+                }
+
+            .logout span {
+                vertical-align: middle;
+                color: rgba(128, 128, 128, 0.859);
+                height: 80px;
+                line-height: 80px;
+            }
+
+        .content {
+            margin: 30px 260px;
         }
 
-        .tinfo, .pinfo {
-            width: 1100px;
-            min-height: 200px;
-            border: 1px solid #1678be; /*边框*/
-            border-radius: 5px 5px 0 0; /*边框圆角*/
-            margin: auto;
-            background-color: #eef1f8;
-        }
-
-        .pinfo {
-            padding-bottom: 20px;
-        }
-
-        .tinfo-hd, .pinfo-hd {
-            height: 30px;
-            line-height: 30px;
-            color: #fff;
-            padding-left: 20px;
-            font-size: 16px;
-            position: relative;
-            background-image: linear-gradient(#9198e5, #9198e5);
-        }
-
-        .tinfo-bd {
+        .tinfo {
+            width: 500px;
+            height: 194px;
+            display: block;
             padding: 15px 15px;
-            position: relative;
-            border-top: 0;
-            margin: 0px 50px;
+            margin-left: 350px;
+            text-align: center;
+            background-image: url('/wwwroot/Train/images/车票bg.png');
+            background-size: cover;
         }
 
         .s_sta, .e_sta {
             font-size: 20px;
             height: 140px;
-            width: 200px;
+            width: 80px;
         }
 
         .s_sta, .e_sta, .tinfo-middle {
+            margin: 50px 21px;
+            line-height: 50px;
             float: left;
             text-align: center;
         }
 
         .btn {
+            position: absolute;
+            bottom: 20px;
+            left: 46%;
             height: 30px;
             width: 80px;
             border: none;
             border-radius: 5px;
-            background-color: darkorange;
-            color: #FFFFFF;
+            background-color: rgb(255, 144, 71);
+            color: #FFF;
+            font-size: 14px;
         }
 
             .btn:hover {
@@ -114,145 +180,214 @@
                 cursor: pointer;
             }
 
-        .pinfo-bd {
-            font-size: 14px;
+        .pinfo-hd {
             margin: auto;
-            margin-top: 5px;
-            border-radius: 5px;
-            height: auto;
-            padding: 5px 20px;
-            width: 700px;
-            color: rgba(0, 0, 0, 0.777);
-            background-color: lavender;
-            border: 1px solid rgb(97, 130, 240);
+            margin-top: 10px;
+            height: 20px;
+            line-height: 16px;
+            width: 1130px;
+            padding: 10px;
+            background-color: #E5E5E5;
+            font-size: 16px;
         }
 
-            .pinfo-bd label {
-                margin-right: 5px;
-                cursor: pointer;
+            .pinfo-hd th {
+                padding-left: 30px;
+                text-align: center;
+                width: 300px;
+                color: rgba(0, 0, 0, 0.600);
             }
 
-        .pay-type {
+            .pinfo-hd .choice {
+                padding-left: 10px;
+                width: 100px;
+            }
+
+        .pinfo-bd {
+            width: 1150px;
             margin: auto;
+        }
+
+        .pinfo {
+            position: relative;
+            border-radius: 5px;
+            min-height: 350px;
+            width: 1185px;
+            margin-top: 25px;
+            padding: 15px 25px;
+            box-shadow: 0px 2px 8px rgb(0 0 0 / 30%);
+        }
+
+        .info {
+            height: 18px;
+            line-height: 16px;
+            width: 1150px;
+            border: 1px solid #1678be;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            background-color: rgba(230, 230, 250, 0.436);
+            margin: auto;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        .pinfo td {
+            padding-left: 5px;
             text-align: center;
-            padding: 20px 0px;
+            width: 300px;
+        }
+
+        .pinfo .choice {
+            width: 100px;
         }
     </style>
-
 </head>
 <body>
     <div class="nav">
-        <ul>
-            <li class="nav-item">
-                <a href="/Train/Index">铁路购票系统</a>
-            </li>
-            <li class="nav-item">
-                <a href="/Person/center">个人中心</a>
-            </li>
-        </ul>
+        <div class="nav-hd">
+            铁路购票系统
+        </div>
+        <hr style="margin-top: 45px;color:#fff">
+        <div class="nav-bd" id="nav">
+            <ul>
+                <li class="nav-item">
+                    <img class="img1" src="/Person/image/系统首页1.png">
+                    <img class="img2" src="/Person/image/系统首页2.png">
+                    <a href="/Home/Index">系统首页</a>
+                </li>
+                <li class="nav-item">
+                    <img class="img1" src="/Person/image/订票中心1.png">
+                    <img class="img2" src="/Person/image/订票中心2.png">
+                    <a href="/Train/Index">订票中心</a>
+                </li>
+                <li class="nav-item">
+                    <img class="img1" src="/Person/image/个人信息1.png">
+                    <img class="img2" src="/Person/image/个人信息2.png">
+                    <a href="/Person/information">个人信息</a>
+                </li>
+                <li class="nav-item">
+                    <img class="img1" src="/Person/image/我的订单1.png">
+                    <img class="img2" src="/Person/image/我的订单2.png">
+                    <a href="/Person/ticket">我的订单</a>
+                </li>
+                <li class="current nav-item">
+                    <img class="img1" src="/Person/image/安全中心1.png">
+                    <img class="img2" src="/Person/image/安全中心2.png">
+                    <a href="/Person/account">安全中心</a>
+                </li>
+            </ul>
+        </div>
     </div>
-    <div class="tinfo">
-        <div class="tinfo-hd">车次信息</div>
-        <div class="tinfo-bd">
+    <div class="logout">
+        <img src="/Train/images/train.png">
+        <span>您好！</span>
+        <span>@Model.Myuser.UserRName</span>
+        <a href="/Login/Index">退出登录</a>
+    </div>
+    <div class="content">
+        <div class="tinfo">
             <div class="s_sta" id="stta">
-                <p>起始站</p>
-                @{
-                    if (Model != null)
-                    {
-                        <p style="color: #fb7403;">@Model.Start_station</p>
-                        <p>@Model.Leaving_time.Hour:@Model.Leaving_time.Minute</p>
-                    }
-                }
+                <p style="color: #fb7403;">@Model.Start_station</p>
+                <p>@Model.TrainTicket.LeavingTime</p>
             </div>
             <div class="tinfo-middle" id="cc">
-                @{
-                    if (Model != null)
-                    {
-                        <p style="color: #fb7403;">@Model.Train_ID</p>
-                        <img src="images\row.jpg">
-                        <p style="color: #fb7403;">@Model.Leaving_time.Month 月 @Model.Leaving_time.Day 日</p>
-                    }
-                }
+                <p style="color: #fb7403;">@Model.Train_ID</p>
+                <img style="position: relative;top:-25px;opacity: 80%;" src="/Train/images/row.png">
                 <p style="line-height: 10px">&emsp;</p>
             </div>
             <div class="e_sta" id="endd">
-                <p>终点站</p>
-                @{
-                    if (Model != null)
-                    {
-                        <p style="color: #fb7403;">@Model.End_station</p>
-                        <p>@Model.Arrive_time.Hour:@Model.Arrive_time.Minute</p>
-                    }
-                }
+                <p style="color: #fb7403;">@Model.End_station</p>
+                <p>@Model.TrainTicket.ArriveTime</p>
             </div>
         </div>
-    </div>
-    <br>
-    <form method="post" asp-action="Pay">
-        <div class="pinfo" id="infos">
-            <div class="pinfo-hd">乘客信息</div>
-                       @{
+
+        <div class="pinfo">
+            <div class="pinfo-hd">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th class="choice">选择</th>
+                            <th>乘车人</th>
+                            <th>身份证号</th>
+                            <th>座次</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <form method="post" action="/Train/Pay">
+                <div class="pinfo-bd">
+                    <table class="info">
+                        @{
                             if (Model != null)
                             {
-                                <input type="hidden" id="train_ID" name="train_ID" value="@Model.Train_ID" />
-                                <input type="hidden" id="start_station" name="start_station" value="@Model.Start_station" />
-                                <input type="hidden" id="end_station" name="end_station" value="@Model.End_station" />
-                                <input type="hidden" id="leaving_month" name="leaving_month" value="@Model.Leaving_time.Month" />
-                                <input type="hidden" id="leaving_day" name="leaving_day" value="@Model.Leaving_time.Day" />
+                                <tr>
+                                    <td class="choice"><input type="checkbox" name="PID[0]" value="@Model.Myuser.UserPID"></td>
+                                    <td name="name[0]">@Model.Myuser.UserRName</td>
+                                    <td name="PID[0]">@Model.Myuser.UserPID</td>
+                                    <td>
+                                        <input hidden="hidden" name="train_id" value="@Model.Train_ID" />
+                                        <input hidden="hidden" name="start_station" value="@Model.Start_station" />
+                                        <input hidden="hidden" name="end_station" value="@Model.End_station" />
+                                        <input hidden="hidden" name="date" value="@Model.TrainTicket.TrainDate" />
+                                        <p style="margin: 3px;font-size:15px">
+
+                                            <label><input type="radio" name="seat[0]" value="VIP" onchange="on2(this)">商务座</label>
+                                            <label><input type="radio" name="seat[0]" value="EX" onchange="on2(this)">特等座</label>
+                                            <label><input type="radio" name="seat[0]" value="first" onchange="on2(this)">一等座</label>
+                                            <label><input type="radio" name="seat[0]" value="second" onchange="on2(this)">二等座</label>
+                                        </p>
+                                    </td>
+                                </tr>
+                            }
+
+                            if (Model!=null&&Model.MyPassengers != null && Model.MyPassengers.Count > 0)
+                            {
+                                for (int i = 0; i < Model.MyPassengers.Count; i++)
+                                {
+                                    <tr>
+                                        <td class="choice"><input type="checkbox" value="@Model.MyPassengers[i].PassengerPID"></td>
+                                        <td name="name[@(i+1)]">@Model.MyPassengers[i].PassengerRName</td>
+                                        <td name="PID[@(i+1)]">@Model.MyPassengers[i].PassengerPID</td>
+                                        <td>
+                                            <p style="margin: 3px;font-size:15px">
+                                                <label><input type="radio" name="seat[@(i+1)]" value="VIP" onchange="on2(this)">商务座</label>
+                                                <label><input type="radio" name="seat[@(i+1)]" value="EX" onchange="on2(this)">特等座</label>
+                                                <label><input type="radio" name="seat[@(i+1)]" value="first" onchange="on2(this)">一等座</label>
+                                                <label><input type="radio" name="seat[@(i+1)]" value="second" onchange="on2(this)">二等座</label>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                }
                             }
                         }
-            <div style="text-align: center;padding: 10px 0px;margin: 0px 30px;">
-                <button class="btn" type="button" onclick="create()" style="margin-bottom: 10px;">添加乘车人</button>
-                <hr>
-            </div>
+                    </table>
+                </div>
+                    <button class="btn" type="submit">订票</button>
+            </form>
 
-            <div class="pinfo-bd" id="info[0]">
-                <p>
-                    填写乘车人信息
-                    <button class="btn" name="info[0]" onclick="delet(this)" style="margin-left: 490px;">删除</button>
-                    <hr>
-                </p>
-                <p style="margin: 3px;">
-                    身份证号：
-                    <input id="info[0].idcard" onchange="on(this)" name="idcard">
-                </p>
-                <p style="margin: 3px;">
-                    姓&emsp;&emsp;名：
-                    <input id="info[0].name" onchange="on(this)" name="name">
-                </p>
-                <p style="margin: 3px;">
-                    选择座位类型：
-                    <label><input type="radio" name="seat[0]" value="VIP" onchange="on2(this)">商务座</label>
-                    <label><input type="radio" name="seat[0]" value="EX" onchange="on2(this)">特等座</label>
-                    <label><input type="radio" name="seat[0]" value="first" onchange="on2(this)">一等座</label>
-                    <label><input type="radio" name="seat[0]" value="second" onchange="on2(this)">二等座</label>
-                </p>
 
-            </div>
         </div>
-        <div class="pay-type">
-            <p style="padding: 20px 0px;"><button class="btn" type="submit" style="width: 200px;font-size:medium;background-image: linear-gradient(#9198e5, #9198e5);">订票</button></p>
-        </div>
-    </form>
-        <script>
-            function on(e) {
-                e.setAttribute("value", e.value);
-            }
-            function on2(e) {
-                e.setAttribute("checked", e.checked);
-            }
-            var num = 0;
-            function delet(obj) {
-                var di = obj.name;
-                document.getElementById(di).remove();
-                num--;
-            }
-            function create() {
-                num++;
-                var inf = "info[" + num.toString() + "]";
-                var namme = "seat[" + num.toString() + "]";
-                document.getElementById('infos').innerHTML += "<div class='pinfo-bd' id='" + inf + "'><p>填写乘车人信息 <button class='btn' name = '" + inf + "' onclick = 'delet(this)' style = 'margin-left: 490px;'> 删除</button > <hr> </p> <p style='margin: 3px;'>身份证号：<input id='" + inf + ".idcard' onchange='on(this)' name='idcard'></p><p style='margin: 3px;'>姓&emsp;&emsp;名：<input id='" + inf + ".name' onchange='on(this)' name='name'></p> <p style='margin: 3px;'>选择座位类型：<label><input type='radio' name='" + namme + "' value='VIP' onchange='on2(this)'>商务座</label><label><input type='radio' name='" + namme + "' value='EX' onchange='on2(this)'>特等座</label><label><input type='radio' name='" + namme + "' value='first' onchange='on2(this)'>一等座</label> <label><input type='radio' name='" + namme +"' value='second' onchange='on2(this)'>二等座</label></p> </div>";
-            }
-        </script>
+    </div>
+    <script>
+        function on(e) {
+            e.setAttribute("value", e.value);
+        }
+        function on2(e) {
+            e.setAttribute("checked", e.checked);
+        }
+        //var num = 0;
+        //function delet(obj) {
+        //    var di = obj.name;
+        //    document.getElementById(di).remove();
+        //    num--;
+        //}
+        //function create() {
+        //    num++;
+        //    var inf = "info[" + num.toString() + "]";
+        //    var namme = "seat[" + num.toString() + "]";
+        //    document.getElementById('infos').innerHTML += "<div class='pinfo-bd' id='" + inf + "'><p>填写乘车人信息 <button class='btn' name = '" + inf + "' onclick = 'delet(this)' style = 'margin-left: 490px;'> 删除</button > <hr> </p> <p style='margin: 3px;'>身份证号：<input id='" + inf + ".idcard' onchange='on(this)' name='idcard'></p><p style='margin: 3px;'>姓&emsp;&emsp;名：<input id='" + inf + ".name' onchange='on(this)' name='name'></p> <p style='margin: 3px;'>选择座位类型：<label><input type='radio' name='" + namme + "' value='VIP' onchange='on2(this)'>商务座</label><label><input type='radio' name='" + namme + "' value='EX' onchange='on2(this)'>特等座</label><label><input type='radio' name='" + namme + "' value='first' onchange='on2(this)'>一等座</label> <label><input type='radio' name='" + namme + "' value='second' onchange='on2(this)'>二等座</label></p> </div>";
+        //}
+    </script>
 </body>
 </html>

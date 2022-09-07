@@ -1,84 +1,101 @@
-﻿<!doctype html>
+﻿@model ReturnModels.Person_account
+<!doctype html>
 <html>
 <head>
     <meta charset="utf-8">
     <title>personal_account</title>
     <link rel="stylesheet" href="/Person/personal_account.css" />
 </head>
-
 <body>
-    <br>
-    <div class="wrapper content">
-        <!-- 面包屑 -->
-        <div class="breadcrumb"> 当前位置： <a href="/Person/center">个人中心</a> <span class="sep">&gt;</span> <span class="active">密码修改</span> </div>
-        <!-- 个人中心 -->
-        <div class="center-box">
-            <!-- 个人中心左侧 -->
-            <!-- 个人中心左侧菜单 -->
-            <ul class="center-menu" role="menubar">
-                <li class="menu-item" id="gerenzhongxin" role="menuitem">
-                    <h2 class="menu-tit"> <a href="/Person/center">个人中心</a> </h2>
+    <div class="nav">
+        <div class="nav-hd">
+            铁路购票系统
+        </div>
+        <hr style="margin-top: 45px;color:#fff">
+        <div class="nav-bd" id="nav">
+            <ul>
+                <li class="nav-item">
+                    <img class="img1" src="/Person/image/系统首页1.png">
+                    <img class="img2" src="/Person/image/系统首页2.png">
+                    <a href="/Home/Index">系统首页</a>
                 </li>
-                <li class="menu-item" role="menuitem">
-                    <h2 class="menu-tit"> <a href="/Person/ticket">订单中心</a> </h2>
+                <li class="nav-item">
+                    <img class="img1" src="/Person/image/订票中心1.png">
+                    <img class="img2" src="/Person/image/订票中心2.png">
+                    <a href="/Train/Index">订票中心</a>
                 </li>
-                <li class="menu-item" role="menuitem">
-                    <h2 class="menu-tit"> <a href="/Person/information">个人信息</a> </h2>
+                <li class="nav-item">
+                    <img class="img1" src="/Person/image/个人信息1.png">
+                    <img class="img2" src="/Person/image/个人信息2.png">
+                    <a href="/Person/information">个人信息</a>
                 </li>
-                <li class="menu-item" role="menuitem">
-                    <h2 class="menu-tit active"> <a href="/Person/account">密码修改</a> </h2>
+                <li class="nav-item">
+                    <img class="img1" src="/Person/image/我的订单1.png">
+                    <img class="img2" src="/Person/image/我的订单2.png">
+                    <a href="/Person/ticket">我的订单</a>
+                </li>
+                <li class="current nav-item">
+                    <img class="img1" src="/Person/image/安全中心1.png">
+                    <img class="img2" src="/Person/image/安全中心2.png">
+                    <a href="/Person/account">安全中心</a>
                 </li>
             </ul>
-            <div class="center-main">
-                <div class="panel-border" style="min-height: 330px;">
-                    <!-- 密码修改 -->
-                    <form method="post" action="/Person/account" id="passwordForm" novalidate="novalidate">
-                        <div class="center-form-item">
-                            <div class="center-tit">
-                                <div class="tit-name">密码修改</div>
-                            </div>
-                            <div class="form-list">
-                                <div class="form-item">
-                                    <div class="form-label"> <span class="required" aria-required="true">*</span>原密码： </div>
-                                    <div class="form-bd">
-                                        <div class="input-box">
-                                            <input type="password" class="input" id="oldPassword" name="oldPassword">
-                                        </div>
-                                        <div class="form-tips">请输入原始密码</div>
-                                    </div>
+        </div>
+    </div>
+    <div class="logout">
+        <img src="Person/image/train.png">
+        <span>您好！</span>
+        <span>@Model.Myuser.UserRName</span>
+        <a href="/Login/Index">退出登录</a>
+    </div>
+    <div class="content">
+        <!-- 密码修改 -->
+        <form method="post" action="/Person/account" id="passwordForm" novalidate="novalidate">
+            <div class="center-form-item">
+                <div class="center-tit">
+                    <div class="tit-name">密码修改</div>
+                </div>
+                <div class="line-dashed line-dashed-margin"></div>
+                    <div class="form-list">
+                        <div class="form-item">
+                            <div class="form-label"> <span class="required" aria-required="true">*</span>原密码： </div>
+                            <div class="form-bd">
+                                <div class="input-box">
+                                    <input type="password" class="input" id="oldPassword" name="oldPassword">
                                 </div>
-                                <div class="form-item">
-                                    <div class="form-label"> <span class="required" aria-required="true">*</span>新密码： </div>
-                                    <div class="form-bd">
-                                        <div class="input-box">
-                                            <input type="password" class="input" id="newPassword" name="newPassword">
-                                        </div>
-                                        <div class="form-tips" id="newPasswordPrompt" style="display: block"> 需包含字母、数字、下划线中不少于两种且长度不少于6. </div>
-                                        <div class="clear"></div>
-                                        <div class="pwd-rank mt-sm" id="pass"> <span class="" id="weak">弱</span> <span id="medium">中</span> <span id="strength">强</span> </div>
-                                    </div>
-                                </div>
-                                <div class="form-item">
-                                    <div class="form-label"> <span class="required" aria-required="true">*</span>密码确认： </div>
-                                    <div class="form-bd">
-                                        <div class="input-box">
-                                            <input type="password" class="input" id="confirmPassWord" name="confirmPassWord">
-                                        </div>
-                                        <div class="form-tips" id="newPasswordConfirm">请再次输入密码。</div>
-                                    </div>
-                                </div>
-                                <div class="line-dashed line-dashed-margin"></div>
-                                <!-- 确认按钮 -->
-                                <div class="btn-center" id="input-button" style="display:block"> 
-                                <button type="submit" class="btn btn-primary" id="certain-btn">确认</button> </div>
-                                <!-- 密码错误 -->
-                                <div class="error-prompt" id="input-error" style="display:none"> 密码错误！请重新输入 </div>
+                                <div class="form-tips">请输入原始密码</div>
                             </div>
                         </div>
-                    </form>
-                </div>
+                        <div class="form-item">
+                            <div class="form-label"> <span class="required" aria-required="true">*</span>新密码： </div>
+                            <div class="form-bd">
+                                <div class="input-box">
+                                    <input type="password" class="input" id="newPassword" name="newPassword">
+                                </div>
+                                <div class="form-tips" id="newPasswordPrompt" style="display: block"> 需包含字母、数字、下划线中不少于两种且长度不少于6. </div>
+                                <div class="clear"></div>
+                                <div class="pwd-rank mt-sm" id="pass"> <span class="" id="weak">弱</span> <span id="medium">中</span> <span id="strength">强</span> </div>
+                            </div>
+                        </div>
+                        <div class="form-item">
+                            <div class="form-label"> <span class="required" aria-required="true">*</span>密码确认： </div>
+                            <div class="form-bd">
+                                <div class="input-box">
+                                    <input type="password" class="input" id="confirmPassWord" name="confirmPassWord">
+                                </div>
+                                <div class="form-tips" id="newPasswordConfirm">请再次输入密码。</div>
+                            </div>
+                        </div>
+                        <div class="line-dashed line-dashed-margin"></div>
+                        <!-- 确认按钮 -->
+                        <div class="btn-center" id="input-button" style="display:block">
+                            <button type="submit" class="btn btn-primary" id="certain-btn">确认</button>
+                        </div>
+                        <!-- 密码错误 -->
+                        <div class="error-prompt" id="input-error" style="display:none"> 密码错误！请重新输入 </div>
+                    </div>
             </div>
-        </div>
+        </form>
     </div>
     <script type="text/javascript" src="/Person/personal_account.js"></script>
 </body>

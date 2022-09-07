@@ -56,5 +56,9 @@ namespace Error
         ERR_OUNEXIST,
         ERR_OTCONFLICT
     }
+    enum PErrorCode
+    {
+        ERR_PEXIST
+    }
     
 }

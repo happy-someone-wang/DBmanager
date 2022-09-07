@@ -1,0 +1,62 @@
+[2022/9/2 18:53:12] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = 1662115990,TID = G006)
+[Success]  
+[2022/9/3 0:11:26] [ORDER] [CREATE] User(PID = ) try to Create Order(OID = 1662135084,TID = G006)
+[Success]  
+[2022/9/3 0:11:28] [ORDER] [CREATE] User(PID = ) try to Create Order(OID = 1662135086,TID = G006)
+[Success]  
+[2022/9/3 9:42:42] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = 1662169361,TID = G006)
+[Success]  
+[2022/9/3 11:18:03] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = 1662175081,TID = G006)
+[Success]  
+[2022/9/3 11:18:05] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = 1662175084,TID = G006)
+[Success]  
+[2022/9/3 11:35:43] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = 1662176142,TID = G006)
+[Success]  
+[2022/9/3 11:52:58] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = 1662177176,TID = G006)
+[Success]  
+[2022/9/3 11:53:36] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = 1662177215,TID = G006)
+[Success]  
+[2022/9/3 11:57:41] [ORDER] [CANCEL] User(PID = ) try to Cancel Order(OID = ,TID = UNKNOWN)
+[Failure]  Order didn't exist
+[2022/9/3 11:58:48] [ORDER] [CANCEL] User(PID = ) try to Cancel Order(OID = ,TID = UNKNOWN)
+[Failure]  Order didn't exist
+[2022/9/3 11:58:49] [ORDER] [CANCEL] User(PID = ) try to Cancel Order(OID = ,TID = UNKNOWN)
+[Failure]  Order didn't exist
+[2022/9/3 11:58:51] [ORDER] [CANCEL] User(PID = ) try to Cancel Order(OID = ,TID = UNKNOWN)
+[Failure]  Order didn't exist
+[2022/9/3 12:56:46] [ORDER] [CANCEL] User(PID = ) try to Cancel Order(OID = ,TID = UNKNOWN)
+[Failure]  Order didn't exist
+[2022/9/3 12:58:44] [ORDER] [CANCEL] User(PID = ) try to Cancel Order(OID = ,TID = UNKNOWN)
+[Failure]  Order didn't exist
+[2022/9/3 12:59:12] [ORDER] [CANCEL] User(PID = ) try to Cancel Order(OID = ,TID = UNKNOWN)
+[Failure]  Order didn't exist
+[2022/9/3 14:44:09] [ORDER] [CANCEL] User(PID = ) try to Cancel Order(OID = ,TID = UNKNOWN)
+[Failure]  Order didn't exist
+[2022/9/3 14:47:23] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = UNKNOWN,TID = G006)
+[Failure]  Order Error
+[2022/9/3 14:47:56] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = UNKNOWN,TID = G006)
+[Failure]  Order Error
+[2022/9/3 14:50:17] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = UNKNOWN,TID = G006)
+[Failure]  Order Error
+[2022/9/3 14:58:17] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = 1662187999,TID = G006)
+[Success]  
+[2022/9/3 15:11:56] [ORDER] [CANCEL] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Cancel Order(OID = 1662176142,TID = G006)
+[Failure]  SQL Command Error / Connection Failed
+[2022/9/3 15:21:52] [ORDER] [CANCEL] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Cancel Order(OID = 1662177215,TID = G006)
+[Success]  Success
+[2022/9/3 15:23:00] [ORDER] [CANCEL] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Cancel Order(OID = 1662177215,TID = UNKNOWN)
+[Failure]  Order didn't exist
+[2022/9/3 16:57:10] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = 1662195428,TID = G003)
+[Success]  
+[2022/9/3 16:57:51] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = UNKNOWN,TID = )
+[Failure]  Order Error
+[2022/9/3 16:59:02] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = UNKNOWN,TID = )
+[Failure]  Order Error
+[2022/9/3 17:02:57] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = UNKNOWN,TID = )
+[Failure]  Order Error
+[2022/9/3 17:07:48] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = UNKNOWN,TID = )
+[Failure]  Order Error
+[2022/9/3 17:08:19] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = 1662196098,TID = G005)
+[Success]  
+[2022/9/3 17:08:20] [ORDER] [CANCEL] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Cancel Order(OID = 1662195428,TID = G003)
+[Success]  Success
