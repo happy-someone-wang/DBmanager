@@ -334,7 +334,7 @@
             </script>
             <div class="tickets-bd" id="chepiao">
                 @{
-                    if (Model != null)
+                    if (Model != null && Model.TrainTickets != null)
                         for (int i = 0; i < Model.TrainTickets.Count; i++)
                         {
 
@@ -376,7 +376,7 @@
                         }
                 }
             </div>
-            <div style="height:300px;width:300px">
+            <div style="height:500px;width:300px">
             </div>
 
         </div>
@@ -414,8 +414,14 @@
             daiin.innerHTML += "<option>" + year + "</option>";
         }
         else {
-            daiin.innerHTML += "<option>" + year + "</option>";
-            daiin.innerHTML += "<option>" + year + 1 + "</option>";
+            if (year ==@Model.Year) {
+                daiin.innerHTML += "<option selected='selected'>" + year + "</option>";
+                daiin.innerHTML += "<option>" + year + 1 + "</option>";
+                }
+                else {
+                daiin.innerHTML += "<option>" + year + "</option>";
+                daiin.innerHTML += "<option selected='selected'>" + year + "</option>";
+                }
         }
 
         var daiin2 = document.getElementsByTagName("select")[1];
@@ -423,8 +429,14 @@
             daiin2.innerHTML += "<option>" + month + "</option>";
         }
         else {
-            daiin2.innerHTML += "<option>" + month + "</option>";
-            daiin2.innerHTML += "<option>" + nextmonth + "</option>";
+            if (year ==@Model.Year) {
+                daiin2.innerHTML += "<option selected='selected'>" + month + "</option>";
+                daiin2.innerHTML += "<option>" + nextmonth + "</option>";
+                }
+                else {
+                daiin2.innerHTML += "<option>" + month + "</option>";
+                daiin2.innerHTML += "<option selected='selected'>" + nextmonth + "</option>";
+                }
         }
 
 
@@ -444,20 +456,36 @@
         if (mouseoption == 1) {
             for (dj = today; dj < today + 7; dj++) {
                 daa = dj;
-                daiin3.innerHTML += "<option>" + daa + "</option>";
+                if (daa ==@Model.Day) {
+                    daiin3.innerHTML += "<option selected='selected'>" + daa + "</option>";
+                }
+                else {
+                    daiin3.innerHTML += "<option>" + daa + "</option>";
+                }
+
             }
         }
         else if (mousc - 1 == month) {
             for (dj = today; dj < md[month]; dj++) {
                 daa = dj;
-                daiin3.innerHTML += "<option>" + daa + "</option>";
+                if (daa ==@Model.Day) {
+                    daiin3.innerHTML += "<option selected='selected'>" + daa + "</option>";
+                }
+                else {
+                    daiin3.innerHTML += "<option>" + daa + "</option>";
+                }
             }
 
         }
         else {
             for (dj = 0; dj < nextdate; dj++) {
                 daa = dj + 1;
-                daiin3.innerHTML += "<option>" + daa + "</option>";
+                if (daa ==@Model.Day) {
+                    daiin3.innerHTML += "<option selected='selected'>" + daa + "</option>";
+                }
+                else {
+                    daiin3.innerHTML += "<option>" + daa + "</option>";
+                }
             }
         }
     </script>

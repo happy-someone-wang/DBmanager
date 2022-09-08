@@ -147,6 +147,7 @@ C:\Users\17594\source\repos\12306\DBmanager\12306\bin\Debug\net5.0\runtimes\linu
 C:\Users\17594\source\repos\12306\DBmanager\12306\bin\Debug\net5.0\runtimes\osx\lib\netcoreapp3.1\System.Data.Odbc.dll
 C:\Users\17594\source\repos\12306\DBmanager\12306\bin\Debug\net5.0\runtimes\win\lib\netcoreapp3.1\System.Data.Odbc.dll
 C:\Users\17594\source\repos\12306\DBmanager\12306\bin\Debug\net5.0\runtimes\win\lib\netcoreapp3.1\System.Text.Encoding.CodePages.dll
+C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\12306.csproj.AssemblyReference.cache
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\12306.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\12306.AssemblyInfoInputs.cache
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\12306.AssemblyInfo.cs
@@ -193,4 +194,3 @@ C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\12306.dll
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\ref\12306.dll
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\12306.pdb
 C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\12306.genruntimeconfig.cache
-C:\Users\17594\source\repos\12306\DBmanager\12306\obj\Debug\net5.0\12306.csproj.AssemblyReference.cache

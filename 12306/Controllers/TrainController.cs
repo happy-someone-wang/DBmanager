@@ -56,6 +56,9 @@ namespace _12306.Controllers
             ReturnModel.End_station = end_station;
             ReturnModel.TrainTickets = trainTickets;
             ReturnModel.Station = Station;
+            ReturnModel.Month = Convert.ToInt32(datem);
+            ReturnModel.Day = Convert.ToInt32(dated);
+            ReturnModel.Year = Convert.ToInt32(date);
             _User U = new _User();
             OracleSqlTools.GetUser(Containers._Current_User.Instance.UserID, ref U, true);
             ReturnModel.Myuser = U;
@@ -82,6 +85,8 @@ namespace _12306.Controllers
         [HttpGet]
         public IActionResult reBuy(string Order_ID)
         {
+            Station.Clear();
+            OracleSqlTools.GetAllStation(Station, true);
             _Order O_temp = new _Order();
             if(OracleSqlTools.GetOneOrder(Order_ID,ref O_temp,true)!=-1)
             {
@@ -92,11 +97,11 @@ namespace _12306.Controllers
             string end = null;
             foreach (_Station m in Station)
             {
-                if (m.StationName == O_temp.StartStNo)
+                if (m.StationNo == O_temp.StartStNo)
                 {
                     start = m.StationName;
                 }
-                if (m.StationName == O_temp.EndStNo)
+                if (m.StationNo == O_temp.EndStNo)
                 {
                     end = m.StationName;
                 }
@@ -105,19 +110,22 @@ namespace _12306.Controllers
                     break;
                 }
             }
-            ReturnModel.Start_station = start;
-            ReturnModel.End_station = end;
-            ReturnModel.Order_ID = Order_ID;
-            myDate._Date temp = new myDate._Date("1900/01/01 01:00:00");
-            ReturnModel.Leaving_time = temp;
-
-
+            O_temp.StartStNo = start;
+            O_temp.EndStNo = end;
+            ReturnModel.Old_Order = O_temp;
+            _User U = new _User();
+            OracleSqlTools.GetUser(Containers._Current_User.Instance.UserID, ref U, true);
+            ReturnModel.Myuser = U;
+            ReturnModel.Station = Station;
+            ReturnModel.TrainTickets = null;
+            ReturnModel.Deal_message = "Please input new date to search your train";
             //return View("../Home/Index",train);
             return View(ReturnModel);
         }
         [HttpPost]
         public IActionResult reBuy(string Order_ID,string date, string datem, string dated)
         {
+            ReturnModels.Train_reBuy_Model ReturnModel = new ReturnModels.Train_reBuy_Model();
             List<_TrainTicket> trainTickets = new List<_TrainTicket> { };
             _Order O_temp = new _Order();
             if (OracleSqlTools.GetOneOrder(Order_ID, ref O_temp, true) != -1)
@@ -132,38 +140,51 @@ namespace _12306.Controllers
             int old_train;
             for (old_train = 0; old_train < trainTickets.Count; old_train++)
             {
-                if (trainTickets[old_train].TrainID == O_temp.TrainID)
+                if (trainTickets[old_train].TrainID == O_temp.TrainID && trainTickets[old_train].TrainDate == O_temp.TrainDate)//已修改
                 {
-                    break;
+                    trainTickets.RemoveAt(old_train);
+                }
+                for (int j=0; j < trainTickets[old_train].Parkstations.Count;j++)
+                    {
+                    foreach (_Station m in Station)
+                    {
+                        if (m.StationNo == trainTickets[old_train].Parkstations[j].StationNo)
+                        {
+                            _ParkingStation temp = trainTickets[old_train].Parkstations[j];
+                            temp.StationNo = m.StationName;
+                            trainTickets[old_train].Parkstations[j] = temp;
+                        }
+                    }
                 }
             }
-            trainTickets.RemoveAt(old_train);
-            ReturnModels.Train_reBuy_Model ReturnModel = new ReturnModels.Train_reBuy_Model { };
             string start = null;
             string end = null;
             foreach (_Station m in Station)
             {
-                if (m.StationName == O_temp.StartStNo)
+                if (m.StationNo == O_temp.StartStNo)
                 {
-                    start = m.StationNo;
+                    start = m.StationName;
                 }
-                if (m.StationName == O_temp.EndStNo)
+                if (m.StationNo == O_temp.EndStNo)
                 {
-                    end = m.StationNo;
+                    end = m.StationName;
                 }
                 if (start != null && end != null)
                 {
                     break;
                 }
             }
-            ReturnModel.Start_station = start;
-            ReturnModel.End_station = end;
-            leaving.Year = leaving.Year;
-            leaving.Month = leaving.Month;
-            leaving.Day = leaving.Day;
-            ReturnModel.Leaving_time = leaving;
+            O_temp.StartStNo = start;
+            O_temp.EndStNo = end;
+            ReturnModel.Old_Order = O_temp;
+            _User U = new _User();
+            OracleSqlTools.GetUser(Containers._Current_User.Instance.UserID, ref U, true);
+            ReturnModel.Myuser = U;
+            ReturnModel.Station = Station;
             ReturnModel.TrainTickets = trainTickets;
-            ReturnModel.Order_ID = Order_ID;
+            ReturnModel.Month = Convert.ToInt32(datem);
+            ReturnModel.Day = Convert.ToInt32(dated);
+            ReturnModel.Year = Convert.ToInt32(date);
 
             //return View("../Home/Index",train);
             return View(ReturnModel);
@@ -215,7 +236,7 @@ namespace _12306.Controllers
         {
             List<_Seat> seats = new List<_Seat> { };
             ReturnModels.Train_Result_Model Result = new ReturnModels.Train_Result_Model { };
-
+            int j = 0;
             for(int i=0;i<PID.Count;i++)
             {
                 _Seat seat_temp = new _Seat();
@@ -236,10 +257,15 @@ namespace _12306.Controllers
                         break;
                     }
                 }
-                if (OracleSqlTools.SearchSeat(train_id, start,end, 1+Seat_Level.IndexOf(seat[i]),0,ref seat_temp,year,month,day,true)!=-1)
+                while (seat[j] == "zero")
+                {
+                    j++;
+                }
+                if (OracleSqlTools.SearchSeat(train_id, start,end, 1+Seat_Level.IndexOf(seat[j]),0,ref seat_temp,date,true)!=-1)
                 {
                     continue;
                 }
+                j++;
                 seats.Add(seat_temp);
                 if (seats[i].TrainID == null)
                 {
@@ -247,7 +273,11 @@ namespace _12306.Controllers
                 }
                 _Order order_temp = new _Order();
                 //Containers._Current_User.Instance.UserID = "330881200301030073";
+                
                 int temp = OracleSqlTools.CreateOrder(Containers._Current_User.Instance.UserID, PID[i], seats[i], ref order_temp, true);
+                _Passenger P = new _Passenger();
+                OracleSqlTools.GetOnePassenger(Containers._Current_User.Instance.UserID, PID[i],ref P, true);
+                order_temp.Passenger = P;
                 if (temp == -1)
                 {
                     foreach (_Station m in Station)
@@ -264,11 +294,14 @@ namespace _12306.Controllers
                     Result.Order_info.Add(order_temp);
                 }
             }
+            _User U = new _User();
+            OracleSqlTools.GetUser(Containers._Current_User.Instance.UserID, ref U, true);
+            Result.Myuser = U;
             //return View("Result",Result);
             return View("order_result",Result);
         }
         [HttpGet]
-        public IActionResult rePay(string order_id, string train_id, string start_station, string end_station,int year,int month,int day)
+        public IActionResult rePay(string order_id, string train_id, string start_station, string end_station,string date)
         {
             _Order old_order = new _Order();
             OracleSqlTools.GetOneOrder(order_id, ref old_order, true);
@@ -290,11 +323,14 @@ namespace _12306.Controllers
                     break;
                 }
             }
-            if (OracleSqlTools.SearchSeat(train_id, start,end, old_order.SeatLevel, 0, ref new_seat,year,month ,day,true) != -1)
+            if (OracleSqlTools.SearchSeat(train_id, start,end, old_order.SeatLevel, 0, ref new_seat,date,true) != -1)
             {
                 return Content("new seat notfound");
             }
             _Order new_Order = new _Order();
+            _Passenger P = new _Passenger();
+            OracleSqlTools.GetPassenger(old_order.OrderID, ref P, true);
+            old_order.Passenger = P;
             int temp = OracleSqlTools.CreateOrder(Containers._Current_User.Instance.UserID, old_order.Passenger.PassengerPID, new_seat, ref new_Order, true);
             if(temp!=-1)
             {
@@ -303,18 +339,21 @@ namespace _12306.Controllers
             OracleSqlTools.CancelOrder(old_order.OrderID, Containers._Current_User.Instance.UserID, true);
 
 
-            ReturnModels.Train_Result_Model Result = new ReturnModels.Train_Result_Model { };
-            Result.Order_info.Add(new_Order);
-            Result.Passenger_name.Add(old_order.Passenger.PassengerRName);
+            ReturnModels.Train_Result_Model Result = new ReturnModels.Train_Result_Model();
+            _User U = new _User();
+            OracleSqlTools.GetUser(Containers._Current_User.Instance.UserID, ref U, true);
+            Result.Myuser = U;
+
+            //Result.Passenger_name.Add(old_order.Passenger.PassengerRName);
             start = null;
             end = null;
             foreach (_Station m in Station)
             {
-                if (m.StationName == new_Order.StartStNo)
+                if (m.StationNo == new_Order.StartStNo)
                 {
                     start = m.StationName;
                 }
-                if (m.StationName == new_Order.EndStNo)
+                if (m.StationNo == new_Order.EndStNo)
                 {
                     end = m.StationName;
                 }
@@ -323,14 +362,22 @@ namespace _12306.Controllers
                     break;
                 }
             }
-            Result.Start_station = start;
-            Result.End_station = end;
+            new_Order.StartStNo = start;
+            new_Order.EndStNo = end;
+            OracleSqlTools.GetOnePassenger(Containers._Current_User.Instance.UserID,P.PassengerPID , ref P, true);
+            new_Order.Passenger = P;
+            Result.Order_info.Add(new_Order);
+            if(new_Order.OrderValue>old_order.OrderValue)
+            {
+                Result.Deal_message = "Still need ot pay " + (new_Order.OrderValue - old_order.OrderValue) + " RMB";
+            }
+            else
+            {
+                Result.Deal_message = "Refund amount " + (old_order.OrderValue - new_Order.OrderValue) + " RMB";
+            }
+            //Result.Start_station = start;
+            //Result.End_station = end;
             return View("order_result",Result);
-        }
-        [HttpGet]
-        public IActionResult order_result()
-        {
-            return View();
         }
     }
     

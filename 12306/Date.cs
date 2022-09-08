@@ -164,13 +164,10 @@ namespace myDate
                     TmpStr = "";
                     eleCnt++;
                 }
-                else if(eleCnt == 2)
-                {
-                    int.TryParse(TmpStr, out Second);
-                    TmpStr = "";
-                    eleCnt++;
-                }
             }
+            int.TryParse(TmpStr, out Second);
+            TmpStr = "";
+            eleCnt++;
             this.Hour = Hour;
             this.Minute = Minute;
             this.Second = Second;
@@ -221,6 +218,29 @@ namespace myDate
                 Result += '0';            
             }
             Result += Day.ToString();
+            return Result;
+        }
+
+        public string GetTime()
+        {
+            string Result = "";
+            if (Hour < 10)
+            {
+                Result += '0';
+            }
+            Result += Hour.ToString();
+            Result += ':';
+            if (Minute < 10)
+            {
+                Result += '0';
+            }
+            Result += Minute.ToString();
+            Result += ':';
+            if (Second < 10)
+            {
+                Result += '0';
+            }
+            Result += Second.ToString();
             return Result;
         }
 

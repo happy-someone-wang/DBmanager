@@ -28,9 +28,12 @@ namespace _12306.Controllers
             }
             else
             {
-
+                Result.IsLogin = 1;
+                Containers._User U = new Containers._User();
+                ServerSqlTools.OracleSqlTools.GetUser(Containers._Current_User.Instance.UserID, ref U, true);
+                Result.Myuser = U;
             }
-            return View();
+            return View(Result);
         }
 
         public IActionResult Privacy()

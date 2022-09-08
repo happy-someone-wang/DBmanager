@@ -80,6 +80,9 @@ namespace ReturnModels
         private myDate._Date leaving_time;
         private List<_TrainTicket> trainTickets;
         private List<_Station> station;
+        private int year;
+        private int month;
+        private int day;
 
         public string Start_station { get => start_station; set => start_station = value; }
         public string End_station { get => end_station; set => end_station = value; }
@@ -88,6 +91,9 @@ namespace ReturnModels
 
         public _User Myuser { get => myuser; set => myuser = value; }
         public List<_Station> Station { get => station; set => station = value; }
+        public int Year { get => year; set => year = value; }
+        public int Month { get => month; set => month = value; }
+        public int Day { get => day; set => day = value; }
     }
 
     public class Train_Pay_Model
@@ -98,6 +104,7 @@ namespace ReturnModels
         private string end_station;
         private _TrainTicket trainTicket;
         private List<_Passenger> myPassengers;
+
 
         public string Train_ID { get => train_ID; set => train_ID = value; }
         public string Start_station { get => start_station; set => start_station = value; }
@@ -111,9 +118,11 @@ namespace ReturnModels
     {
         private _User myuser;
         private List<_Order> order_info;
+        private string deal_message;
 
         public List<_Order> Order_info { get => order_info; set => order_info = value; }
         public _User Myuser { get => myuser; set => myuser = value; }
+        public string Deal_message { get => deal_message; set => deal_message = value; }
 
         public Train_Result_Model()
         {
@@ -124,28 +133,32 @@ namespace ReturnModels
     public class Person_Tickets
     {
         private _User myuser;
+        private List<string> seat_level;
         private List<_Order> tickets;
 
         public List<_Order> Tickets { get => tickets; set => tickets = value; }
         public _User Myuser { get => myuser; set => myuser = value; }
+        public List<string> Seat_level { get => seat_level; set => seat_level = value; }
     }
     public class Train_reBuy_Model
     {
         private _User myuser;
-        private string start_station;
-        private string end_station;
-        private myDate._Date leaving_time;
         private List<_TrainTicket> trainTickets;
         private List<_Station> station;
-        private string order_ID;
+        private _Order old_Order;
+        private string deal_message;
+        private int year;
+        private int month;
+        private int day;
 
-        public string Start_station { get => start_station; set => start_station = value; }
-        public string End_station { get => end_station; set => end_station = value; }
         public List<_TrainTicket> TrainTickets { get => trainTickets; set => trainTickets = value; }
-        public _Date Leaving_time { get => leaving_time; set => leaving_time = value; }
-        public string Order_ID { get => order_ID; set => order_ID = value; }
         public _User Myuser { get => myuser; set => myuser = value; }
         public List<_Station> Station { get => station; set => station = value; }
+        public _Order Old_Order { get => old_Order; set => old_Order = value; }
+        public string Deal_message { get => deal_message; set => deal_message = value; }
+        public int Year { get => year; set => year = value; }
+        public int Month { get => month; set => month = value; }
+        public int Day { get => day; set => day = value; }
     }
     public class Person_Information
     {
@@ -167,7 +180,9 @@ namespace ReturnModels
     public class Person_account
     {
         private _User myuser;
+        private string deal_message;
 
         public _User Myuser { get => myuser; set => myuser = value; }
+        public string Deal_message { get => deal_message; set => deal_message = value; }
     }
 }

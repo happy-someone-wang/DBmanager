@@ -60,3 +60,45 @@
 [Success]  
 [2022/9/3 17:08:20] [ORDER] [CANCEL] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Cancel Order(OID = 1662195428,TID = G003)
 [Success]  Success
+[2022/9/8 8:12:27] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = 1662595947,TID = G111)
+[Success]  
+[2022/9/8 8:12:27] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = UNKNOWN,TID = G111)
+[Failure]  Order Error
+[2022/9/8 8:17:08] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = 1662596190,TID = G111)
+[Success]  
+[2022/9/8 8:18:47] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = 1662596306,TID = G111)
+[Success]  
+[2022/9/8 8:20:20] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = 1662596420,TID = G137)
+[Success]  
+[2022/9/8 8:20:22] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = 1662596422,TID = G137)
+[Success]  
+[2022/9/8 8:22:37] [ORDER] [CANCEL] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Cancel Order(OID = 1662596190,TID = G111)
+[Success]  Success
+[2022/9/8 8:22:43] [ORDER] [CANCEL] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Cancel Order(OID = 1662596306,TID = G111)
+[Success]  Success
+[2022/9/8 8:22:47] [ORDER] [CANCEL] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Cancel Order(OID = 1662561637,TID = G111)
+[Success]  Success
+[2022/9/8 8:22:53] [ORDER] [CANCEL] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Cancel Order(OID = 1662527175,TID = G117)
+[Success]  Success
+[2022/9/8 8:23:36] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = 1662596616,TID = G5)
+[Success]  
+[2022/9/8 8:23:37] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = 1662596617,TID = G5)
+[Success]  
+[2022/9/8 8:43:49] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = 1662597724,TID = G103)
+[Success]  
+[2022/9/8 8:44:06] [ORDER] [CANCEL] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Cancel Order(OID = 1662596420,TID = G137)
+[Success]  Success
+[2022/9/8 8:53:55] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = 1662598435,TID = G103)
+[Success]  
+[2022/9/8 8:53:56] [ORDER] [CANCEL] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Cancel Order(OID = 1662596617,TID = G5)
+[Success]  Success
+[2022/9/8 9:04:38] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = 1662599078,TID = G103)
+[Success]  
+[2022/9/8 9:04:39] [ORDER] [CREATE] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Create Order(OID = 1662599079,TID = G103)
+[Success]  
+[2022/9/8 9:10:50] [ORDER] [CANCEL] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Cancel Order(OID = 1662596616,TID = G5)
+[Success]  Success
+[2022/9/8 9:11:27] [ORDER] [CANCEL] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Cancel Order(OID = 1662597724,TID = G103)
+[Success]  Success
+[2022/9/8 9:11:33] [ORDER] [CANCEL] User(PID = 55aa55aa5aaa5Eaa5Eaa5baa54aa5aaa5aaa55aa5aaa5baa5aaa55aa5aaa5aaa5yaa55aa) try to Cancel Order(OID = 1662598435,TID = G103)
+[Success]  Success

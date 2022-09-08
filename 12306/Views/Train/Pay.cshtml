@@ -7,241 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>pay</title>
     <script src="/Train/jquery-3.5.1/jquery-3.5.1.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        a {
-            text-decoration: none;
-        }
-
-        .nav {
-            float: left;
-            width: 160px;
-            background-color: #6F9BFF;
-            padding: 20px 30px;
-            position: fixed;
-            top: 0px;
-            bottom: 0px;
-        }
-
-        .nav-hd {
-            color: white;
-            font-size: 24px;
-            font-weight: 600;
-            font-family: '微软雅黑';
-            letter-spacing: 1px;
-            text-align: center;
-            margin: 25px 0px;
-        }
-
-        .nav-bd {
-            margin-top: 50px;
-        }
-
-        .nav-item {
-            height: 40px;
-            background: #6F9BFF;
-            border-radius: 20px;
-            margin: 30px 0px;
-            color: #fff;
-            text-align: center;
-        }
-
-        .current {
-            height: 40px;
-            background: #fff;
-            border-radius: 20px;
-            margin: 30px 0px;
-            color: #fff;
-            text-align: center;
-        }
-
-        .nav-item a {
-            height: 40px;
-            line-height: 40px;
-            color: #fff;
-            vertical-align: middle;
-        }
-
-        .current a {
-            height: 40px;
-            line-height: 40px;
-            color: rgb(42, 130, 228);
-            vertical-align: middle;
-        }
-
-        img {
-            vertical-align: middle;
-            margin-right: 10px;
-        }
-
-        .nav-item .img1 {
-            display: inline-block;
-        }
-
-        .nav-item .img2 {
-            display: none;
-        }
-
-        .current .img1 {
-            display: none;
-        }
-
-        .current .img2 {
-            display: inline-block;
-        }
-
-        .logout {
-            height: 80px;
-            text-align: right;
-            vertical-align: middle;
-            box-shadow: 3px 3px 3px rgb(0 0 0 / 10%);
-            font-size: 16px;
-        }
-
-            .logout img {
-                height: 50px;
-                width: 1090px;
-                opacity: 40%;
-                position: absolute;
-                top: 30px;
-                left: 250px;
-            }
-
-            .logout a {
-                vertical-align: middle;
-                height: 80px;
-                line-height: 80px;
-                margin: 0px 20px;
-                color: #6F9BFF;
-            }
-
-                .logout a:hover {
-                    color: rgb(42, 130, 228)
-                }
-
-            .logout span {
-                vertical-align: middle;
-                color: rgba(128, 128, 128, 0.859);
-                height: 80px;
-                line-height: 80px;
-            }
-
-        .content {
-            margin: 30px 260px;
-        }
-
-        .tinfo {
-            width: 500px;
-            height: 194px;
-            display: block;
-            padding: 15px 15px;
-            margin-left: 350px;
-            text-align: center;
-            background-image: url('/wwwroot/Train/images/车票bg.png');
-            background-size: cover;
-        }
-
-        .s_sta, .e_sta {
-            font-size: 20px;
-            height: 140px;
-            width: 80px;
-        }
-
-        .s_sta, .e_sta, .tinfo-middle {
-            margin: 50px 21px;
-            line-height: 50px;
-            float: left;
-            text-align: center;
-        }
-
-        .btn {
-            position: absolute;
-            bottom: 20px;
-            left: 46%;
-            height: 30px;
-            width: 80px;
-            border: none;
-            border-radius: 5px;
-            background-color: rgb(255, 144, 71);
-            color: #FFF;
-            font-size: 14px;
-        }
-
-            .btn:hover {
-                background-color: rgba(255, 140, 0, 0.642);
-                cursor: pointer;
-            }
-
-        .pinfo-hd {
-            margin: auto;
-            margin-top: 10px;
-            height: 20px;
-            line-height: 16px;
-            width: 1130px;
-            padding: 10px;
-            background-color: #E5E5E5;
-            font-size: 16px;
-        }
-
-            .pinfo-hd th {
-                padding-left: 30px;
-                text-align: center;
-                width: 300px;
-                color: rgba(0, 0, 0, 0.600);
-            }
-
-            .pinfo-hd .choice {
-                padding-left: 10px;
-                width: 100px;
-            }
-
-        .pinfo-bd {
-            width: 1150px;
-            margin: auto;
-        }
-
-        .pinfo {
-            position: relative;
-            border-radius: 5px;
-            min-height: 350px;
-            width: 1185px;
-            margin-top: 25px;
-            padding: 15px 25px;
-            box-shadow: 0px 2px 8px rgb(0 0 0 / 30%);
-        }
-
-        .info {
-            height: 18px;
-            line-height: 16px;
-            width: 1150px;
-            border: 1px solid #1678be;
-            border-top: none;
-            border-left: none;
-            border-right: none;
-            background-color: rgba(230, 230, 250, 0.436);
-            margin: auto;
-            padding: 10px;
-            font-size: 14px;
-        }
-
-        .pinfo td {
-            padding-left: 5px;
-            text-align: center;
-            width: 300px;
-        }
-
-        .pinfo .choice {
-            width: 100px;
-        }
-    </style>
+    <link rel="stylesheet" href="/Train/train_pay.css">
 </head>
 <body>
     <div class="nav">
@@ -322,39 +88,80 @@
                             if (Model != null)
                             {
                                 <tr>
-                                    <td class="choice"><input type="checkbox" name="PID[0]" value="@Model.Myuser.UserPID"></td>
-                                    <td name="name[0]">@Model.Myuser.UserRName</td>
-                                    <td name="PID[0]">@Model.Myuser.UserPID</td>
+                                    <td class="choice"><input type="checkbox" id="seat[0]" name="PID[]" onclick="f(this)" value="@Model.Myuser.UserPID"><input hidden="hidden" name="name[]" value="@Model.Myuser.UserRName"></td>
+                                    <td>@Model.Myuser.UserRName</td>
+                                    <td>@Model.Myuser.UserPID</td>
                                     <td>
                                         <input hidden="hidden" name="train_id" value="@Model.Train_ID" />
                                         <input hidden="hidden" name="start_station" value="@Model.Start_station" />
                                         <input hidden="hidden" name="end_station" value="@Model.End_station" />
                                         <input hidden="hidden" name="date" value="@Model.TrainTicket.TrainDate" />
                                         <p style="margin: 3px;font-size:15px">
-
-                                            <label><input type="radio" name="seat[0]" value="VIP" onchange="on2(this)">商务座</label>
-                                            <label><input type="radio" name="seat[0]" value="EX" onchange="on2(this)">特等座</label>
-                                            <label><input type="radio" name="seat[0]" value="first" onchange="on2(this)">一等座</label>
-                                            <label><input type="radio" name="seat[0]" value="second" onchange="on2(this)">二等座</label>
+                                            @{
+                                                if (Model.TrainTicket.VIPAmount != 0)
+                                                {
+                                                    <label name="l_seat[0]" style="visibility:hidden"><input type="radio" name="seat[0]" value="VIP" onchange="on2(this)">商务座</label>
+                                                }
+                                            }
+                                            @{
+                                                if (Model.TrainTicket.EXAmount != 0)
+                                                {
+                                                    <label name="l_seat[0]" style="visibility:hidden"><input type="radio" name="seat[0]" value="EX" onchange="on2(this)">特等座</label>
+                                                }
+                                            }
+                                            @{
+                                                if (Model.TrainTicket.FirstAmount != 0)
+                                                {
+                                                    <label name="l_seat[0]" style="visibility:hidden"><input type="radio" name="seat[0]" value="first" onchange="on2(this)">一等座</label>
+                                                }
+                                            }
+                                            @{
+                                                if (Model.TrainTicket.SecondAmount != 0)
+                                                {
+                                                    <label name="l_seat[0]" style="visibility:hidden"><input type="radio" name="seat[0]" value="second" onchange="on2(this)">二等座</label>
+                                                }
+                                            }
+                                                    <input hidden="hidden" type="radio" name="seat[0]" value="zero" checked="checked">
                                         </p>
                                     </td>
                                 </tr>
                             }
 
-                            if (Model!=null&&Model.MyPassengers != null && Model.MyPassengers.Count > 0)
+                            if (Model != null && Model.MyPassengers != null && Model.MyPassengers.Count > 0)
                             {
                                 for (int i = 0; i < Model.MyPassengers.Count; i++)
                                 {
                                     <tr>
-                                        <td class="choice"><input type="checkbox" value="@Model.MyPassengers[i].PassengerPID"></td>
-                                        <td name="name[@(i+1)]">@Model.MyPassengers[i].PassengerRName</td>
-                                        <td name="PID[@(i+1)]">@Model.MyPassengers[i].PassengerPID</td>
+                                        <td class="choice"><input type="checkbox" id="seat[@(i+1)]" name="PID[]" onclick="f(this)" value="@Model.MyPassengers[i].PassengerPID"><input hidden="hidden" name="name[]" value="@Model.MyPassengers[i].PassengerRName"></td>
+                                        <td>@Model.MyPassengers[i].PassengerRName</td>
+                                        <td>@Model.MyPassengers[i].PassengerPID</td>
                                         <td>
                                             <p style="margin: 3px;font-size:15px">
-                                                <label><input type="radio" name="seat[@(i+1)]" value="VIP" onchange="on2(this)">商务座</label>
-                                                <label><input type="radio" name="seat[@(i+1)]" value="EX" onchange="on2(this)">特等座</label>
-                                                <label><input type="radio" name="seat[@(i+1)]" value="first" onchange="on2(this)">一等座</label>
-                                                <label><input type="radio" name="seat[@(i+1)]" value="second" onchange="on2(this)">二等座</label>
+                                                @{
+                                                    if (Model.TrainTicket.VIPAmount != 0)
+                                                    {
+                                                        <label name="l_seat[@(i+1)]" style="visibility:hidden"><input type="radio" name="seat[@(i+1)]" value="VIP" onchange="on2(this)">商务座</label>
+                                                    }
+                                                }
+                                                @{
+                                                    if (Model.TrainTicket.EXAmount != 0)
+                                                    {
+                                                        <label name="l_seat[@(i+1)]" style="visibility:hidden"><input type="radio" name="seat[@(i+1)]" value="EX" onchange="on2(this)">特等座</label>
+                                                    }
+                                                }
+                                                @{
+                                                    if (Model.TrainTicket.FirstAmount != 0)
+                                                    {
+                                                        <label name="l_seat[@(i+1)]" style="visibility:hidden"><input type="radio" name="seat[@(i+1)]" value="first" onchange="on2(this)">一等座</label>
+                                                    }
+                                                }
+                                                @{
+                                                    if (Model.TrainTicket.SecondAmount != 0)
+                                                    {
+                                                        <label name="l_seat[@(i+1)]" style="visibility:hidden"><input type="radio" name="seat[@(i+1)]" value="second" onchange="on2(this)">二等座</label>
+                                                    }
+                                                }
+                                                <input hidden="hidden" type="radio" name="seat[@(i+1)]" value="zero" checked="checked">
                                             </p>
                                         </td>
                                     </tr>
@@ -363,12 +170,18 @@
                         }
                     </table>
                 </div>
-                    <button class="btn" type="submit">订票</button>
+                <div class="btn">
+                    <button class="btn1" type="button" onclick="javascript:jump()">添加乘车人</button>&nbsp;&nbsp;
+                    <button class="btn2" type="submit">订票</button>
+                </div>
             </form>
-
-
         </div>
     </div>
+    <script>
+        function jump() {
+            window.location.href = "/Person/information";
+        }
+    </script>
     <script>
         function on(e) {
             e.setAttribute("value", e.value);
@@ -388,6 +201,19 @@
         //    var namme = "seat[" + num.toString() + "]";
         //    document.getElementById('infos').innerHTML += "<div class='pinfo-bd' id='" + inf + "'><p>填写乘车人信息 <button class='btn' name = '" + inf + "' onclick = 'delet(this)' style = 'margin-left: 490px;'> 删除</button > <hr> </p> <p style='margin: 3px;'>身份证号：<input id='" + inf + ".idcard' onchange='on(this)' name='idcard'></p><p style='margin: 3px;'>姓&emsp;&emsp;名：<input id='" + inf + ".name' onchange='on(this)' name='name'></p> <p style='margin: 3px;'>选择座位类型：<label><input type='radio' name='" + namme + "' value='VIP' onchange='on2(this)'>商务座</label><label><input type='radio' name='" + namme + "' value='EX' onchange='on2(this)'>特等座</label><label><input type='radio' name='" + namme + "' value='first' onchange='on2(this)'>一等座</label> <label><input type='radio' name='" + namme + "' value='second' onchange='on2(this)'>二等座</label></p> </div>";
         //}
+    </script>
+    <script>
+        function f(obj) {
+            var u = 0;
+            for (u = 0; u < document.getElementsByName(obj.id).length-1 && obj.checked == false; u++) {
+                document.getElementsByName(obj.id)[u].checked = false;
+                document.getElementsByName("l_"+obj.id)[u].style.visibility="hidden";
+            }
+            document.getElementsByName(obj.id)[document.getElementsByName(obj.id).length-1].checked = true;
+            for (u = 0; u < document.getElementsByName(obj.id).length-1 && obj.checked == true; u++) {
+                document.getElementsByName("l_" + obj.id)[u].style.visibility = "visible";
+            }
+        }
     </script>
 </body>
 </html>

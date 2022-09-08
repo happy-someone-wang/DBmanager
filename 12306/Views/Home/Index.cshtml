@@ -30,7 +30,16 @@
                     <li><a class="nav-link scrollto" href="#about">关于我们</a></li>
                     <li><a class="nav-link scrollto" href="#why-us">常见问题</a></li>
                     <li><a class="nav-link scrollto" href="#services">服务列表</a></li>
-                    <li><a class="getstarted scrollto" href="/Login/Index">登录</a></li>
+                    @{
+                        if (Model.IsLogin == 0)
+                        {
+                            <li><a class="getstarted scrollto" href="/Login/Index">登录</a></li>
+                        }
+                        else
+                        {
+                            <li><a class="getstarted scrollto" href="/Login/Index">重新登录</a></li>
+                        }
+                    }
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->
@@ -46,7 +55,16 @@
                     <h1 class="top-title">火车站售票系统</h1>
                     <h2>Train Booking System</h2>
                     <div class="d-flex justify-content-center justify-content-lg-start">
-                        <a href="/Login/Index" class="btn-get-started scrollto">登录</a>
+                        @{
+                            if (Model.IsLogin == 0)
+                            {
+                                <a href="/Login/Index" class="btn-get-started scrollto">登录</a>
+                            }
+                            else
+                            {
+                                <a href="/Train/Index" class="btn-get-started scrollto">开始购票</a>
+                            }
+                        }
                         <a href="#" class="glightbox btn-watch-video"><span>&nbsp;</span></a>
                     </div>
                 </div>
@@ -204,7 +222,16 @@
                 <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="200">
                     <div class="icon-box">
                         <div class="icon"><i class="bx bx-file"></i></div>
-                        <h4><a href="/Login/Index">车票管理</a></h4>
+                        @{
+                            if (Model.IsLogin == 0)
+                            {
+                                <h4><a href="/Login/Index">车票管理</a></h4>
+                            }
+                            else
+                            {
+                                <h4><a href="/Person/ticket">车票管理</a></h4>
+                            }
+                        }
                         <p>待付款车票、已购车票的信息查看、车票改签与退订从这里进入。</p>
                     </div>
                 </div>
@@ -212,7 +239,16 @@
                 <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0" data-aos="zoom-in" data-aos-delay="300">
                     <div class="icon-box">
                         <div class="icon"><i class="bx bx-tachometer"></i></div>
-                        <h4><a href="/Login/Index">个人中心</a></h4>
+                        @{
+                            if (Model.IsLogin == 0)
+                            {
+                                <h4><a href="/Login/Index">个人中心</a></h4>
+                            }
+                            else
+                            {
+                                <h4><a href="/Person/information">个人中心</a></h4>
+                            }
+                        }
                         <p>在此处您可以查看并更改个人信息。</p>
                     </div>
                 </div>
@@ -220,7 +256,16 @@
                 <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0" data-aos="zoom-in" data-aos-delay="400">
                     <div class="icon-box">
                         <div class="icon"><i class="bx bx-layer"></i></div>
-                        <h4><a href="/Login/Index">安全中心</a></h4>
+                        @{
+                            if (Model.IsLogin == 0)
+                            {
+                                <h4><a href="/Login/Index">安全中心</a></h4>
+                            }
+                            else
+                            {
+                                <h4><a href="/Person/account">安全中心</a></h4>
+                            }
+                        }
                         <p>为了防止出现密码泄露的情况，我们提供密码更改服务，以保障您的财产与信息安全。</p>
                     </div>
                 </div>

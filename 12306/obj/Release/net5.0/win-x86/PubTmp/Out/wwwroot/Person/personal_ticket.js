@@ -21,6 +21,9 @@ var changeToHistory=function() {
 document.getElementById("order_tab_1").addEventListener("click",changeToUntrip);
 document.getElementById("order_tab_2").addEventListener("click",changeToHistory);
 
-function ac(){
-	document.querySelector('.alert').classList.toggle('active')
+function alert_cancel(){
+	document.querySelector('.alert-cancel').classList.toggle('active')
+}
+function alert_rebuy(){
+	document.querySelector('.alert-rebuy').classList.toggle('active')
 }

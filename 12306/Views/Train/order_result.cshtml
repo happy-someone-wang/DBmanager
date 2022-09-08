@@ -274,7 +274,9 @@
                 <div class="tip t-succ">
                     <div style="color: #26a306;">
                         <strong> 订票已成功！</strong>
+                        <span style="font-size: 14px;">可在“我的订单”查看您的订单</span>
                     </div>
+
                 </div>
             }
             else
@@ -283,7 +285,7 @@
                     <span style="color: red;">
                         <strong style="font-size: 20px;">订票失败！</strong>
                     </span>
-                    <span style="font-size: 14px;">请重新操作！</span>
+                    <span style="font-size: 14px;">请返回订票中心重新订票！</span>
 
                 </div>
             }
@@ -338,7 +340,7 @@
                                     {
                                         <tr>
                                             <td>@Model.Order_info[i].OrderID</td>
-                                            <td>@Model.Order_info[i].Passenger.PassengerRName</td>
+                                            <td>@Model.Order_info[i].Passenger.PassengerRName </td>
                                             <td>
                                                 <span>@Model.Order_info[i].CarriageNo</span>
                                             </td>
@@ -353,7 +355,14 @@
                 </div>
             </div>
         }
-        <button type="button" onclick="location.href=('/Train/Index')">返回查票界面</button>
     </div>
 </body>
 </html>
+@{
+    if (Model.Deal_message != null)
+    {
+        <script language="javascript">
+             alert("@Model.Deal_message");
+        </script>
+    }
+}

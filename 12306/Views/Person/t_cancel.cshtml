@@ -196,7 +196,7 @@
                     <img class="img2" src="/Person/image/系统首页2.png">
                     <a href="/Home/Index">系统首页</a>
                 </li>
-                <li class="nav-item">
+                <li class="current nav-item">
                     <img class="img1" src="/Person/image/订票中心1.png">
                     <img class="img2" src="/Person/image/订票中心2.png">
                     <a href="/Train/Index">订票中心</a>
@@ -211,7 +211,7 @@
                     <img class="img2" src="/Person/image/我的订单2.png">
                     <a href="/Person/ticket">我的订单</a>
                 </li>
-                <li class="current nav-item">
+                <li class=" nav-item">
                     <img class="img1" src="/Person/image/安全中心1.png">
                     <img class="img2" src="/Person/image/安全中心2.png">
                     <a href="/Person/account">安全中心</a>
@@ -223,7 +223,7 @@
         <img src="../image/train.png">
         <span>您好！</span>
         <span>@Model.Myuser.UserRName</span>
-        <a href="#">退出登录</a>
+        <a href="/Login/Index">退出登录</a>
     </div>
 
     <div class="t-succ">
@@ -252,7 +252,7 @@
                 }
             }
             <div style="text-align:center;">
-                <button type="button" onclick="location.href=('/Person/center')">返回个人主页</button>
+                <button type="button" onclick="location.href=('/Person/ticket')">返回订单中心</button>
             </div>
             <br>
         </div>

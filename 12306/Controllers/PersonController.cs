@@ -40,6 +40,7 @@ namespace _12306.Controllers
             ReturnModels.Person_Information Result = new ReturnModels.Person_Information();
             _User U_temp = new _User();
             OracleSqlTools.GetUser(Containers._Current_User.Instance.UserID, ref U_temp, true);
+            Result.Mypassenger = new List<_Passenger>();
             OracleSqlTools.GetPassenger(Containers._Current_User.Instance.UserID, Result.Mypassenger, true);
             U_temp.UserEmail = email;
             U_temp.UserAddr = address;
@@ -70,42 +71,49 @@ namespace _12306.Controllers
         {
             Station.Clear();
             OracleSqlTools.GetAllStation(Station, true);
-            ReturnModels.OrderList Result = new ReturnModels.OrderList();
+            ReturnModels.Person_Tickets Result = new ReturnModels.Person_Tickets();
+            Result.Seat_level = new List<string>();
             List<_Order> Orders = new List<_Order>();
-            List<string> start = new List<string>();
-            List<string> end = new List<string>();
-            List<string> seat = new List<string>();
-            //Containers._Current_User.Instance.UserID = "330881200301030073";
+            Result.Tickets = new List<_Order>();
+            _User U = new _User();
+            OracleSqlTools.GetUser(Containers._Current_User.Instance.UserID, ref U, true);
+            Result.Myuser = U;
             OracleSqlTools.GetOrder(Containers._Current_User.Instance.UserID, Orders, true);
-
-
-            foreach (_Order x in Orders)
+            for (int i=0;i<Orders.Count;i++)
             {
+                _Order O = Orders[i];
                 string startSt = null;
                 string endSt = null;
                 foreach (_Station m in Station)
                 {
-                    if (m.StationName == x.StartStNo)
+                    if (m.StationNo == Orders[i].StartStNo)
                     {
                         startSt = m.StationName;
                     }
-                    if (m.StationName == x.EndStNo)
+                    if (m.StationNo == Orders[i].EndStNo)
                     {
                         endSt = m.StationName;
                     }
-                    if (start != null && end != null)
+                    if (startSt != null && endSt != null)
                     {
                         break;
                     }
                 }
-                start.Add(startSt);
-                end.Add(endSt);
-                seat.Add(Seat[x.SeatLevel]);
+                O.StartStNo = startSt;
+                O.EndStNo = endSt;
+                _Passenger P = new _Passenger();
+                OracleSqlTools.GetPassenger(O.OrderID, ref P, true);
+                O.Passenger = P;
+                if(O.Passenger.PassengerRName==null)
+                {
+                    _Passenger temp = O.Passenger;
+                    temp.PassengerRName = U.UserRName;
+                    O.Passenger = temp;
+                }
+                Result.Tickets.Add(O);
+                Result.Seat_level.Add(Seat[O.SeatLevel]);
             }
-            Result.List = Orders;
-            Result.Start_station = start;
-            Result.End_station = end;
-            Result.Seat_level = seat;
+
 
             return View(Result);
         }
@@ -121,16 +129,30 @@ namespace _12306.Controllers
         [HttpGet]
         public IActionResult account()
         {
-            return View();
+            ReturnModels.Person_account Result = new ReturnModels.Person_account();
+            _User U = new _User();
+            OracleSqlTools.GetUser(Containers._Current_User.Instance.UserID, ref U, true);
+            Result.Myuser = U;
+            return View(Result);
         }
 
         [HttpPost]
         public IActionResult account(string newPassword)
         {
             int t = OracleSqlTools.ChangePWD(Containers._Current_User.Instance.UserID, newPassword, true);
-            ReturnModels.Login_Staus Result = new ReturnModels.Login_Staus();
-            Result.IsLogin = t;
-            return View("center", Result);
+            ReturnModels.Person_account Result = new ReturnModels.Person_account();
+            _User U = new _User();
+            OracleSqlTools.GetUser(Containers._Current_User.Instance.UserID, ref U, true);
+            Result.Myuser = U;
+            if(t==-1)
+            {
+                Result.Deal_message = "Password modify success";
+            }
+            else
+            {
+                Result.Deal_message = "Password modify failed";
+            }
+            return View(Result);
         }
         public IActionResult addPassenger(string pID,string pName)
         {
@@ -168,6 +190,14 @@ namespace _12306.Controllers
             ReturnModels.Person_Information Result = new ReturnModels.Person_Information();
             _User U = new _User();
             OracleSqlTools.GetUser(Containers._Current_User.Instance.UserID, ref U, true);
+            if (U.UserGender == "1")
+            {
+                U.UserGender = "男";
+            }
+            else
+            {
+                U.UserGender = "女";
+            }
             Result.Myuser = U;
             int t=OracleSqlTools.DeletePassenger(Containers._Current_User.Instance.UserID, PassengerPID);
             if(t!=-1)

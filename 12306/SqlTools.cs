@@ -4,6 +4,7 @@ using Containers;
 using Error;
 using Check;
 using Crypto;
+using System.Runtime;
 using System.Collections.Generic;
 using System;
 using System.Linq;
@@ -120,7 +121,7 @@ namespace ServerSqlTools
             string EnUserPWD = MyCrypto.Encrypt(PWD);
 
             //6. insert users
-            string queryStr = "UPDATE T_USER SET USER_PASSWORD='" + PWD + "'WHERE USER_ID='" + UserID + "';";
+            string queryStr = "UPDATE T_USER SET USER_PASSWORD='" + EnUserPWD + "'WHERE USER_ID='" + UserID + "';";
 
             if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
             {
@@ -445,7 +446,7 @@ namespace ServerSqlTools
             else if (U.UserPhone != null)
             {
                 md5UserPhone = MyCrypto.Encrypt(U.UserPhone);
-                queryStr = "Select USER_PID from T_USER where USER_PHONE_NUMBER = '" + md5UserPhone + "';";
+                queryStr = "Select USER_PERSON_ID from T_USER where USER_PHONE_NUMBER = '" + md5UserPhone + "';";
             }
 
             //3 query whether the User is existed and check the password
@@ -821,6 +822,9 @@ namespace ServerSqlTools
                     O.OrderCreate = DataReader[7].ToString();
                     int.TryParse(DataReader[8].ToString(), out TmpInt);
                     O.OrderState = TmpInt;
+                    int.TryParse(DataReader[9].ToString(), out TmpInt);
+                    O.SeatLevel = TmpInt;
+                    O.TrainDate = DataReader[10].ToString();
                 }
                 else
                 {
@@ -905,6 +909,7 @@ namespace ServerSqlTools
             }
             //string connStr = string.Format("DSN=xe;UID=test_Yellowbest;PWD=test_Yellowbest");
             string connStr = string.Format("DSN=orcl;UID=C##USER;PWD=wyl698638");
+            //string connStr = string.Format("DSN=orcl;UID=system;PWD=Lyl050598");
             try
             {
                 conn = new OdbcConnection(connStr);
@@ -1668,11 +1673,22 @@ namespace ServerSqlTools
             }
             Console.WriteLine("2 Success");
 
-            _Date NowDate = new _Date(year, month, day, 0, 0, 0);
+            bool checkTime = false;
+            _Date TrainLeavingDate = new _Date(year, month, day, 0, 0, 0);
+            _Date NowDate = new _Date(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+            ret = string.Compare(NowDate.GetDate(), TrainLeavingDate.GetDate());
+            if(ret == 1)
+            {
+                return 4;
+            }
+            else if(ret == 0)
+            {
+                checkTime = true;
+            }
 
             //3 Search TrainID
             List<string> TrainIDList = new List<string>();
-            if ((ret = SearchTrainID(StartStNo, EndStNo, TrainIDList, false)) != -1)
+            if ((ret = SearchTrainID(StartStNo, EndStNo, TrainIDList, checkTime, false)) != -1)
             {
                 return ret;
             }
@@ -1817,7 +1833,7 @@ namespace ServerSqlTools
                 {
                     for (int k = 1; k <= CarriageCnt; k++)
                     {
-                        queryStr = "SELECT SEAT_LEVEL, SEAT_INFO from T_TRAIN_PARKING_CARRIAGE_INFO where TRAIN_ID = '" + TrainIDList[i] + "' and STATION_NO = '" + PS.StationNo + "' and CARRIAGE_NO = '" + k + "' and TRAIN_DATE = '" + NowDate.GetDate() + "';";
+                        queryStr = "SELECT SEAT_LEVEL, SEAT_INFO from T_TRAIN_PARKING_CARRIAGE_INFO where TRAIN_ID = '" + TrainIDList[i] + "' and STATION_NO = '" + PS.StationNo + "' and CARRIAGE_NO = '" + k + "' and TRAIN_DATE = '" + TrainLeavingDate.GetDate() + "';";
                         Console.WriteLine(queryStr);
                         sqlcmd.CommandText = queryStr;
                         try
@@ -1884,7 +1900,7 @@ namespace ServerSqlTools
                     }
                 }
 
-                TrnTct.TrainDate = NowDate.GetDate();
+                TrnTct.TrainDate = TrainLeavingDate.GetDate();
                 TrainTicketList.Add(TrnTct);
             }
 
@@ -1911,8 +1927,8 @@ namespace ServerSqlTools
             }
             Console.WriteLine("2 Success");
 
-            _Date NowDate = new _Date();
-            NowDate.SetDate(TrainDate);
+            _Date TrainLeavingDate = new _Date();
+            TrainLeavingDate.SetDate(TrainDate);
 
             //3 get train info by trainid
             string queryStr = "";
@@ -2052,7 +2068,7 @@ namespace ServerSqlTools
             {
                 for (int k = 1; k <= CarriageCnt; k++)
                 {
-                    queryStr = "SELECT SEAT_LEVEL, SEAT_INFO from T_TRAIN_PARKING_CARRIAGE_INFO where TRAIN_ID = '" + TrainID + "' and STATION_NO = '" + PS.StationNo + "' and CARRIAGE_NO = '" + k + "' and TRAIN_DATE = '" + NowDate.GetDate() + "';";
+                    queryStr = "SELECT SEAT_LEVEL, SEAT_INFO from T_TRAIN_PARKING_CARRIAGE_INFO where TRAIN_ID = '" + TrainID + "' and STATION_NO = '" + PS.StationNo + "' and CARRIAGE_NO = '" + k + "' and TRAIN_DATE = '" + TrainLeavingDate.GetDate() + "';";
                     Console.WriteLine(queryStr);
                     sqlcmd.CommandText = queryStr;
                     try
@@ -2119,7 +2135,7 @@ namespace ServerSqlTools
                 }
             }
 
-            TrnTct.TrainDate = NowDate.GetDate();
+            TrnTct.TrainDate = TrainLeavingDate.GetDate();
             TrainTicket = TrnTct;
 
             //close the connection
@@ -2173,7 +2189,69 @@ namespace ServerSqlTools
 
             return -1;
         }
-        public static int SearchTrainID(string StartStNo, string EndStNo, List<string> Result, bool IsClose) //已修改
+        public static int GetOnePassenger(string UserID,string PassengerID, ref _Passenger P, bool IsClose)
+        {
+            //1 check security
+            //TODO
+
+            //2. connect to the database
+            if (!Connect())
+            {
+                Console.WriteLine("Failed to Connect to Oracle");
+                return (int)SqlErrorCode.ERR_CONN;
+            }
+            Console.WriteLine("2 Success");
+
+            string EnPID = MyCrypto.Encrypt(PassengerID);
+            string queryStr = "SELECT * from T_PASSENGER where USER_ID = '" + UserID + "' AND PASSENGER_ID='"+EnPID+"';";
+            OdbcCommand sqlcmd = new OdbcCommand(queryStr, conn);
+            try
+            {
+                OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                if (DataReader.Read())
+                {
+                    P.PassengerPID = MyCrypto.Decrypt(DataReader[0].ToString());
+                    P.PassengerRName = MyCrypto.Decrypt(DataReader[1].ToString());
+                    P.UserID = UserID;
+                }
+                DataReader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return (int)SqlErrorCode.ERR_SQLCMD;
+            }
+            if(P.PassengerRName==null)
+            {
+               queryStr = "SELECT * from T_USER where USER_ID = '" + UserID + "';";
+                sqlcmd = new OdbcCommand(queryStr, conn);
+                try
+                {
+                    OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                    if (DataReader.Read())
+                    {
+                        P.PassengerPID = MyCrypto.Decrypt(DataReader[7].ToString());
+                        P.PassengerRName = MyCrypto.Decrypt(DataReader[4].ToString());
+                        P.UserID = UserID;
+                    }
+                    DataReader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return (int)SqlErrorCode.ERR_SQLCMD;
+                }
+            }
+            Console.WriteLine("3 Success");
+
+            if (IsClose)
+            {
+                Close();
+            }
+
+            return -1;
+        }
+        public static int SearchTrainID(string StartStNo, string EndStNo, List<string> Result, bool checkTime, bool IsClose) //已修改
         {
             //check security
             //TODO
@@ -2239,7 +2317,16 @@ namespace ServerSqlTools
             //4 Search TrainID contains two station
             queryStr = "with St1 as (SELECT * from T_TRAIN_PARKING_INFO where STATION_NO = '" + StartStNo + "')," +
                             "St2 as (SELECT * from T_TRAIN_PARKING_INFO where STATION_NO = '" + EndStNo + "')" +
-                       "SELECT St1.TRAIN_ID from St1, St2 where St1.TRAIN_ID = St2.TRAIN_ID AND St1.TRAIN_ID in (SELECT TRAIN_ID FROM T_TRAIN_MANAGE_INFO WHERE TRAIN_RUNNING_STATE='1');";
+                       "SELECT St1.TRAIN_ID from St1, St2 where St1.TRAIN_ID = St2.TRAIN_ID AND St1.TRAIN_ID in (SELECT TRAIN_ID FROM T_TRAIN_MANAGE_INFO WHERE TRAIN_RUNNING_STATE='1')";
+            if(checkTime)
+            {
+                _Date NowTime = new _Date(new _Date(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second).ToString());
+                queryStr += " AND St1.ARRIVE_TIME > '" + NowTime.GetTime() + "';"; 
+            }
+            else
+            {
+                queryStr += ";";
+            }
             Console.WriteLine(queryStr);
             sqlcmd.CommandText = queryStr;
             //Execute the DataReader to Access the data
@@ -2294,7 +2381,7 @@ namespace ServerSqlTools
             }
             return -1;
         }
-        public static int SearchSeat(string TrainID, string StartStNo, string EndStNo, int Seatlevel, int Col, ref _Seat FreeSeat, int year, int month, int day, bool IsClose)//已修改
+        public static int SearchSeat(string TrainID, string StartStNo, string EndStNo, int Seatlevel, int Col, ref _Seat FreeSeat, string date, bool IsClose)//已修改
         {
             int ret = -1;
             //1 check security
@@ -2320,7 +2407,8 @@ namespace ServerSqlTools
             List<_Carriage_Seat> CSList = new List<_Carriage_Seat>();
 
             int SearchFlag = 0;
-            _Date NowDate = new _Date(year, month, day, 0, 0, 0);
+            _Date NowDate = new _Date();
+            NowDate.SetDate(date);
             FreeSeat.TrainDate = NowDate.GetDate();
             string LastStLeavingTime = "";
             foreach (_ParkingStation PS in PSList)
@@ -2701,10 +2789,14 @@ namespace ServerSqlTools
             O.OrderValue = (10 - S.SeatLevel) * 200;
             O.OrderState = 0;
             O.SeatNo = HashSeatRC2No(S.SeatRow, S.SeatCol);
+            O.SeatLevel = S.SeatLevel;
             O.TrainDate = S.TrainDate;
+            _Passenger P = new _Passenger();
+            P.PassengerPID = PassengerID;
+            O.Passenger = P;
 
             //check conflict 
-            string queryStr = "SELECT count(*) from T_ORDER_LIST where TRAIN_ID = '" + O.TrainID + "' and ORDER_ID in (SELECT ORDER_ID from T_ORDERS where PASSENGER_ID = '" + PassengerID + "' and TRAIN_DATE = '" + O.TrainDate + "');";
+            string queryStr = "SELECT count(*) from T_ORDER_LIST where TRAIN_ID = '" + O.TrainID + "' and ORDER_ID in (SELECT ORDER_ID from T_ORDERS where PASSENGER_ID = '" + MyCrypto.Encrypt(PassengerID) + "' and TRAIN_DATE = '" + O.TrainDate + "');";
             OdbcCommand sqlcmd = new OdbcCommand(queryStr, conn);
             try
             {
@@ -2734,7 +2826,7 @@ namespace ServerSqlTools
             //4 insert T_ORDERS
             queryStr = "INSERT INTO T_ORDERS Values('" + O.OrderID + "','"
                                                        + UserID + "','"
-                                                       + PassengerID + "');";
+                                                       + MyCrypto.Encrypt(PassengerID) + "');";
             if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
             {
                 return ret;
@@ -2971,6 +3063,75 @@ namespace ServerSqlTools
             MyLogger.LogOrder(UserID, OrderID, TmpOrder.TrainID, 1, 1, "Success");
             return -1;
         }
+        public static int GetPassenger(string Order_ID,ref _Passenger P,bool IsClose)
+        {
+            //1. connect to the database
+            if (!Connect())
+            {
+                Console.WriteLine("Failed to Connect to Oracle");
+                return (int)SqlErrorCode.ERR_CONN;
+            }
+            Console.WriteLine("1 Success");
+
+            string queryStr = "Select * from T_ORDERS where ORDER_ID = '" + Order_ID + "';";
+            Console.WriteLine(queryStr);
+            OdbcCommand sqlcmd = new OdbcCommand(queryStr, conn);
+            //Execute the DataReader to Access the data
+            try
+            {
+                OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                if (!DataReader.Read()) // Order dosen't exist
+                {
+                    DataReader.Close();
+                    return (int)LoginErrorCode.ERR_UUNEXIST;
+                }
+                else // check password
+                {
+                    P.UserID=DataReader[1].ToString();
+                    P.PassengerPID = DataReader[2].ToString();
+                }
+                DataReader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return (int)SqlErrorCode.ERR_SQLCMD;
+            }
+            queryStr = "SELECT * FROM T_PASSENGER WHERE PASSENGER_ID='" + P.PassengerPID + "' AND USER_ID='" + P.UserID + "';";
+            Console.WriteLine(queryStr);
+            sqlcmd = new OdbcCommand(queryStr, conn);
+            //Execute the DataReader to Access the data
+            try
+            {
+                OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                if (!DataReader.Read()) // Order dosen't exist
+                {
+                    DataReader.Close();
+                    return (int)LoginErrorCode.ERR_UUNEXIST;
+                }
+                else // check password
+                {
+                    P.PassengerRName = DataReader[1].ToString();
+                }
+                DataReader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return (int)SqlErrorCode.ERR_SQLCMD;
+            }
+            P.PassengerPID = MyCrypto.Decrypt(P.PassengerPID);
+            P.PassengerRName = MyCrypto.Decrypt(P.PassengerRName);
+            Console.WriteLine("2 Success");
+
+            if (IsClose)
+            {
+                Close();
+                Console.WriteLine("Connection Closed");
+            }
+
+            return -1;
+        }
         public static int GetOrder(string UserID, List<_Order> OrderList, bool IsClose) //已修改
         {
             //1 check security
@@ -3047,16 +3208,33 @@ namespace ServerSqlTools
             for (int i = 0; i < OrderList.Count(); i++)
             {
                 _Date TrainOrderTime = new _Date();
-                string StartStNo = "";
+                _Order Tmp = OrderList[i];
                 TrainOrderTime.SetDate(OrderList[i].TrainDate);
-                queryStr = "SELECT ARRIVE_TIME from T_TRAIN_PARKING_INFO where TRAIN_ID = '" + OrderList[i].TrainID + "' and STATION_NO = '" + OrderList[i].StartStNo + "';";
+                queryStr = "SELECT LEAVING_TIME from T_TRAIN_PARKING_INFO where TRAIN_ID = '" + OrderList[i].TrainID + "' and STATION_NO = '" + OrderList[i].StartStNo + "';";
                 sqlcmd.CommandText = queryStr;
                 try
                 {
                     OdbcDataReader DataReader = sqlcmd.ExecuteReader();
                     if (DataReader.Read())
                     {
+                        Tmp.LeavingTime = DataReader[0].ToString();
                         TrainOrderTime.SetTime(DataReader[0].ToString());
+                    }
+                    DataReader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return (int)SqlErrorCode.ERR_SQLCMD;
+                }
+                queryStr = "SELECT LEAVING_TIME from T_TRAIN_PARKING_INFO where TRAIN_ID = '" + OrderList[i].TrainID + "' and STATION_NO = '" + OrderList[i].EndStNo + "';";
+                sqlcmd.CommandText = queryStr;
+                try
+                {
+                    OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                    if (DataReader.Read())
+                    {
+                        Tmp.ArriveTime = DataReader[0].ToString();
                     }
                     DataReader.Close();
                 }
@@ -3070,10 +3248,9 @@ namespace ServerSqlTools
                 if (_Date.Compare(NowTime, TrainOrderTime))
                 {
                     queryStr = "UPDATE T_ORDER_LIST SET ORDER_STATE = '3' where ORDER_ID = '" + OrderList[i].OrderID;
-                    _Order Tmp = OrderList[i];
                     Tmp.OrderState = 3;
-                    OrderList[i] = Tmp;
                 }
+                OrderList[i] = Tmp;
             }
 
             if (IsClose)
@@ -3081,7 +3258,6 @@ namespace ServerSqlTools
                 Close();
                 Console.WriteLine("Connection Closed");
             }
-
             return -1;
         }
 
@@ -3189,7 +3365,7 @@ namespace ServerSqlTools
             Console.WriteLine("1 Success");
 
             bool PassengerWithOrder = false;
-            string queryStr = "SELECT count(*) from T_ORDERS where USER_ID = '" + UserID + "' and PASSENGER_ID = '" + PassengerID + "';";
+            string queryStr = "SELECT count(*) from T_ORDERS where USER_ID = '" + UserID + "' and PASSENGER_ID = '" + MyCrypto.Encrypt(PassengerID) + "';";
             OdbcCommand sqlcmd = new OdbcCommand(queryStr, conn);
             try
             {
@@ -3209,7 +3385,7 @@ namespace ServerSqlTools
 
             if (PassengerWithOrder)
             {
-                queryStr = "SELECT count(*) from T_ORDER_LIST where ORDER_STATE != '3' and ORDER_ID in (SELECT ORDER_ID from T_ORDERS where USER_ID = '" + UserID + "' and PASSENGER_ID = '" + PassengerID + "');";
+                queryStr = "SELECT count(*) from T_ORDER_LIST where ORDER_STATE != '3' and ORDER_ID in (SELECT ORDER_ID from T_ORDERS where USER_ID = '" + UserID + "' and PASSENGER_ID = '" + MyCrypto.Encrypt(PassengerID) + "');";
                 sqlcmd.CommandText = queryStr;
                 try
                 {
