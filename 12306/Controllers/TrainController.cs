@@ -371,9 +371,13 @@ namespace _12306.Controllers
             {
                 Result.Deal_message = "Still need ot pay " + (new_Order.OrderValue - old_order.OrderValue) + " RMB";
             }
-            else
+            else if(new_Order.OrderValue < old_order.OrderValue)
             {
                 Result.Deal_message = "Refund amount " + (old_order.OrderValue - new_Order.OrderValue) + " RMB";
+            }
+            else
+            {
+                Result.Deal_message = "No need to pay extra money";
             }
             //Result.Start_station = start;
             //Result.End_station = end;

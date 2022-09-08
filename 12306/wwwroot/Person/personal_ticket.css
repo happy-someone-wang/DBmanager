@@ -139,7 +139,6 @@ td {
   cursor: pointer;
   user-select: none;
   outline: none;
-  position: relative;
 }
 .btn:hover {
   color: #FF8000;
@@ -699,4 +698,19 @@ button{
   border-radius: 10px;
   cursor: pointer;
   text-decoration: none;
+}
+.no-result-found {
+	margin: auto;
+	text-align: center;
+	padding-top: 20px;
+}
+
+.img3 {
+	width: 400px;
+	height: 300px;
+}
+
+.no-result-prompt {
+	color: hsla(0, 0%, 49%, 1.00);
+	margin-bottom: 50px;
 }

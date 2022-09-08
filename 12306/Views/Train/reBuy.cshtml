@@ -368,17 +368,39 @@
 
                             for (int j = 0; j < Model.TrainTickets[i].Parkstations.Count; j++)
                             {
-                                <script>
-                                         var co = "color:black;";
-                                         document.getElementsByName("through")[@i].innerHTML += "<li class='operate'  ><button style='" + co + "border:none;background-color: aliceblue;width:100px;text-align:center;float:left'>@Model.TrainTickets[i].Parkstations[j].StationNo</button><button style='" + co + "border:none;background-color: aliceblue;width:100px;text-align:center;float:left'>@Model.TrainTickets[i].Parkstations[j].ArriveTime</button><button style='" + co + "border:none;background-color: aliceblue;width:100px;text-align:center;float:left'>@Model.TrainTickets[i].Parkstations[j].LeavingTime</button><button style='" + co +"border:none;background-color: aliceblue;width:100px;text-align:center;float:left'>@Model.TrainTickets[i].Parkstations[j].ParkingTime 分</button></li >"
-                                </script>
+                                if (Model.TrainTickets[i].Parkstations[j].StationNo == Model.Start_station || Model.TrainTickets[i].Parkstations[j].StationNo == Model.End_station)
+                                {
+                                    <script>
+                                        document.getElementsByName("through")[@i].innerHTML += "<li class='operate'  ><button style='color:red;border:none;background-color: aliceblue;width:100px;text-align:center;float:left'>@Model.TrainTickets[i].Parkstations[j].StationNo</button><button style='color:red;border:none;background-color: aliceblue;width:100px;text-align:center;float:left'>@Model.TrainTickets[i].Parkstations[j].ArriveTime</button><button style='color:red;border:none;background-color: aliceblue;width:100px;text-align:center;float:left'>@Model.TrainTickets[i].Parkstations[j].LeavingTime</button><button style='color:red;border:none;background-color: aliceblue;width:100px;text-align:center;float:left'>@Model.TrainTickets[i].Parkstations[j].ParkingTime 分</button></li >"
+                                    </script>
+                                }
+                                else
+                                {
+                                    <script>
+                                        document.getElementsByName("through")[@i].innerHTML += "<li class='operate'  ><button style='color:black;border:none;background-color: aliceblue;width:100px;text-align:center;float:left'>@Model.TrainTickets[i].Parkstations[j].StationNo</button><button style='color:black;border:none;background-color: aliceblue;width:100px;text-align:center;float:left'>@Model.TrainTickets[i].Parkstations[j].ArriveTime</button><button style='color:black;border:none;background-color: aliceblue;width:100px;text-align:center;float:left'>@Model.TrainTickets[i].Parkstations[j].LeavingTime</button><button style='color:black;border:none;background-color: aliceblue;width:100px;text-align:center;float:left'>@Model.TrainTickets[i].Parkstations[j].ParkingTime 分</button></li >"
+                                    </script>
+                                }
+
                             }
 
                         }
                 }
             </div>
-            <div style="height:500px;width:300px">
-            </div>
+            @{
+                if (Model != null && Model.TrainTickets != null && Model.TrainTickets.Count > 0)
+                {
+                    <div style="height:500px;width:300px">
+                    </div>
+                }
+                else if(Model.Year!=0)
+                {
+                    <div class="no-result-found" style="display: block">
+                        <img class="img3" src="/Train/images/Result_not_found.png">
+                        <div class="no-result-prompt">未查询到满足需求的车次</div>
+                    </div>
+
+                }
+            }
 
         </div>
         <div id="xuanze2" style='display: none; position: absolute; border: 1px solid rgb(121, 173, 245); top: 165px; height: 121px; width: 400px; overflow: hidden; overflow-y: auto; background-color: rgb(255, 255, 255);'>
@@ -430,7 +452,7 @@
             daiin2.innerHTML += "<option>" + month + "</option>";
         }
         else {
-            if (year ==@Model.Year) {
+            if (month ==@Model.Month) {
                 daiin2.innerHTML += "<option selected='selected'>" + month + "</option>";
                 daiin2.innerHTML += "<option>" + nextmonth + "</option>";
                 }
@@ -456,6 +478,7 @@
         var dj = 0;
         if (mouseoption == 1) {
             for (dj = today; dj < today + 7; dj++) {
+                daa = dj;
                 if (daa ==@Model.Day) {
                     daiin3.innerHTML += "<option selected='selected'>" + daa + "</option>";
                 }
@@ -466,6 +489,7 @@
         }
         else if (mousc - 1 == month) {
             for (dj = today; dj < md[month]; dj++) {
+                daa = dj;
                 if (daa ==@Model.Day) {
                     daiin3.innerHTML += "<option selected='selected'>" + daa + "</option>";
                 }
@@ -477,6 +501,7 @@
         }
         else {
             for (dj = 0; dj < nextdate; dj++) {
+                daa = dj;
                 if (daa ==@Model.Day) {
                     daiin3.innerHTML += "<option selected='selected'>" + daa + "</option>";
                 }

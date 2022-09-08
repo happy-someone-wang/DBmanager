@@ -52,7 +52,19 @@ namespace _12306.Controllers
             List<_User> list = new List<_User>();
             //_User U1 = new _User();
             OracleSqlTools.GetAllUser(list, true);
-            
+            for(int i=0;i<list.Count;i++)
+            {
+                _User temp = list[i];
+                if (temp.UserGender == "1")
+                {
+                    temp.UserGender = "男";
+                }
+                else
+                {
+                    temp.UserGender = "女";
+                }
+                list[i] = temp;
+            }
             //U1.UserID = "1";
             //U1.UserPWD = "1";
             //U1.UserPhone = "1";
@@ -171,7 +183,7 @@ namespace _12306.Controllers
                     {
                         EndSt = m.StationName;
                     }
-                    if (start != null && end != null)
+                    if (StartSt != null && EndSt != null)
                     {
                         break;
                     }
@@ -200,31 +212,23 @@ namespace _12306.Controllers
         {
             ReturnModels.OrderList orders = new OrderList();
             List<_Order> list = new List<_Order>();
-            List<string> start = new List<string>();
-            List<string> end = new List<string>();
             //_User U1 = new _User();
             OracleSqlTools.GetAllOrder(list, true);
-            foreach(_Order x in list)
+            for(int i=0; i<list.Count;i++)
             {
-                string StartSt = null;
-                string EndSt = null;
+                _Order temp = list[i];
                 foreach (_Station m in Station)
                 {
-                    if (m.StationName == x.StartStNo)
+                    if (m.StationNo == temp.StartStNo)
                     {
-                        StartSt = m.StationName;
+                        temp.StartStNo = m.StationName;
                     }
-                    if (m.StationName == x.EndStNo)
+                    if (m.StationNo == temp.EndStNo)
                     {
-                        EndSt = m.StationName;
-                    }
-                    if (start != null && end != null)
-                    {
-                        break;
+                        temp.EndStNo = m.StationName;
                     }
                 }
-                start.Add(EndSt);
-                end.Add(StartSt);
+                list[i] = temp;
             }
 
             //U1.UserID = "1";
@@ -238,9 +242,6 @@ namespace _12306.Controllers
 
             //list.Add(U1);
             orders.List = list;
-            orders.Start_station = start;
-            orders.End_station = end;
-
             return View(orders);
         }
         [HttpPost]
@@ -248,33 +249,25 @@ namespace _12306.Controllers
         {
             ReturnModels.OrderList orders = new OrderList();
             List<_Order> list = new List<_Order>();
-            List<string> start = new List<string>();
-            List<string> end = new List<string>();
             _Order O1 = new _Order();
             OracleSqlTools.GetOneOrder(OrderID, ref O1, true);
 
             list.Add(O1);
-            foreach (_Order x in list)
+            for (int i = 0; i < list.Count; i++)
             {
-                string StartSt = null;
-                string EndSt = null;
+                _Order temp = list[i];
                 foreach (_Station m in Station)
                 {
-                    if (m.StationName == x.StartStNo)
+                    if (m.StationNo == temp.StartStNo)
                     {
-                        StartSt = m.StationName;
+                        temp.StartStNo = m.StationName;
                     }
-                    if (m.StationName == x.EndStNo)
+                    if (m.StationNo == temp.EndStNo)
                     {
-                        EndSt = m.StationName;
-                    }
-                    if (start != null && end != null)
-                    {
-                        break;
+                        temp.EndStNo = m.StationName;
                     }
                 }
-                start.Add(EndSt);
-                end.Add(StartSt);
+                list[i] = temp;
             }
 
             //U1.UserID = "1";
@@ -287,8 +280,6 @@ namespace _12306.Controllers
             //U1.UserAddr = "上海市";
 
             orders.List = list;
-            orders.Start_station = start;
-            orders.End_station = end;
 
             return View(orders);
         }

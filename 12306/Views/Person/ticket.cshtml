@@ -65,42 +65,6 @@
                     <div class="tab-item" style="display:block; min-height: 530px;" id="untrip">
                         <!-- 未出行订单列表 -->
                         <div class="order-panel order-panel-history">
-                            <!-- 订单-搜索表单 -->
-                            <div class="search-form-mini">
-                                <div class="form-item">
-                                    <div class="sel w160">
-                                        <div class="sel-hd">
-                                            <div class="sel-inner" id="chuxunType"> 按订票日期查询 </div>
-                                            <i class="icon icon-caret-down"></i>
-                                        </div>
-                                        <div class="sel-bd select-old">
-                                            <ul class="sel-list" id="wcx_seach_type">
-                                                <li id="ifSelected" class="selected ifSelected"> 按订票日期查询 </li>
-                                                <li>按乘车日期查询</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-item">
-                                    <div class="input-box input-data w160">
-                                        <input type="text" id="noTripFromDate" class="input" value="" aria-label="请输入日期，例如2021杠01杠01" autocomplete="off">
-                                        <i class="icon icon-date" data-click="noTripFromDate"></i>
-                                    </div>
-                                    <span class="txt-lighter"> - </span>
-                                    <div class="input-box input-data w160">
-                                        <input type="text" id="noTripToDate" class="input" value="" aria-label="请输入日期，例如2021杠01杠01" autocomplete="off">
-                                        <i class="icon icon-date" data-click="noTripToDate"></i>
-                                    </div>
-                                </div>
-                                <div class="form-item">
-                                    <div class="input-box input-data w160">
-                                        <input type="text" class="input" id="noTripName" placeholder="订单号/车次/姓名" autocomplete="off">
-                                        <i class="icon icon-clear"></i>
-                                    </div>
-                                </div>
-                                <div class="form-item"> <a href="javascript:;" class="btn w100" id="searchNoTrip">查询</a> </div>
-                            </div>
-                            <div class="order-filter" style="margin-top: 20px"> <a href="javascript:;" class="active">全部</a> <a href="javascript:;">可改签</a> <a href="javascript:;">可退票</a> </div>
                             <!-- 订单-订单列表头部 -->
                             <table class="order-panel-head title-text" style="display:table;">
                                 <colgroup>
@@ -122,101 +86,109 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <div id="not_travel">
+                            <div id="not_travel" style="display: block">
                                 @{
-                                    if (Model != null&&Model.Tickets!=null)
+                                    if (Model != null && Model.Tickets != null)
                                     {
-                                        for(int i=0;i<Model.Tickets.Count;i++)
+                                        int j = 0;
+                                        for (int i = 0; i < Model.Tickets.Count; i++)
                                         {
-                                            if(Model.Tickets[i].OrderState==3)
+                                            if (Model.Tickets[i].OrderState == 3)
                                             {
                                                 continue;
                                             }
-                                    <div class="order-item">
-                                        <div class="order-item-hd">
-                                            <div class="order-hd-info"><span class="txt-light">订票时间：</span><span class="dingqiaoDate" data-date="@Model.Tickets[i].TrainDate">@Model.Tickets[i].TrainDate</span></div>
-                                            <div class="order-hd-info"><span class="txt-light">订单号：</span>@Model.Tickets[i].OrderID</div>
-                                        </div>
-                                        <div class="order-item-bd">
-                                            <table class="order-item-table" id="query_order_form_ED43099486">
-                                                <colgroup>
-                                                    <col class="col-train">
-                                                    <col class="col-passenger">
-                                                    <col class="col-seat">
-                                                    <col class="col-price">
-                                                    <col class="col-state">
-                                                    <col>
-                                                </colgroup>
-                                                <tbody>
-                                                    <tr class="has-order-num ">
-                                                        <td class="td-left align-top" rowspan="1">
-                                                            <div class="order-info-ticket">
-                                                                <!-- <div class="order-num-one">去程</div> -->
-                                                                <div class="txt-bold txt-lg">@Model.Tickets[i].StartStNo&nbsp;&gt;&nbsp;@Model.Tickets[i].EndStNo @Model.Tickets[i].TrainID</div>
-                                                                <div>@Model.Tickets[i].LeavingTime 开</div>
-                                                            </div>
-                                                        </td>
-                                                        <td style="width: 200px;">
-                                                            <div class="passenger-operation">
-                                                                <div class="passenger-check data-val" data-sequence="ED43099486" data-value="ED43099486,1,03,0011,2022-09-14 11:10" data-tradeno="NN1NNNJ0Z0Z1N0W1Z00N00  000Z0Z      00Z"> </div>
-                                                                <div>@Model.Tickets[i].Passenger.PassengerRName </div>
-                                                                <div> 中国居民身份证 </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div>@Model.Seat_level[i] </div>
-                                                            <div>@Model.Tickets[i].CarriageNo 车 @Model.Tickets[i].SeatNo 号</div>
-                                                        </td>
-                                                        <td style="position: relative;">
-                                                            <div> 成人票 </div>
-                                                            <div><span class="txt-price">@Model.Tickets[i].OrderValue 元</span></div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="ticket-status-name">
-                                                                <div> 已支付 </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="6" class="order-operation">
-                                                            <div class="btn-right">
-                                                                <div class="alert alert-rebuy">
-                                                                    <div class="alert-hd">
-                                                                        改签申请
-                                                                        <span class="alert-close" onclick="alert_rebuy()">X</span>
+                                            j++;
+                                            <div class="order-item">
+                                                <div class="order-item-hd">
+                                                    <div class="order-hd-info"><span class="txt-light">订票时间：</span><span class="dingqiaoDate" data-date="@Model.Tickets[i].OrderCreate">@Model.Tickets[i].OrderCreate</span></div>
+                                                    <div class="order-hd-info"><span class="txt-light">订单号：</span>@Model.Tickets[i].OrderID</div>
+                                                </div>
+                                                <div class="order-item-bd">
+                                                    <table class="order-item-table" id="query_order_form_ED43099486">
+                                                        <colgroup>
+                                                            <col class="col-train">
+                                                            <col class="col-passenger">
+                                                            <col class="col-seat">
+                                                            <col class="col-price">
+                                                            <col class="col-state">
+                                                            <col>
+                                                        </colgroup>
+                                                        <tbody>
+                                                            <tr class="has-order-num ">
+                                                                <td class="td-left align-top" rowspan="1">
+                                                                    <div class="order-info-ticket">
+                                                                        <!-- <div class="order-num-one">去程</div> -->
+                                                                        <div class="txt-bold txt-lg">@Model.Tickets[i].StartStNo&nbsp;&gt;&nbsp;@Model.Tickets[i].EndStNo @Model.Tickets[i].TrainID</div>
+                                                                        <div>@Model.Tickets[i].TrainDate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @Model.Tickets[i].LeavingTime 开</div>
                                                                     </div>
-                                                                    <div class="alert-bd">
-                                                                        <h2 class="msg">您确认要改签吗？</h2>
+                                                                </td>
+                                                                <td style="width: 200px;">
+                                                                    <div class="passenger-operation">
+                                                                        <div class="passenger-check data-val" data-sequence="ED43099486" data-value="ED43099486,1,03,0011,2022-09-14 11:10" data-tradeno="NN1NNNJ0Z0Z1N0W1Z00N00  000Z0Z      00Z"> </div>
+                                                                        <div>@Model.Tickets[i].Passenger.PassengerRName </div>
+                                                                        <div> 中国居民身份证 </div>
                                                                     </div>
-                                                                    <div class="choice">
-                                                                        <a href="#" onclick="alert_rebuy()" class="tc_btn">取消</a>
-                                                                        <a href="/Train/reBuy?Order_ID=@Model.Tickets[i].OrderID" class="tc_btn" data-sequenceno="ED43099486" data-type="N" data-start-train-date-page="2022-09-14 11:10" style="margin-left: 30px;">确定</a>
+                                                                </td>
+                                                                <td>
+                                                                    <div>@Model.Seat_level[i] </div>
+                                                                    <div>@Model.Tickets[i].CarriageNo 车 @Model.Tickets[i].SeatNo 号</div>
+                                                                </td>
+                                                                <td style="position: relative;">
+                                                                    <div> 成人票 </div>
+                                                                    <div><span class="txt-price">@Model.Tickets[i].OrderValue 元</span></div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="ticket-status-name">
+                                                                        <div> 已支付 </div>
                                                                     </div>
-                                                                </div>
-                                                                <a href="/Train/reBuy?Order_ID=@Model.Tickets[i].OrderID" class="btn resignTrain">改签</a>
-                                                                <div class="alert alert-cancel">
-                                                                    <div class="alert-hd">
-                                                                        退票申请
-                                                                        <span class="alert-close" onclick="alert_cancel()">X</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="6" class="order-operation">
+                                                                    <div class="btn-right">
+                                                                        <div class="alert alert-rebuy">
+                                                                            <div class="alert-hd">
+                                                                                改签申请
+                                                                                <span class="alert-close" onclick="alert_rebuy()">X</span>
+                                                                            </div>
+                                                                            <div class="alert-bd">
+                                                                                <h2 class="msg">您确认要改签吗？</h2>
+                                                                            </div>
+                                                                            <div class="choice">
+                                                                                <a href="#" onclick="alert_rebuy()" class="tc_btn">取消</a>
+                                                                                <a href="/Train/reBuy?Order_ID=@Model.Tickets[i].OrderID" class="tc_btn" data-sequenceno="ED43099486" data-type="N" data-start-train-date-page="2022-09-14 11:10" style="margin-left: 30px;">确定</a>
+                                                                            </div>
+                                                                        </div>
+                                                                        <a href="/Train/reBuy?Order_ID=@Model.Tickets[i].OrderID" class="btn resignTrain">改签</a>
+                                                                        <div class="alert alert-cancel">
+                                                                            <div class="alert-hd">
+                                                                                退票申请
+                                                                                <span class="alert-close" onclick="alert_cancel()">X</span>
+                                                                            </div>
+                                                                            <div class="alert-bd">
+                                                                                <h2 class="msg">您确认要退票吗？</h2>
+                                                                            </div>
+                                                                            <div class="choice">
+                                                                                <a href="#" onclick="alert_cancel()" class="tc_btn">取消</a>
+                                                                                <a href="/Person/t_cancel?Order_ID=@Model.Tickets[i].OrderID" class="tc_btn" data-sequenceno="@Model.Tickets[i].OrderID" data-type="Y" style="margin-left: 30px;">确定</a>
+                                                                            </div>
+                                                                        </div>
+                                                                        <a href="#" onclick="alert_cancel()" class="btn resignTrain">退票</a>
                                                                     </div>
-                                                                    <div class="alert-bd">
-                                                                        <h2 class="msg">您确认要退票吗？</h2>
-                                                                    </div>
-                                                                    <div class="choice">
-                                                                        <a href="#" onclick="alert_cancel()" class="tc_btn">取消</a>
-                                                                        <a href="/Person/t_cancel?Order_ID=@Model.Tickets[i].OrderID" class="tc_btn" data-sequenceno="@Model.Tickets[i].OrderID" data-type="Y" style="margin-left: 30px;">确定</a>
-                                                                    </div>
-                                                                </div>
-                                                                <a href="#" onclick="alert_cancel()" class="btn resignTrain">退票</a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
                                         }
-
+                                        if (j==0)
+                                        {
+                                            <div class="no-result-found" style="display: block">
+                                                <img class="img3" src="/Person/image/Result_not_found.png">
+                                                <div class="no-result-prompt">您没有对应的订单内容哦～</div>
+                                            </div>
+                                        }
                                     }
                                 }
                             </div>
@@ -227,31 +199,6 @@
                     <div class="tab-item" style="display: none; min-height: 530px;" id="history">
                         <!-- 历史订单列表 -->
                         <div class="order-panel order-panel-history">
-                            <!-- 订单-搜索表单 -->
-                            <div class="search-form-mini">
-                                <div class="form-item">
-                                    <div class="sel-inner">乘车日期</div>
-                                </div>
-                                <div class="form-item">
-                                    <div class="input-box input-data w160">
-                                        <input type="text" id="historyFromDate" class="input" value="" aria-label="请输入日期，例如2021杠01杠01" autocomplete="off">
-                                        <i class="icon icon-date" data-click="historyFromDate"></i>
-                                    </div>
-                                    <span class="txt-lighter"> - </span>
-                                    <div class="input-box input-data w160">
-                                        <input type="text" id="historyToDate" class="input" value="" aria-label="请输入日期，例如2021杠01杠01" autocomplete="off">
-                                        <i class="icon icon-date" data-click="historyToDate"></i>
-                                    </div>
-                                </div>
-                                <div class="form-item">
-                                    <div class="input-box input-data w160">
-                                        <input type="text" class="input" placeholder="订单号/车次/姓名" id="historyName" autocomplete="off">
-                                        <i class="icon icon-clear"></i>
-                                    </div>
-                                </div>
-                                <div class="form-item"> <a href="javascript:;" class="btn w100" id="searchHistory">查询</a> </div>
-                            </div>
-
                             <!-- 历史订单-历史订单列表头部 -->
                             <table class="order-panel-head title-text" style="display:table;">
                                 <colgroup>
@@ -273,19 +220,21 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <div id="history_travel">
+                            <div id="history_travel" style="display: block;">
                                 @{
                                     if (Model != null)
                                     {
+                                        int j = 0;
                                         for (int i = 0; i < Model.Tickets.Count; i++)
                                         {
                                             if (Model.Tickets[i].OrderState != 3)
                                             {
                                                 continue;
                                             }
+                                            j++;
                                             <div class="order-item">
                                                 <div class="order-item-hd">
-                                                    <div class="order-hd-info"><span class="txt-light">订票日期：</span><span class="dingqiaoDate" data-date="2022-08-31 21:23:25">@Model.Tickets[i].OrderCreate</span></div>
+                                                    <div class="order-hd-info"><span class="txt-light">订票日期：</span><span class="dingqiaoDate" data-date="@Model.Tickets[i].OrderCreate">@Model.Tickets[i].OrderCreate</span></div>
                                                     <div class="order-hd-info"><span class="txt-light">订单号：</span>@Model.Tickets[i].OrderID</div>
                                                 </div>
                                                 <div class="order-item-bd">
@@ -304,7 +253,7 @@
                                                                     <div class="order-info-ticket">
                                                                         <!-- <div class="order-num-one">去程</div> -->
                                                                         <div class="txt-bold txt-lg">@Model.Tickets[i].StartStNo&nbsp;&gt;&nbsp;@Model.Tickets[i].EndStNo @Model.Tickets[i].TrainID</div>
-                                                                        <div>@Model.Tickets[i].OrderCreate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @Model.Tickets[i].LeavingTime 开</div>
+                                                                        <div>@Model.Tickets[i].TrainDate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @Model.Tickets[i].LeavingTime 开</div>
                                                                     </div>
                                                                 </td>
                                                                 <td style="width: 200px;">
@@ -334,30 +283,30 @@
                                             </div>
 
                                         }
+                                        if (j == 0)
+                                        {
+                                            <div class="no-result-found" style="display: block">
+                                                <img class="img3" src="/Person/image/Result_not_found.png">
+                                                <div class="no-result-prompt">您没有对应的订单内容哦～</div>
+                                            </div>
+                                        }
                                     }
                                 }
                             </div>
                             <div id="J-History" class="pagination mt-lg"></div>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 暂无数据 -->
-            <div class="panel-tab" id="noDataDom" style="display: none">
-                <div class="tab-bd">
-                    <!-- 历史订单 -->
-                    <div class="tab-item" style="display: block; min-height: 530px;">
-                        <!-- 历史订单列表 -->
-                        <div class="order-panel order-panel-history">
-                            <div class="order-empty">
-                                <div class="empty-txt">
-                                    <p>您没有对应的订单内容哦～</p>
-                                    <p> 您可以通过<a href="JavaScript:;" class="txt-primary underline">车票订购</a>功能，来制定出行计划。 </p>
+                        @{
+                            if (Model == null || Model.Tickets == null || Model.Tickets.Count == 0)
+                            {
+                                
+                                <div class="no-result-found" style="display: block">
+                                    <img class="img3" src="/Person/image/Result_not_found.png">
+                                    <div class="no-result-prompt">您没有对应的订单内容哦～</div>
                                 </div>
-                            </div>
-                        </div>
+                            }
+                        }
                     </div>
+
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     ViewData["Title"] = "订单查询";
 }
+@model ReturnModels.OrderList
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,6 +65,7 @@
                             <th>终点站</th>
                             <th>车次号</th>
                             <th>订单价格</th>
+                            <th>订单状态</th>
                         </tr>
                     </tbody>
                 </table>
@@ -75,15 +77,31 @@
 
                             for (int i = 0; i < Model.List.Count; i++)
                             {
-
-                                <tr>
-                                    <td>@Model.List[i].OrderID</td>
-                                    <td>@Model.List[i].Passenger.PassengerRName</td>
-                                    <td>@Model.Start_station[i]</td>
-                                    <td>@Model.End_station[i]</td>
-                                    <td>@Model.List[i].TrainID</td>
-                                    <td>@Model.List[i].OrderValue</td>
-                                </tr>
+                                if(Model.List[i].OrderState==3)
+                                    {
+                                        <tr>
+                                            <td>@Model.List[i].OrderID</td>
+                                            <td>@Model.List[i].Passenger.PassengerPID</td>
+                                            <td>@Model.List[i].StartStNo</td>
+                                            <td>@Model.List[i].EndStNo</td>
+                                            <td>@Model.List[i].TrainID</td>
+                                            <td>@Model.List[i].OrderValue</td>
+                                            <td>已过期</td>
+                                        </tr>
+                                    }
+                                else
+                                {
+                                        <tr>
+                                            <td>@Model.List[i].OrderID</td>
+                                            <td>@Model.List[i].Passenger.PassengerRName</td>
+                                            <td>@Model.List[i].StartStNo</td>
+                                            <td>@Model.List[i].EndStNo</td>
+                                            <td>@Model.List[i].TrainID</td>
+                                            <td>@Model.List[i].OrderValue</td>
+                                            <td>未出行</td>
+                                        </tr>
+                                }
+                                
                             }
                     }
                 </table>

@@ -240,6 +240,21 @@
             .one:hover > .first ~ .operate {
                 display: block;
             }
+        .no-result-found {
+            margin: auto;
+            text-align: center;
+            padding-top: 10px;
+        }
+
+        .img3 {
+            width: 400px;
+            height: 300px;
+        }
+
+        .no-result-prompt {
+            color: hsla(0,0%,49%,1.00);
+            margin-bottom: 50px;
+        }
     </style>
 </head>
 <body>
@@ -338,47 +353,67 @@
                         for (int i = 0; i < Model.TrainTickets.Count; i++)
                         {
 
-                    <div style="text-decoration:none;">
-                        <table class="ticket">
-                            <tr>
-                                <td style="text-align:center">@Model.TrainTickets[i].TrainID</td>
-                                <td style="text-align:center"><button name="throu" style="background-color:rgb(0, 0, 0, 0);border:none" type="button" onmouseover="_display(this)" onmouseout="_disappear(this)" value="@i">@Model.TrainTickets[i].StartStName-@Model.TrainTickets[i].EndStName</button></td>
-                                <td style="text-align:center">@Model.TrainTickets[i].LeavingTime--@Model.TrainTickets[i].ArriveTime</td>
-                                <td style="text-align:center">@Model.TrainTickets[i].VIPAmount</td>
-                                <td style="text-align:center">@Model.TrainTickets[i].EXAmount</td>
-                                <td style="text-align:center">@Model.TrainTickets[i].FirstAmount</td>
-                                <td style="text-align:center">@Model.TrainTickets[i].SecondAmount</td>
-                                <td style="text-align:center"><button onclick="jump(this)" value='/Train/Pay?date=@Model.TrainTickets[i].TrainDate&train_id=@Model.TrainTickets[i].TrainID&start_station=@Model.TrainTickets[i].StartStName&end_station=@Model.TrainTickets[i].EndStName' style="width: 100px; height: 30px; background-color: #6F9BFF; color: white">预订</button></td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div id="thdi[@i]" name="thdi" style="background-color: rgba(230, 230, 250, 1);position:absolute;top:(345+@i*40)px;left:410px;line-height:16px;font-size: 14px;display:none">
-                        <ul id="GetThrough" name="through" style="width:400px;opacity:100%;border:solid 1px #1678be;">
+                            <div style="text-decoration:none;">
+                                <table class="ticket">
+                                    <tr>
+                                        <td style="text-align:center">@Model.TrainTickets[i].TrainID</td>
+                                        <td style="text-align:center"><button name="throu" style="background-color:rgb(0, 0, 0, 0);border:none" type="button" onmouseover="_display(this)" onmouseout="_disappear(this)" value="@i">@Model.TrainTickets[i].StartStName-@Model.TrainTickets[i].EndStName</button></td>
+                                        <td style="text-align:center">@Model.TrainTickets[i].LeavingTime--@Model.TrainTickets[i].ArriveTime</td>
+                                        <td style="text-align:center">@Model.TrainTickets[i].VIPAmount</td>
+                                        <td style="text-align:center">@Model.TrainTickets[i].EXAmount</td>
+                                        <td style="text-align:center">@Model.TrainTickets[i].FirstAmount</td>
+                                        <td style="text-align:center">@Model.TrainTickets[i].SecondAmount</td>
+                                        <td style="text-align:center"><button onclick="jump(this)" value='/Train/Pay?date=@Model.TrainTickets[i].TrainDate&train_id=@Model.TrainTickets[i].TrainID&start_station=@Model.TrainTickets[i].StartStName&end_station=@Model.TrainTickets[i].EndStName' style="width: 40px; height: 25px; background-color: #6F9BFF; color: white">预订</button></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div id="thdi[@i]" name="thdi" style="background-color: rgba(230, 230, 250, 1);position:absolute;top:(345+@i*40)px;left:410px;line-height:16px;font-size: 14px;display:none">
+                                <ul id="GetThrough" name="through" style="width:400px;opacity:100%;border:solid 1px #1678be;">
 
-                            <li>
-                                <button style="border:none;background-color: rgba(230, 230, 250, 1);;width:100px;text-align:center;float:left;">途经站</button>
-                                <button style="border:none;background-color: rgba(230, 230, 250, 1);;width:100px;text-align:center;float:left">到站时</button>
-                                <button style="border:none;background-color: rgba(230, 230, 250, 1);;width:100px;text-align:center;float:left">离站时</button>
-                                <button style="border:none;background-color: rgba(230, 230, 250, 1);;width:100px;text-align:center;float:left">停留时间</button>
-                            </li>
-                        </ul>
-                    </div>
+                                    <li>
+                                        <button style="border:none;background-color: rgba(230, 230, 250, 1);;width:100px;text-align:center;float:left;">途经站</button>
+                                        <button style="border:none;background-color: rgba(230, 230, 250, 1);;width:100px;text-align:center;float:left">到站时</button>
+                                        <button style="border:none;background-color: rgba(230, 230, 250, 1);;width:100px;text-align:center;float:left">离站时</button>
+                                        <button style="border:none;background-color: rgba(230, 230, 250, 1);;width:100px;text-align:center;float:left">停留时间</button>
+                                    </li>
+                                </ul>
+                            </div>
 
 
                             for (int j = 0; j < Model.TrainTickets[i].Parkstations.Count; j++)
                             {
-                    <script>
-                                         var co = "color:black;";
-                                         document.getElementsByName("through")[@i].innerHTML += "<li class='operate'  ><button style='" + co + "border:none;background-color: aliceblue;width:100px;text-align:center;float:left'>@Model.TrainTickets[i].Parkstations[j].StationNo</button><button style='" + co + "border:none;background-color: aliceblue;width:100px;text-align:center;float:left'>@Model.TrainTickets[i].Parkstations[j].ArriveTime</button><button style='" + co + "border:none;background-color: aliceblue;width:100px;text-align:center;float:left'>@Model.TrainTickets[i].Parkstations[j].LeavingTime</button><button style='" + co +"border:none;background-color: aliceblue;width:100px;text-align:center;float:left'>@Model.TrainTickets[i].Parkstations[j].ParkingTime 分</button></li >"
-                    </script>
-                            }
+                                if (Model.TrainTickets[i].Parkstations[j].StationNo == Model.Start_station || Model.TrainTickets[i].Parkstations[j].StationNo == Model.End_station)
+                                {
+                                    <script>
+                                        document.getElementsByName("through")[@i].innerHTML += "<li class='operate'  ><button style='color:red;border:none;background-color: aliceblue;width:100px;text-align:center;float:left'>@Model.TrainTickets[i].Parkstations[j].StationNo</button><button style='color:red;border:none;background-color: aliceblue;width:100px;text-align:center;float:left'>@Model.TrainTickets[i].Parkstations[j].ArriveTime</button><button style='color:red;border:none;background-color: aliceblue;width:100px;text-align:center;float:left'>@Model.TrainTickets[i].Parkstations[j].LeavingTime</button><button style='color:red;border:none;background-color: aliceblue;width:100px;text-align:center;float:left'>@Model.TrainTickets[i].Parkstations[j].ParkingTime 分</button></li >"
+                                    </script>
+                                }
+                                else
+                                {
+                                    <script>
+                                        document.getElementsByName("through")[@i].innerHTML += "<li class='operate'  ><button style='color:black;border:none;background-color: aliceblue;width:100px;text-align:center;float:left'>@Model.TrainTickets[i].Parkstations[j].StationNo</button><button style='color:black;border:none;background-color: aliceblue;width:100px;text-align:center;float:left'>@Model.TrainTickets[i].Parkstations[j].ArriveTime</button><button style='color:black;border:none;background-color: aliceblue;width:100px;text-align:center;float:left'>@Model.TrainTickets[i].Parkstations[j].LeavingTime</button><button style='color:black;border:none;background-color: aliceblue;width:100px;text-align:center;float:left'>@Model.TrainTickets[i].Parkstations[j].ParkingTime 分</button></li >"
+                                    </script>
+                                }
 
+                            }
                         }
                 }
             </div>
-            <div style="height:500px;width:300px">
-            </div>
+            @{
+                if (Model != null && Model.TrainTickets != null && Model.TrainTickets.Count > 0)
+                {
+                    <div style="height:500px;width:300px">
+                    </div>
+                }
+                else
+                {
+                    <div class="no-result-found" style="display: block">
+                        <img class="img3" src="/Train/images/Result_not_found.png">
+                        <div class="no-result-prompt">未查询到满足需求的车次</div>
+                    </div>
 
+                }
+            }
         </div>
         <div id="xuanze2" style='display: none; position: absolute; border: 1px solid rgb(121, 173, 245); top: 165px; height: 121px; width: 400px; overflow: hidden; overflow-y: auto; background-color: rgb(255, 255, 255);'>
         </div>

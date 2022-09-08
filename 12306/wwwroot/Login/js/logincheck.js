@@ -12,7 +12,7 @@ jQuery(document).ready(function() {
         //var usercode = $(this).find('.code').val();
         if(username == '') {
             $(this).find('.error').fadeOut('fast', function(){
-                $(this).css('top', '27px');
+                $(this).css('top', '0px');
                 //alert("用户名不正确！");
             });
             $(this).find('.error').fadeIn('fast', function(){
@@ -23,7 +23,7 @@ jQuery(document).ready(function() {
         var x = 0;
         if(password == '') {
             $(this).find('.error').fadeOut('fast', function(){
-                $(this).css('top', '96px');
+                $(this).css('top', '60px');
             });
             $(this).find('.error').fadeIn('fast', function(){
                 $(this).parent().find('.password').focus();

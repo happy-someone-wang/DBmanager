@@ -103,7 +103,9 @@ namespace _12306.Controllers
                 O.EndStNo = endSt;
                 _Passenger P = new _Passenger();
                 OracleSqlTools.GetPassenger(O.OrderID, ref P, true);
+                //P.PassengerPID = Crypto.MyCrypto.Encrypt(P.PassengerPID);
                 O.Passenger = P;
+                O.OrderCreate = OracleSqlTools.GetTime(O.OrderCreate);
                 if(O.Passenger.PassengerRName==null)
                 {
                     _Passenger temp = O.Passenger;
@@ -137,9 +139,9 @@ namespace _12306.Controllers
         }
 
         [HttpPost]
-        public IActionResult account(string newPassword)
+        public IActionResult account(string oldPassword,string newPassword)
         {
-            int t = OracleSqlTools.ChangePWD(Containers._Current_User.Instance.UserID, newPassword, true);
+            int t = OracleSqlTools.ChangePWD(Containers._Current_User.Instance.UserID,oldPassword, newPassword, true);
             ReturnModels.Person_account Result = new ReturnModels.Person_account();
             _User U = new _User();
             OracleSqlTools.GetUser(Containers._Current_User.Instance.UserID, ref U, true);

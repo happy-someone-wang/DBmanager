@@ -47,14 +47,8 @@ namespace ReturnModels
     {
         private _User myuser;
         private List<_Order> list;
-        private List<string> start_station;
-        private List<string> end_station;
-        private List<string> seat_level;
 
         public List<_Order> List { get => list; set => list = value; }
-        public List<string> Start_station { get => start_station; set => start_station = value; }
-        public List<string> End_station { get => end_station; set => end_station = value; }
-        public List<string> Seat_level { get => seat_level; set => seat_level = value; }
         public _User Myuser { get => myuser; set => myuser = value; }
         // 得到一个_Order类型(订单编号,乘坐人,起始站,终点站,发车日期,出发时间,到达时间)的list以表格形式显示在页面中
     }

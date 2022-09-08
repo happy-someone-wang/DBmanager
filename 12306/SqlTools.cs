@@ -101,11 +101,11 @@ namespace ServerSqlTools
 
             return -1;
         }
-        public static int ChangePWD(string UserID,string PWD,bool IsClose)
+        public static int ChangePWD(string UserID,string OldPWD,string NewPWD,bool IsClose)
         {
             int ret = -1;
             //1. check string security
-            if ((ret = checkUser.checkUserPWD(PWD)) != -1)
+            if ((ret = checkUser.checkUserPWD(NewPWD)) != -1)
             {
                 return ret;
             }
@@ -118,10 +118,37 @@ namespace ServerSqlTools
             Console.WriteLine("2 Success");
 
             //3. do md5 trans
-            string EnUserPWD = MyCrypto.Encrypt(PWD);
+            string EnUserPWD = MyCrypto.Encrypt(NewPWD);
+
+            string queryStr = "SELECT USER_PASSWORD FROM T_USER WHERE USER_ID='" + UserID + "';";
+            OdbcCommand sqlcmd = new OdbcCommand(queryStr, conn);
+            //Execute the DataReader to Access the data
+            try
+            {
+                OdbcDataReader DataReader = sqlcmd.ExecuteReader();
+                if (!DataReader.Read()) // User dosen't exist
+                {
+                    DataReader.Close();
+                    return (int)LoginErrorCode.ERR_UUNEXIST;
+                }
+                else // check password
+                {
+                    if (DataReader[0].ToString() != EnUserPWD)
+                    {
+                        DataReader.Close();
+                        return (int)LoginErrorCode.ERR_PWD;
+                    }
+                }
+                DataReader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return (int)SqlErrorCode.ERR_SQLCMD;
+            }
 
             //6. insert users
-            string queryStr = "UPDATE T_USER SET USER_PASSWORD='" + EnUserPWD + "'WHERE USER_ID='" + UserID + "';";
+            queryStr = "UPDATE T_USER SET USER_PASSWORD='" + EnUserPWD + "'WHERE USER_ID='" + UserID + "';";
 
             if ((ret = NoRetDataSqlExecute(queryStr)) != -1)
             {
@@ -584,7 +611,7 @@ namespace ServerSqlTools
             try
             {
                 OdbcDataReader DataReader = sqlcmd.ExecuteReader();
-                if (DataReader.Read())
+                while (DataReader.Read())
                 {
                     _Order TmpOrder = new _Order();
                     TmpOrder.OrderID = DataReader[0].ToString();
@@ -600,6 +627,11 @@ namespace ServerSqlTools
                     TmpOrder.OrderCreate = DataReader[6].ToString();
                     int.TryParse(DataReader[7].ToString(), out TmpInt);
                     TmpOrder.OrderState = TmpInt;
+                    int.TryParse(DataReader[8].ToString(), out TmpInt);
+                    TmpOrder.OrderState = TmpInt;
+                    int.TryParse(DataReader[9].ToString(), out TmpInt);
+                    TmpOrder.SeatLevel = TmpInt;
+                    TmpOrder.TrainDate = DataReader[10].ToString();
                     OrderList.Add(TmpOrder);
                 }
                 DataReader.Close();
@@ -617,6 +649,15 @@ namespace ServerSqlTools
                 Close();
                 Console.WriteLine("Connection Closed");
             }
+            for(int i=0;i<OrderList.Count;i++)
+            {
+                _Passenger P = new _Passenger();
+                _Order O = OrderList[i];
+                GetPassenger(O.OrderID, ref P, true);
+                O.Passenger = P;
+                OrderList[i] = O;
+            }
+
 
             return -1;
 
@@ -844,6 +885,9 @@ namespace ServerSqlTools
                 Close();
                 Console.WriteLine("Connection Closed");
             }
+            _Passenger P = new _Passenger();
+            GetPassenger(O.OrderID, ref P, true);
+            O.Passenger = P;
 
             return -1;
 
@@ -3107,7 +3151,29 @@ namespace ServerSqlTools
                 if (!DataReader.Read()) // Order dosen't exist
                 {
                     DataReader.Close();
-                    return (int)LoginErrorCode.ERR_UUNEXIST;
+                    queryStr = "SELECT USER_REAL_NAME FROM T_USER WHERE USER_ID='" + P.UserID+ "';";
+                    Console.WriteLine(queryStr);
+                    sqlcmd = new OdbcCommand(queryStr, conn);
+                    try
+                    {
+                        DataReader = sqlcmd.ExecuteReader();
+                        if(!DataReader.Read())
+                        {
+                            return (int)LoginErrorCode.ERR_UUNEXIST;
+                        }
+                        else
+                        {
+                            P.PassengerRName = DataReader[0].ToString();
+                            P.PassengerPID = MyCrypto.Decrypt(P.PassengerPID);
+                            P.PassengerRName = MyCrypto.Decrypt(P.PassengerRName);
+                            return -1;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        return (int)SqlErrorCode.ERR_SQLCMD;
+                    }
                 }
                 else // check password
                 {
@@ -3423,6 +3489,13 @@ namespace ServerSqlTools
         public static string GetTimeStamp()
         {
             return new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds().ToString();
+        }
+        public static string GetTime(string time1)
+        {
+            long time = Convert.ToInt64(time1);
+            DateTime Jan1st1970 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            DateTime dateTime = Jan1st1970.AddSeconds(time);
+            return dateTime.ToLocalTime().ToString();
         }
     }
 

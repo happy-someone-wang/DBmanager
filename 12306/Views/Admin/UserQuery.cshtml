@@ -75,6 +75,10 @@
                         if (Model != null)
                             foreach (var x in Model.List)
                             {
+                                if(x.UserID==""||x.UserID==null)
+                                {
+                                    continue;
+                                }
                                 <tr>
                                     <td>@x.UserRName</td>
                                     <td>@x.UserGender</td>
